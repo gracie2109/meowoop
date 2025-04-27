@@ -1,0 +1,9 @@
+{
+  "svOfflineTitle": "Có vẻ như bạn không kết nối được với Internet",
+  "svOfflineDesc": "Chúng tôi sẽ trở lại khi bạn trực tuyến!",
+  "svOfflineCode": "ERR_INTERNET_DISCONNECTED",
+  "backTitle": "Quay lại",
+  "404pageCode": "PAGE_NOT_FOUND",
+  "404PageDesc": "Rất tiếc, trang bạn đã truy cập không tồn tại.",
+  "backHome": "Về trang chủ"
+}
