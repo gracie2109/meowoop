@@ -1,34 +1,44 @@
 <template>
-  <div class="table_ref">
+  <div class="table_ref" ref="el">
     <Table
-      ref="table_ref" 
+      style=""
+      class="table_cs"
       :columns="col"
       :data-source="props.data"
-      :scroll="{ x: props.scroll?.x, y: props.scroll?.y }"
+      :scroll="scrollComputed"
       :loading="props.loading"
-      :get-popup-container="props.container ?? (() => window.document.body)"
       :pagination="{
         pageSize: props.pagination?.page_size,
         current: props.pagination?.page,
         total: props.pagination?.total,
-        showSizeChanger: true,
-        showQuickJumper: true,
       }"
       :size="props.size ?? 'large'"
       bordered
       :style="props.style"
+      :get-popup-container="props.container ?? (() => window.document.body)"
+      :locale="locale"
     >
       <template #emptyText>
-        <div style="text-align: center; padding: 20px">
-          <img :src="iconEmpty" style="width: 120px; height: 120px; object-fit: contain;" />
-          <p style="margin-top: 12px">{{ $t('common.noData') }}</p>
+        <div
+          style="height: 100%; width: 100%; border: none; min-height: 72.6vh; position: relative"
+        >
+          <div style="height: 100%; width: 100%; margin: auto; position: absolute; top: 35%">
+            <img :src="iconEmpty" style="width: 120px; height: 120px; object-fit: contain" />
+            <p style="margin-top: 12px">{{ $t('common.noData') }}</p>
+          </div>
         </div>
       </template>
 
       <template v-if="props.headerTitle" #title>{{ props.headerTitle }}</template>
-      <template v-if="$slots.footer" #footer><slot name="footer" /></template>
-      <template v-if="$slots.summary" #summary><slot name="summary" /></template>
-      <template v-if="$slots.content"><slot name="content" /></template>
+      <template v-if="$slots.footer" #footer>
+        <slot name="footer" />
+      </template>
+      <template v-if="$slots.summary" #summary>
+        <slot name="summary" />
+      </template>
+      <template v-if="$slots.content">
+        <slot name="content" />
+      </template>
     </Table>
   </div>
 </template>
@@ -39,8 +49,13 @@ import { Table, Tooltip } from 'ant-design-vue'
 import type { TableColumnsType } from 'ant-design-vue'
 import { ref, defineProps, computed, h } from 'vue'
 import iconEmpty from '@/assets/images/common/empt_box.webp'
+import { useI18n } from 'vue-i18n'
+import { useElementSize } from '@vueuse/core'
+import { useTemplateRef } from 'vue'
 
-const table_ref = ref(null)
+const { t } = useI18n()
+const el = useTemplateRef('el')
+const { height } = useElementSize(el)
 
 const props = defineProps<{
   columns: TableColumnsType
@@ -61,6 +76,22 @@ const props = defineProps<{
   style?: object
 }>()
 
+const scrollComputed = computed(() => {
+  return {
+    x: props.scroll?.x ?? undefined,
+    y: props.scroll?.y ?? undefined,
+  }
+})
+
+const locale = computed(() => ({
+  emptyText: h('div', { style: { height: height, width: '100%' } }, [
+    h('img', {
+      src: iconEmpty,
+      style: { width: '120px', height: '120px', objectFit: 'contain' },
+    }),
+    h('p', { style: { marginTop: '12px' } }, t('common.noData')),
+  ]),
+}))
 const col = computed(() => {
   const columns = props.columns.map((col, idx, arr) => {
     if (!col.title) return col
@@ -105,5 +136,40 @@ const titleStyle = (col: any) => ({
 .table_ref {
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.table_cs {
+  height: 100%;
+}
+
+::v-deep(.ant-table-wrapper) {
+  height: 100%;
+  overflow: hidden;
+}
+
+::v-deep(.ant-spin-nested-loading) {
+  height: 100%;
+}
+
+::v-deep(.ant-spin-container) {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+::v-deep(.ant-table) {
+  height: 100%;
+  overflow: hidden;
+  flex: 1;
+  border: 1px solid rgb(233, 230, 230);
+}
+
+::v-deep(.ant-table-container) {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 </style>

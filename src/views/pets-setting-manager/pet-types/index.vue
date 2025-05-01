@@ -1,32 +1,66 @@
 <template>
+  <div class="container" id="pet_types" ref="el">
+    <icon-picker
+      v-model:modelValue="selectedIcon"
+      @select="handleIconSelect"
+      @change="handleIconChange"
+      :container="el"
+    />
 
-    <div>
-        <Table :columns="column" :data="data" />
-        
-
+    <div class="selected-icon-preview">
+      <div v-if="selectedIcon" class="preview">
+        <svg class="icon-large">
+          x``
+          <use :xlink:href="`#${selectedIcon.icon.replace('/', '-')}`" />
+        </svg>
+        <span>{{ selectedIcon }}</span>
+      </div>
+      <a-empty v-else description="Chưa chọn icon" />
     </div>
+  </div>
 </template>
 
-<script lang="ts" setup>
-import { reactive } from 'vue'
-import Table from "@/components/Table/index.vue"
-const data = reactive([])
+<script setup lang="ts">
+import { ref } from 'vue'
+import IconPicker from '@/components/Icons/IconPicker.vue'
 
-const column = reactive([
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-])
+const selectedIcon = ref({ icon: '', color: '' })
+
+const handleIconSelect = (iconPath: string) => {
+  console.log('Icon selected:', iconPath)
+}
+
+const handleIconChange = (iconPath: string) => {
+  console.log('Icon changed:', iconPath)
+}
+
+const el = ref()
 </script>
+
+<style scoped>
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.selected-icon-preview {
+  margin-top: 32px;
+  padding: 20px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 4px;
+}
+
+.preview {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.icon-large {
+  width: 48px;
+  height: 48px;
+  fill: #1890ff;
+}
+</style>

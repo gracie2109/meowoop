@@ -4,7 +4,7 @@ export const DEFAULT_THEME = 'light'
 export const LAYOUT_TYPE = {
   CLIENT: 'client',
   ADMIN: 'admin',
-  NO_LAYOUT: 'noLayout'
+  NO_LAYOUT: 'noLayout',
 }
 
 export const WINDOW_STORAGE = {

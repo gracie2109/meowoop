@@ -5,5 +5,6 @@
   "backTitle": "Back",
   "404pageCode": "PAGE_NOT_FOUND",
   "404PageDesc": "Sorry, the page you visited does not exist.",
-  "backHome": "Back to home page"
+  "backHome": "Back to home page",
+  "noData": "No data"
 }

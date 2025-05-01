@@ -23,10 +23,7 @@ const props = defineProps<{
 const items = computed(() => {
   const rawItems = MENU_ADMIN(t)
   return transformMenu(rawItems)
-});
-
-
-
+})
 </script>
 
 <style scoped>
