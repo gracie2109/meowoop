@@ -6,12 +6,18 @@
         align="middle"
         style="height: 65px; margin: auto 0; padding: 1rem"
       >
-        <div style="padding-left: 1rem; cursor: pointer">
-          <Menu color="var( --vt-c-primary)" class="trigger" @click="$app.changeCollapse()" />
+        <div style="padding-left: 0.5rem; cursor: pointer">
+          <Icon
+            icon="lucide:align-justify"
+            color="var(--vt-c-primary)"
+            class="trigger"
+            width="30px"
+            @click="$app.changeCollapse()"
+          />
         </div>
         <Logo v-if="!collapseMenu" style="height: 30px" />
       </Row>
-      <Sidebar :state="state" />
+      <Sidebar />
     </Sider>
     <Layout>
       <MenuHeader />
@@ -32,26 +38,19 @@
 
 <script setup lang="ts">
 import { Layout, Row } from 'ant-design-vue'
-import { reactive } from 'vue'
-import { Menu } from 'lucide-vue-next'
-import Sidebar from './Siderbar.vue'
-import MenuHeader from './Header.vue'
-
-import Logo from '@/components/app/Logo.vue'
+import Sidebar from './AdminSidebar.vue'
+import MenuHeader from './AdminHeader.vue'
+import Logo from '@/components/app/AppLogo.vue'
 import { useGlobalStore } from '@/stores'
 import { storeToRefs } from 'pinia'
-
+import { Icon } from '@iconify/vue'
 const { Sider, Content } = Layout
-
-const state = reactive({
-  collapsed: false,
-  selectedKeys: [],
-  openKeys: [],
-  preOpenKeys: [],
-})
 
 const $app = useGlobalStore()
 const { collapseMenu } = storeToRefs($app)
+defineOptions({
+  name: 'AdminLayout',
+})
 </script>
 
 <style scoped>
@@ -76,8 +75,5 @@ const { collapseMenu } = storeToRefs($app)
 
 .site-layout .site-layout-background {
   background: #fff;
-}
-
-.header_right {
 }
 </style>

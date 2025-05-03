@@ -13,6 +13,9 @@
 import { ref } from 'vue'
 import IconPicker from '@/components/Icons/IconPicker.vue'
 import { DEFAULT_COLOR, DEFAULT_ICON } from '@/contants/lib'
+import { useDynamicTitle } from '@/composables'
+
+useDynamicTitle('menu.menu_6')
 
 const selectedIcon = ref({ icon: DEFAULT_ICON, color: DEFAULT_COLOR })
 

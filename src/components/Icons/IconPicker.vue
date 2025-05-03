@@ -1,7 +1,6 @@
 <template>
   <Popover
     ref="iconPickerRef"
-    id="iconPickerRef"
     v-model:open="visible"
     trigger="click"
     overlayClassName="icon-picker-popover"
@@ -21,10 +20,10 @@
                 @click.stop="handlePrevTab(category.key)"
                 v-if="filteredCategories.length > 1"
               >
-                <img :src="iconPrev" alt="i" />
+                <IconPrev />
               </div>
-              <div style="flex: 1; height: 150px; max-height: 250px; overflow-y: auto">
-                <div v-if="filteredIcons(category.key).length > 0" class="icon-grid">
+              <div class="icon-scroll-container">
+                <div v-if="filteredIcons(category.key).length" class="icon-grid">
                   <div
                     v-for="icon in filteredIcons(category.key)"
                     :key="icon"
@@ -44,39 +43,39 @@
                 @click.stop="handleNextTab(category.key)"
                 v-if="filteredCategories.length > 1"
               >
-                <img :src="iconNext" alt="i" />
+                <IconNext />
               </div>
             </div>
           </TabPane>
         </Tabs>
+
         <Flex class="preview_icon_color" align="center" gap="16">
           <div style="height: 100%">
-            <svg class="icon" :style="{ color: dataSelected.color, height: '100%' }">
-              <use
-                :xlink:href="`#${dataSelected.icon.replace('/', '-')}`"
-                :style="{ color: dataSelected.color }"
-              />
-            </svg>
+            <IconPreview
+              :svgId="`#${dataSelected.icon.replace('/', '-')}`"
+              :color="dataSelected.color"
+            />
           </div>
           <ColorPicker
             :show-history="false"
-            :container="() => iconPickerRef?.value?.getPopupDomNode?.() || document.body"
+            :container="iconPickerRef?.value?.getPopupDomNode?.()"
             @update:model-value="handleColorChange"
             :showValue="true"
             :value="dataSelected.color"
           />
         </Flex>
-      </div>
 
-      <Row>
-        <Button style="margin-right: 1rem" @click="handleCancel">Close</Button>
-        <Button type="primary" @click="handleSave">Save</Button>
-      </Row>
+        <Row>
+          <Button style="margin-right: 1rem" @click="handleCancel">
+            {{ $t('common.cancelTitle') }}
+          </Button>
+          <Button type="primary" @click="handleSave">{{ $t('common.saveTitle') }}</Button>
+        </Row>
+      </div>
     </template>
+
     <div class="icon-picker-trigger">
-      <svg class="current-icon" :style="{ color: props.modelValue.color, height: '100%' }">
-        <use :xlink:href="currentIconPath" />
-      </svg>
+      <IconPreview :svgId="currentIconPath" :color="props.modelValue.color" />
     </div>
   </Popover>
 </template>
@@ -84,12 +83,16 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { Popover, Tabs, Button, Empty, Row, Flex } from 'ant-design-vue'
-import { iconPets, iconNature } from '@/contants/lib'
-import iconPrev from '@/assets/icons/common/circle-arrow-left.svg'
-import iconNext from '@/assets/icons/common/circle-arrow-right.svg'
-import ColorPicker from '@/components/Color/Index.vue'
+import ColorPicker from '@/components/ColorPicker/Index.vue'
+import { iconPets, iconNature, ICON_SOURCES } from '@/contants/lib'
+import IconPrev from '@/assets/icons/common/circle-arrow-left.svg'
+import IconNext from '@/assets/icons/common/circle-arrow-right.svg'
+import { useI18n } from 'vue-i18n'
+import IconPreview from './PreviewIcon.vue'
+import type { IconSourceType } from '@/types/lib'
 
 const { TabPane } = Tabs
+const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{
@@ -98,7 +101,7 @@ const props = withDefaults(
       icon: string
     }
     isAll?: boolean
-    category?: string
+    category?: IconSourceType
     container?: HTMLElement | null
   }>(),
   {
@@ -106,53 +109,37 @@ const props = withDefaults(
   },
 )
 
-const emit = defineEmits(['update:modelValue', 'select', 'change'])
-const categoriesRaw = ref([
-  { key: 'pets', label: 'Thú cưng' },
-  { key: 'nature', label: 'Thời tiết' },
-])
-
-const iconsData = ref<{ [key: string]: string[] }>({
-  pets: iconPets,
-  nature: iconNature,
-})
-
-const categories = computed(() => {
-  if (props.isAll) {
-    return categoriesRaw.value
-  } else {
-    return categoriesRaw.value.filter((i) => i?.key === props.category)
-  }
-})
-
-const getPopupContainer = () => props.container || document.body
+const emit = defineEmits(['update:modelValue'])
 const iconPickerRef = ref()
 const visible = ref(false)
-const activeCategory = ref(categories.value?.[0]?.key || '')
 const searchText = ref('')
+const activeCategory = ref('')
 const dataSelected = ref({ icon: '', color: '' })
 
-const currentIconPath = computed(() => {
-  const [category, icon] = props.modelValue.icon.split('/')
-  return `#${category}-${icon}`
-})
+const categoriesRaw = computed(() => ICON_SOURCES(t))
+
+const categories = computed(() =>
+  props.isAll ? categoriesRaw.value : categoriesRaw.value.filter((i) => i?.key === props.category),
+)
+const iconsData = ref({ pets: iconPets, nature: iconNature })
+const getPopupContainer = () => props.container || document.body
+
+const currentIconPath = computed(() => `#${props.modelValue.icon.replace('/', '-')}`)
 
 const filteredCategories = computed(() => {
   if (!searchText.value) return categories.value
-
-  return categories.value.filter((category) => {
-    return (
+  return categories.value.filter(
+    (category) =>
       category.label.toLowerCase().includes(searchText.value.toLowerCase()) ||
-      filteredIcons(category.key).length > 0
-    )
-  })
+      filteredIcons(category.key as IconSourceType).length > 0,
+  )
 })
 
-const filteredIcons = (category: string) => {
+const filteredIcons = (category: IconSourceType) => {
   const icons = iconsData.value?.[category] || []
-  if (!searchText.value) return icons
-
-  return icons.filter((icon: string) => icon.toLowerCase().includes(searchText.value.toLowerCase()))
+  return searchText.value
+    ? icons.filter((icon) => icon.toLowerCase().includes(searchText.value.toLowerCase()))
+    : icons
 }
 
 const isSelected = (category: string, icon: string) => {
@@ -160,56 +147,42 @@ const isSelected = (category: string, icon: string) => {
 }
 
 const handleSelectIcon = (category: string, icon: string) => {
-  const fullPath = `${category}/${icon}`
-  const val = {
-    ...dataSelected.value,
-    icon: fullPath,
-  }
-  dataSelected.value = val
-  // emit('update:modelValue', val)
+  dataSelected.value.icon = `${category}/${icon}`
 }
+
+const handleColorChange = (val: string) => {
+  dataSelected.value.color = val
+}
+
 const handlePrevTab = (category: string) => {
   const index = categories.value.findIndex((i) => i.key === category)
-  const prevIndex = index === 0 ? categories.value.length - 1 : index - 1
+  const prevIndex = (index - 1 + categories.value.length) % categories.value.length
   activeCategory.value = categories.value[prevIndex]?.key
 }
 
 const handleNextTab = (category: string) => {
   const index = categories.value.findIndex((i) => i.key === category)
-  const nextIndex = index === categories.value.length - 1 ? 0 : index + 1
+  const nextIndex = (index + 1) % categories.value.length
   activeCategory.value = categories.value[nextIndex]?.key
-}
-
-const handleColorChange = (val: any) => {
-  const rs = {
-    ...dataSelected.value,
-    color: val,
-  }
-  dataSelected.value = rs
 }
 
 const handleSave = () => {
   visible.value = false
-  emit('update:modelValue', dataSelected.value)
-  dataSelected.value = {
-    icon: props.modelValue.icon,
-    color: props.modelValue.color,
-  }
+  emit('update:modelValue', { ...dataSelected.value })
 }
+
 const handleCancel = () => {
   visible.value = false
-  dataSelected.value = {
-    icon: props.modelValue.icon,
-    color: props.modelValue.color,
-  }
+  dataSelected.value = { ...props.modelValue }
 }
+
 watch(
   () => props.modelValue,
   (newVal) => {
     if (newVal) {
       const [category] = newVal.icon.split('/')
       activeCategory.value = category
-      dataSelected.value = newVal
+      dataSelected.value = { ...newVal }
     }
   },
   { immediate: true, deep: true },
@@ -221,16 +194,17 @@ watch(
   width: 360px;
 }
 
-.search-input {
-  margin-bottom: 12px;
+.icon-scroll-container {
+  flex: 1;
+  height: 150px;
+  max-height: 250px;
+  overflow-y: auto;
 }
 
 .icon-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 12px;
-  max-height: 300px;
-  overflow-y: auto;
   padding: 8px 0;
 }
 
@@ -238,11 +212,9 @@ watch(
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* padding: 8px; */
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s;
-  /* border: 1px solid #f0f0f0; */
 }
 
 .icon-item:hover {
@@ -253,7 +225,6 @@ watch(
 
 .icon-item.selected {
   background-color: #e6f7ff;
-  border-color: #1890ff;
 }
 
 .icon {
@@ -266,22 +237,15 @@ watch(
 .current-icon {
   width: 100%;
   height: 100%;
-} 
-
-.icon-name {
-  font-size: 12px;
-  text-align: center;
-  word-break: break-word;
-  color: #666;
 }
 
 .icon-picker-trigger {
- cursor: pointer;
- width: 30px;
- height: 30px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
 }
+
 .picker_controls {
-  position: relative;
   margin: auto 0;
   cursor: pointer;
 }
@@ -294,21 +258,20 @@ watch(
 .control_wrap {
   display: flex;
   gap: 1rem;
-  position: relative;
   width: 100%;
-  height: 100%;
-}
-:deep(.icon-picker-popover .ant-popover-inner-content) {
-  padding: 0 !important;
-}
-:deep(.ant-popover > .ant-popover-inner, .ant-popover-inner) {
-  background-color: red !important;
-  padding: 4px 8px !important;
 }
 
 .preview_icon_color {
   border: 1px dashed var(--vt-c-primary);
   height: 35px;
   margin-bottom: 1rem;
+}
+
+:deep(.icon-picker-popover .ant-popover-inner-content) {
+  padding: 0 !important;
+}
+
+:deep(.ant-popover > .ant-popover-inner, .ant-popover-inner) {
+  padding: 4px 8px !important;
 }
 </style>

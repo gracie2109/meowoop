@@ -77,7 +77,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 const modelPureColor = ref<ColorInputWithoutInstance>('')
 const modelGradientColor = ref()
-const colorSelect = ref();
+const colorSelect = ref()
 
 const pickerContainer = computed(() => {
   return typeof props.container === 'string'
@@ -92,24 +92,22 @@ const handleSave = () => {
   visible.value = !visible.value
 }
 
-
 const handleCancel = () => {
-  visible.value = !visible.value;
+  visible.value = !visible.value
   colorSelect.value = getColor(props.value)
 }
 
-
-const getColor = (newVal:ColorInputWithoutInstance | undefined | string) => {
+const getColor = (newVal: ColorInputWithoutInstance | undefined | string) => {
   if (newVal) {
-      colorSelect.value = newVal
-      const type = getColorType(newVal)
-      activeKey.value = type
-      if (type === COLOR_TYPE.pure) {
-        modelPureColor.value = props.value as ColorInputWithoutInstance
-      } else {
-        modelGradientColor.value = props.value
-      }
+    colorSelect.value = newVal
+    const type = getColorType(newVal)
+    activeKey.value = type
+    if (type === COLOR_TYPE.pure) {
+      modelPureColor.value = props.value as ColorInputWithoutInstance
+    } else {
+      modelGradientColor.value = props.value
     }
+  }
 }
 watch(
   () => props.value,

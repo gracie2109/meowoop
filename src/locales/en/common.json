@@ -1,10 +1,13 @@
 {
-  "svOfflineTitle": "Looks like you're not connected to the internet",
-  "svOfflineDesc": "Let's get you back online!",
-  "svOfflineCode": "ERR_INTERNET_DISCONNECTED",
+  "svOfflineTitle": "It looks like you're not connected to the Internet",
+  "svOfflineDesc": "We'll be back when you're online!",
   "backTitle": "Back",
-  "404pageCode": "PAGE_NOT_FOUND",
-  "404PageDesc": "Sorry, the page you visited does not exist.",
-  "backHome": "Back to home page",
-  "noData": "No data"
+  "404PageTitle": "Page not found",
+  "404PageDesc": "Sorry, the page you've been looking for doesn't exist.",
+  "backHome": "Take me home",
+  "noData": "No Data",
+  "saveTitle": "Save",
+  "cancelTitle": "Cancel",
+  "ic_source_1": "Pets",
+  "ic_source_2": "Weather"
 }

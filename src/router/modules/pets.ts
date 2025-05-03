@@ -1,7 +1,7 @@
 import { LAYOUT_TYPE } from '@/contants/app'
 import { ROUTE_NAME, ROUTER_PATH } from '@/router/route'
-import PetService from '@/views/pets-setting-manager/pet-services/index.vue'
-import PetType from '@/views/pets-setting-manager/pet-types/index.vue'
+import PetService from '@/views/pets-setting-manager/pet-services/PageServiceIndex.vue'
+import PetType from '@/views/pets-setting-manager/pet-types/PageTypeIndex.vue'
 
 const a = [
   {

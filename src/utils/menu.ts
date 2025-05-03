@@ -1,19 +1,15 @@
 import { RouterLink } from 'vue-router'
 import { h, markRaw } from 'vue'
 import { Icon } from '@iconify/vue'
+import type { MenuItem, TransformedMenuItem } from '@/types/menu'
 
-export function transformMenu(items) {
+export function transformMenu(items: MenuItem[]): TransformedMenuItem[] {
   return items.map((item) => ({
     ...item,
-    icon: item.icon
-      ? h(markRaw(Icon), {
-          icon: item.icon,
-          style: { color: item.color || 'inherit', fontSize: '20px' },
-        })
-      : h(markRaw(Icon), {
-          icon: 'lucide:dot',
-          style: { color: item.color || 'inherit', fontSize: '20px' },
-        }),
+    icon: h(markRaw(Icon), {
+      icon: String(item.icon || 'lucide:dot'),
+      style: { color: item.color || 'inherit', fontSize: '20px' },
+    }),
     children: item.children ? transformMenu(item.children) : undefined,
   }))
 }

@@ -1,10 +1,13 @@
 {
   "svOfflineTitle": "Có vẻ như bạn không kết nối được với Internet",
   "svOfflineDesc": "Chúng tôi sẽ trở lại khi bạn trực tuyến!",
-  "svOfflineCode": "ERR_INTERNET_DISCONNECTED",
   "backTitle": "Quay lại",
-  "404pageCode": "PAGE_NOT_FOUND",
+  "404PageTitle": "Không tìm thấy trang",
   "404PageDesc": "Rất tiếc, trang bạn đã truy cập không tồn tại.",
-  "backHome": "Về trang chủ",
-  "noData": "Không có dữ liệu"
+  "backHome": "Về trang home",
+  "noData": "Không có dữ liệu",
+  "saveTitle": "Ghi lại",
+  "cancelTitle": "Hủy bỏ",
+  "ic_source_1": "Thú cưng",
+  "ic_source_2": "Thời tiết"
 }

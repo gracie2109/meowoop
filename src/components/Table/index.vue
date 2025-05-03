@@ -3,7 +3,7 @@
     <Table
       style=""
       class="table_cs"
-      :columns="col"
+      :columns="column"
       :data-source="props.data"
       :scroll="scrollComputed"
       :loading="props.loading"
@@ -15,7 +15,7 @@
       :size="props.size ?? 'large'"
       bordered
       :style="props.style"
-      :get-popup-container="props.container ?? (() => window.document.body)"
+      :get-popup-container="() => container"
       :locale="locale"
     >
       <template #emptyText>
@@ -44,14 +44,18 @@
 </template>
 
 <script lang="ts" setup>
-import type { AntdTable } from '@/types/lib'
+import type { AntdTableSize } from '@/types/lib'
 import { Table, Tooltip } from 'ant-design-vue'
-import type { TableColumnsType } from 'ant-design-vue'
-import { ref, defineProps, computed, h } from 'vue'
+import { type TableColumnsType, type TableColumnType } from 'ant-design-vue'
+import { defineProps, computed, h } from 'vue'
 import iconEmpty from '@/assets/images/common/empt_box.webp'
 import { useI18n } from 'vue-i18n'
 import { useElementSize } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
+
+defineOptions({
+  name: 'TableCustom',
+})
 
 const { t } = useI18n()
 const el = useTemplateRef('el')
@@ -59,12 +63,12 @@ const { height } = useElementSize(el)
 
 const props = defineProps<{
   columns: TableColumnsType
-  data: any[]
+  data: Record<string, unknown>[]
   scroll?: {
     x?: number
     y?: number
   }
-  container?: any
+  container?: HTMLElement | null
   loading?: boolean
   pagination?: {
     page: number
@@ -72,7 +76,7 @@ const props = defineProps<{
     total: number
   }
   headerTitle?: string
-  size?: AntdTable
+  size?: AntdTableSize
   style?: object
 }>()
 
@@ -81,6 +85,12 @@ const scrollComputed = computed(() => {
     x: props.scroll?.x ?? undefined,
     y: props.scroll?.y ?? undefined,
   }
+})
+
+const container = computed(() => {
+  return typeof props.container === 'string'
+    ? document.getElementById(props.container) || document.body
+    : (props.container ?? document.body)
 })
 
 const locale = computed(() => ({
@@ -92,7 +102,7 @@ const locale = computed(() => ({
     h('p', { style: { marginTop: '12px' } }, t('common.noData')),
   ]),
 }))
-const col = computed(() => {
+const column = computed(() => {
   const columns = props.columns.map((col, idx, arr) => {
     if (!col.title) return col
 
@@ -124,7 +134,7 @@ const col = computed(() => {
   return columns
 })
 
-const titleStyle = (col: any) => ({
+const titleStyle = (col: TableColumnType) => ({
   width: col?.width ? `${col.width}px` : 'auto',
   overflow: 'hidden',
   whiteSpace: 'nowrap',
