@@ -9,5 +9,8 @@
   "saveTitle": "Save",
   "cancelTitle": "Cancel",
   "ic_source_1": "Pets",
-  "ic_source_2": "Weather"
+  "ic_source_2": "Weather",
+  "placeholderInput": "Enter",
+  "placeholderSelect": "Choose",
+  "required": "{name} can't be blank."
 }

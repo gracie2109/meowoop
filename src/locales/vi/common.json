@@ -9,5 +9,8 @@
   "saveTitle": "Ghi lại",
   "cancelTitle": "Hủy bỏ",
   "ic_source_1": "Thú cưng",
-  "ic_source_2": "Thời tiết"
+  "ic_source_2": "Thời tiết",
+  "placeholderInput": "Nhập",
+  "placeholderSelect": "Chọn",
+  "required": "{name} không được để trống."
 }

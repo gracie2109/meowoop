@@ -1,12 +1,16 @@
 <template>
   <div class="form_wrap_content" style="position: relative; width: 100%">
     <FormItem :name="name" :rules="rules" v-bind="validateBinding">
-      <Input
+      <Select
         v-bind="attrs"
-        :placeholder="placeholder ?? $t('common.placeholderInput')"
+        :placeholder="placeholder ?? $t('common.placeholderSelect')"
         :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @change="$emit('update:modelValue', $event)"
         @blur="triggerValidate"
+        :options="options"
+        :disabled="disabled"
+        allowClear
+        style="width: 100%"
       />
       <label class="form_label" :class="['floating-label', { isRequired, error: hasError }]">
         {{ label }}
@@ -16,22 +20,25 @@
 </template>
 
 <script lang="ts" setup>
-import type { InjectedFormContext } from '@/types/lib'
-import { FormItem, Input } from 'ant-design-vue'
+import { FormItem, Select } from 'ant-design-vue'
+import { inject, computed, useAttrs } from 'vue'
 import type { RuleObject } from 'ant-design-vue/es/form'
-import { computed, inject, useAttrs } from 'vue'
+import type { InjectedFormContext } from '@/types/lib'
 
 const props = defineProps<{
   name: string
   placeholder?: string
   label: string
-  rules?: RuleObject | RuleObject[] | undefined
+  rules?: RuleObject | RuleObject[]
   isRequired: boolean
-  modelValue: string | number | undefined
+  modelValue: string | number | undefined | string[]
+  options: { label: string; value: string | number; disabled?: boolean }[]
+  disabled?: boolean
 }>()
-
 const attrs = useAttrs()
+
 defineEmits(['update:modelValue'])
+
 const form = inject('form') as InjectedFormContext
 const validateInfos = form?.validateInfos ?? {}
 
@@ -46,42 +53,9 @@ const triggerValidate = () => {
 }
 </script>
 
-<style>
-.isRequired::after {
-  content: '*';
-  padding-left: 0.3rem;
-  color: red;
-}
-
-.form_label {
-  position: absolute;
-  top: -12px;
-  left: 12px;
-  background-color: white;
-  padding: 0 0.5em;
-  font-size: 11px;
-}
-
-.floating-label.error {
-  color: red;
-}
-
-.floating-label {
-  position: absolute;
-  top: -12px;
-  left: 12px;
-  background-color: white;
-  padding: 0 0.5em;
-  font-size: 11px;
-  color: #333;
-}
-
-.floating-label.isRequired::after {
-  content: '*';
-  color: red;
-  margin-left: 4px;
-}
-.ant-input {
-  height: 40px;
+<style scoped>
+:deep(.ant-select-selector) {
+  height: 40px !important;
+  padding: 5px 11px !important;
 }
 </style>
