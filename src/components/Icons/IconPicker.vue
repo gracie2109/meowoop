@@ -51,10 +51,10 @@
         </Tabs>
         <Flex class="preview_icon_color" align="center" gap="16">
           <div style="height: 100%">
-            <svg class="icon" :style="{ color: modelValue.color, height: '100%' }">
+            <svg class="icon" :style="{ color: dataSelected.color, height: '100%' }">
               <use
-                :xlink:href="`#${modelValue.icon.replace('/', '-')}`"
-                :style="{ color: modelValue.color }"
+                :xlink:href="`#${dataSelected.icon.replace('/', '-')}`"
+                :style="{ color: dataSelected.color }"
               />
             </svg>
           </div>
@@ -63,30 +63,28 @@
             :container="() => iconPickerRef?.value?.getPopupDomNode?.() || document.body"
             @update:model-value="handleColorChange"
             :showValue="true"
+            :value="dataSelected.color"
           />
         </Flex>
       </div>
 
       <Row>
-        <Button @click="visible = false">Close</Button>
-        <Button @click="visible = false">Save</Button>
+        <Button style="margin-right: 1rem" @click="handleCancel">Close</Button>
+        <Button type="primary" @click="handleSave">Save</Button>
       </Row>
     </template>
-    <Button class="icon-picker-trigger">
-      <template #icon>
-        <svg class="current-icon">
-          <use :xlink:href="currentIconPath" />
-        </svg>
-      </template>
-      {{ buttonText }}
-    </Button>
+    <div class="icon-picker-trigger">
+      <svg class="current-icon" :style="{ color: props.modelValue.color, height: '100%' }">
+        <use :xlink:href="currentIconPath" />
+      </svg>
+    </div>
   </Popover>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { Popover, Tabs, Button, Empty, Row, Flex } from 'ant-design-vue'
-import { iconPets, iconNature } from '@/components/Icons/contants'
+import { iconPets, iconNature } from '@/contants/lib'
 import iconPrev from '@/assets/icons/common/circle-arrow-left.svg'
 import iconNext from '@/assets/icons/common/circle-arrow-right.svg'
 import ColorPicker from '@/components/Color/Index.vue'
@@ -99,7 +97,6 @@ const props = withDefaults(
       color: string
       icon: string
     }
-    buttonText?: string
     isAll?: boolean
     category?: string
     container?: HTMLElement | null
@@ -133,9 +130,9 @@ const iconPickerRef = ref()
 const visible = ref(false)
 const activeCategory = ref(categories.value?.[0]?.key || '')
 const searchText = ref('')
+const dataSelected = ref({ icon: '', color: '' })
 
 const currentIconPath = computed(() => {
-  if (!props.modelValue.icon) return '#icon-empty'
   const [category, icon] = props.modelValue.icon.split('/')
   return `#${category}-${icon}`
 })
@@ -159,48 +156,60 @@ const filteredIcons = (category: string) => {
 }
 
 const isSelected = (category: string, icon: string) => {
-  return props.modelValue.icon === `${category}/${icon}`
+  return dataSelected.value.icon === `${category}/${icon}`
 }
 
 const handleSelectIcon = (category: string, icon: string) => {
   const fullPath = `${category}/${icon}`
   const val = {
-    ...props.modelValue,
+    ...dataSelected.value,
     icon: fullPath,
   }
-  emit('update:modelValue', val)
+  dataSelected.value = val
+  // emit('update:modelValue', val)
 }
-
 const handlePrevTab = (category: string) => {
   const index = categories.value.findIndex((i) => i.key === category)
-  if (index === 0) {
-    activeCategory.value = categories.value?.[categories.value.length - 1]?.key
-  }
-  activeCategory.value = categories.value?.[index - 1]?.key
+  const prevIndex = index === 0 ? categories.value.length - 1 : index - 1
+  activeCategory.value = categories.value[prevIndex]?.key
 }
 
 const handleNextTab = (category: string) => {
   const index = categories.value.findIndex((i) => i.key === category)
-  if (index === categories.value.length - 1) {
-    activeCategory.value = categories.value?.[0]?.key
-  }
-  activeCategory.value = categories.value?.[index + 1]?.key
+  const nextIndex = index === categories.value.length - 1 ? 0 : index + 1
+  activeCategory.value = categories.value[nextIndex]?.key
 }
 
 const handleColorChange = (val: any) => {
   const rs = {
-    ...props.modelValue,
+    ...dataSelected.value,
     color: val,
   }
-  emit('update:modelValue', rs)
+  dataSelected.value = rs
 }
 
+const handleSave = () => {
+  visible.value = false
+  emit('update:modelValue', dataSelected.value)
+  dataSelected.value = {
+    icon: props.modelValue.icon,
+    color: props.modelValue.color,
+  }
+}
+const handleCancel = () => {
+  visible.value = false
+  dataSelected.value = {
+    icon: props.modelValue.icon,
+    color: props.modelValue.color,
+  }
+}
 watch(
-  () => props.modelValue.icon,
+  () => props.modelValue,
   (newVal) => {
     if (newVal) {
-      const [category] = newVal.split('/')
+      const [category] = newVal.icon.split('/')
       activeCategory.value = category
+      dataSelected.value = newVal
     }
   },
   { immediate: true, deep: true },
@@ -255,10 +264,9 @@ watch(
 }
 
 .current-icon {
-  width: 16px;
-  height: 16px;
-  margin-right: 6px;
-}
+  width: 100%;
+  height: 100%;
+} 
 
 .icon-name {
   font-size: 12px;
@@ -268,8 +276,9 @@ watch(
 }
 
 .icon-picker-trigger {
-  display: inline-flex;
-  align-items: center;
+ cursor: pointer;
+ width: 30px;
+ height: 30px;
 }
 .picker_controls {
   position: relative;

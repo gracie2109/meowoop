@@ -6,25 +6,15 @@
       @change="handleIconChange"
       :container="el"
     />
-
-    <div class="selected-icon-preview">
-      <div v-if="selectedIcon" class="preview">
-        <svg class="icon-large">
-          x``
-          <use :xlink:href="`#${selectedIcon.icon.replace('/', '-')}`" />
-        </svg>
-        <span>{{ selectedIcon }}</span>
-      </div>
-      <a-empty v-else description="Chưa chọn icon" />
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import IconPicker from '@/components/Icons/IconPicker.vue'
+import { DEFAULT_COLOR, DEFAULT_ICON } from '@/contants/lib'
 
-const selectedIcon = ref({ icon: '', color: '' })
+const selectedIcon = ref({ icon: DEFAULT_ICON, color: DEFAULT_COLOR })
 
 const handleIconSelect = (iconPath: string) => {
   console.log('Icon selected:', iconPath)
