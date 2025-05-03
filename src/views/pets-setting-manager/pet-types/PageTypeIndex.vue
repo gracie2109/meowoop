@@ -1,6 +1,6 @@
 <template>
   <div class="container" id="pet_types" ref="el">
-    <FormWrapper :form="form">
+    <FormWrapper :form="form" :hasSubmitted="hasSubmitted">
       <Form @finish="handleSubmit" :model="formState">
         <FormInput
           name="username"
@@ -23,7 +23,7 @@
           showSearch
           mode="multiple"
         />
-        <Button htmlType="submit" type="primary">Submit</Button>
+        <Button htmlType="submit" type="primary" @click="hasSubmitted = true">Submit</Button>
         <Button style="margin-left: 10px" @click="reset">Reset</Button>
       </Form>
     </FormWrapper>
@@ -41,6 +41,8 @@ import { useI18n } from 'vue-i18n'
 
 useDynamicTitle('menu.menu_6')
 const { t } = useI18n()
+const hasSubmitted = ref(false)
+
 const formState = reactive({
   username: '',
   role: [],
@@ -68,7 +70,7 @@ provide('form', form)
 
 const handleSubmit = () => {
   form.validate().then(() => {
-    console.log('formState', formState)
+    hasSubmitted.value = false
   })
 }
 const reset = () => {

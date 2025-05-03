@@ -5,21 +5,28 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount } from 'vue'
+import { onMounted, onBeforeUnmount, computed } from 'vue'
 import { useLocaleEventBus } from '@/composables/eventBus/useLocaleEventBus'
 import type { FormInstance } from 'ant-design-vue'
 
-const { onLocaleChanged: onLocaleChangedHandler } = useLocaleEventBus()
 const props = defineProps<{
   form: FormInstance
+  hasSubmitted: boolean
 }>()
 
 const f = props.form
+const hasSubmitted = computed(() => props.hasSubmitted)
+
+const { onLocaleChanged: onLocaleChangedHandler } = useLocaleEventBus()
 
 let unsubscribe: () => void
 
 onMounted(() => {
-  unsubscribe = onLocaleChangedHandler(() => f.validate())
+  unsubscribe = onLocaleChangedHandler(() => {
+    if (hasSubmitted.value) {
+      f.validate()
+    }
+  })
 })
 
 onBeforeUnmount(() => {
