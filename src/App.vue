@@ -1,48 +1,42 @@
 <template>
-  <div class="app_content_wrapper">
-    <router-view v-if="Layout" v-slot="{ Component, route: curRoute }">
-      <component :is="Layout" v-if="isOnline">
-        <component :is="Component" :key="curRoute.fullPath" />
-      </component>
-      <div v-else>
-        <ServerOffline />
-      </div>
-    </router-view>
-  </div>
+  <ConfigProvider :theme="antdConfig">
+    <div class="app_content_wrapper">
+      <router-view v-if="Layout" v-slot="{ Component, route: curRoute }">
+        <component :is="Layout" v-if="isOnline">
+          <component :is="Component" :key="curRoute.fullPath" />
+        </component>
+        <div v-else>
+          <ErrorPage code="offline" />
+        </div>
+      </router-view>
+    </div>
+  </ConfigProvider>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineAsyncComponent, markRaw, ref, onMounted, watchEffect } from 'vue'
+import { computed, defineAsyncComponent, markRaw } from 'vue'
 import { useRoute } from 'vue-router'
-import ServerOffline from '@/views/ServerOffline.vue'
-const layouts = new Map()
+import { useOnline } from '@vueuse/core'
+import { ConfigProvider } from 'ant-design-vue'
+import { antdConfig } from './config'
+import { LAYOUT_TYPE } from './contants/app'
+import ErrorPage from './views/ErrorPage.vue'
+
+const isOnline = useOnline()
+
+const route = useRoute()
+const layouts = new Map<string, any>()
 
 function getLayout(name: string) {
-  if (layouts.get(name)) return layouts.get(name)
+  if (layouts.has(name)) return layouts.get(name)
   const layout = markRaw(defineAsyncComponent(() => import(`@/layouts/${name}/index.vue`)))
   layouts.set(name, layout)
   return layout
 }
 
-const route = useRoute()
-const isOnline = ref()
 const Layout = computed(() => {
-  if (!route?.matched?.length) return null
-  else {
-    return getLayout(route?.meta?.layout as string)
-  }
-})
-
-function getStatus() {
-  const stt = navigator.onLine
-  isOnline.value = stt
-}
-onMounted(() => {
-  window.addEventListener('online', () => getStatus())
-  window.addEventListener('offline', () => getStatus())
-})
-
-watchEffect(() => {
-  getStatus()
+  if (!route.matched.length) return null
+  const layoutName = route.meta?.layout as string
+  return layoutName ? getLayout(layoutName) : LAYOUT_TYPE.NO_LAYOUT
 })
 </script>

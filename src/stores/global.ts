@@ -7,15 +7,20 @@ import { defineStore } from 'pinia'
 import { DEFAULT_LANGUAGE, DEFAULT_THEME } from '@/contants/app'
 import { getLocal, setLocal } from '@/utils/utilsLocal'
 import type { AppLanguageType, AppThemeType } from '@/types/app'
+import type { Key } from 'ant-design-vue/es/_util/type'
 
 export const useGlobalStore = defineStore('global', () => {
-  const message: Ref<MessageInstance> = ref()
-  const notification: Ref<NotificationInstance> = ref()
-  const modal: Ref<Omit<ModalStaticFunctions, 'warn'>> = ref()
+  const message = ref<MessageInstance | null>(null) as Ref<MessageInstance>
+  const notification = ref<NotificationInstance | null>(null) as Ref<NotificationInstance>
+  const modal = ref<Omit<ModalStaticFunctions, 'warn'> | null>(null) as Ref<
+    Omit<ModalStaticFunctions, 'warn'>
+  >
   const lang: Ref<string> = ref(getLocal('LOCAL', 'LANGUAGE') ?? DEFAULT_LANGUAGE)
   const theme: Ref<string> = ref(getLocal('LOCAL', 'THEME') ?? DEFAULT_THEME)
 
-  const collapseMenu: Ref<boolean> = ref(getLocal('LOCAL', 'EXPAND_MENU'))
+  const collapseMenu: Ref<boolean> = ref(getLocal('LOCAL', 'EXPAND_MENU') ?? false)
+  const selectedMenu = ref(getLocal('LOCAL', 'MENU_SELECTED') || [])
+  const opensMenu = ref(getLocal('LOCAL', 'OPEN_MENU_KEYS') || [])
 
   ;(() => {
     const staticFunction = App.useApp()
@@ -39,6 +44,13 @@ export const useGlobalStore = defineStore('global', () => {
     setLocal('LOCAL', 'THEME', theme.value)
   }
 
+  const updateSelectedKey = (keys: Key[]) => {
+    setLocal('LOCAL', 'MENU_SELECTED', keys)
+  }
+  const updateOpenKeys = (keys: Key[]) => {
+    setLocal('LOCAL', 'OPEN_MENU_KEYS', keys)
+  }
+
   return {
     message,
     notification,
@@ -46,8 +58,12 @@ export const useGlobalStore = defineStore('global', () => {
     lang,
     theme,
     collapseMenu,
+    selectedMenu,
+    opensMenu,
     changeCollapse,
     changeLanguage,
     changeTheme,
+    updateSelectedKey,
+    updateOpenKeys,
   }
 })

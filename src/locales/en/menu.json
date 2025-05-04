@@ -1,4 +1,8 @@
 {
-  "menu_1": "Customers",
-  "menu_2": "Customers settings"
+  "menu_1": "Customer",
+  "menu_2": "Customer Settings",
+  "menu_3": "Pets",
+  "menu_4": "Pet Settings",
+  "menu_5": "Service List",
+  "menu_6": "Pet Types"
 }

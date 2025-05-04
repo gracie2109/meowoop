@@ -2,7 +2,7 @@
   <div>
     <Row :gutter="16" align="middle">
       <div class="wrap" v-for="i in LANGUAGES" :key="i" @click="handleClick(i)">
-        <img
+        <Image
           :src="i === APP_LANGUAGES.VI ? iconVi : iconUk"
           :alt="i"
           class="flag_img"
@@ -21,7 +21,7 @@ import iconUk from '@/assets/images/common/flag_uk.png'
 import iconVi from '@/assets/images/common/flag_vi.png'
 import { APP_LANGUAGES, LANGUAGES } from '@/contants/app'
 import { currentLocale, changeLanguage } from '@/i18n'
-
+import Image from '@/components/app/AppImage.vue'
 const handleClick = (lang: string) => {
   changeLanguage(lang)
 }
