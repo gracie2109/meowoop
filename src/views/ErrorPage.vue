@@ -9,8 +9,7 @@
 
       <template #extra>
         <p class="code" v-if="CODE">{{ CODE }}</p>
-
-        <Button type="primary">{{ $t('common.backTitle') }}</Button>
+        <Button type="primary" @click="$router.back()">{{ $t('common.backTitle') }}</Button>
         <Button @click="$router.push({ name: ROUTE_NAME.HOME })">
           {{ $t('common.backHome') }}</Button
         >
