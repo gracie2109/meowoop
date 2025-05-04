@@ -16,20 +16,12 @@
 </template>
 
 <script lang="ts" setup>
-import type { InjectedFormContext } from '@/types/lib'
+import type { AntdComponentProps, InjectedFormContext } from '@/types/lib'
 import { FormItem, Input } from 'ant-design-vue'
-import type { RuleObject } from 'ant-design-vue/es/form'
 import { computed, inject, useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-const props = defineProps<{
-  name: string
-  placeholder?: string
-  label: string
-  rules?: RuleObject | RuleObject[] | undefined
-  isRequired: boolean
-  modelValue: string | number | undefined
-}>()
+const props = defineProps<AntdComponentProps>()
 
 const attrs = useAttrs()
 defineEmits(['update:modelValue'])

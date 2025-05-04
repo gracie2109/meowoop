@@ -22,19 +22,14 @@
 <script lang="ts" setup>
 import { FormItem, Select } from 'ant-design-vue'
 import { inject, computed, useAttrs } from 'vue'
-import type { RuleObject } from 'ant-design-vue/es/form'
-import type { InjectedFormContext } from '@/types/lib'
+import type { AntdComponentProps, InjectedFormContext } from '@/types/lib'
 
-const props = defineProps<{
-  name: string
-  placeholder?: string
-  label: string
-  rules?: RuleObject | RuleObject[]
-  isRequired: boolean
-  modelValue: string | number | undefined | string[]
+type SelectProps = {
   options: { label: string; value: string | number; disabled?: boolean }[]
   disabled?: boolean
-}>()
+}
+
+const props = defineProps<AntdComponentProps & SelectProps>()
 const attrs = useAttrs()
 
 defineEmits(['update:modelValue'])

@@ -1,5 +1,5 @@
 import type { TABLE_SIZE, COLOR_TYPE, ICON_PREFIX } from '@/contants/lib'
-import type { NamePath } from 'ant-design-vue/es/form/interface'
+import type { NamePath, RuleObject } from 'ant-design-vue/es/form/interface'
 import type { ValidateErrorEntity } from 'ant-design-vue/es/form/interface'
 
 export type AntdTableSize = (typeof TABLE_SIZE)[number]
@@ -39,3 +39,12 @@ type OptionType = {
 }
 
 export type AntdOptionsType = OptionType[]
+
+export interface AntdComponentProps {
+  name: string
+  placeholder?: string
+  label: string
+  rules?: RuleObject | RuleObject[] | undefined
+  isRequired: boolean
+  modelValue: string | number | undefined | null
+}
