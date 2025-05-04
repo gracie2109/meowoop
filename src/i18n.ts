@@ -2,6 +2,7 @@ import { createI18n } from 'vue-i18n'
 import { ref } from 'vue'
 import { getLocal, setLocal } from './utils/utilsLocal'
 import { DEFAULT_LANGUAGE, LANGUAGES } from './contants/app'
+import { useLocaleEventBus } from './composables/eventBus/useLocaleEventBus'
 
 function loadLocaleMessages() {
   const locales = import.meta.glob('@/locales/**/!(index).{json,ts}', { eager: true })
@@ -44,6 +45,8 @@ export const i18n = createI18n({
 export const currentLocale = ref(i18n.global.locale.value)
 
 export async function changeLanguage(locale: string) {
+  const { emitLocaleChange } = useLocaleEventBus()
+
   if (!LANGUAGES.includes(locale)) {
     console.warn(`Locale ${locale} is not supported.`)
     return
@@ -51,6 +54,7 @@ export async function changeLanguage(locale: string) {
   i18n.global.locale.value = locale
   currentLocale.value = locale
   setLocal('LOCAL', 'LANGUAGE', locale)
+  emitLocaleChange(locale)
 }
 
 export default i18n

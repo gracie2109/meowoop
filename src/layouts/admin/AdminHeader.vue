@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import Languages from '@/components/app/Languages.vue'
+import Languages from '@/components/app/AppLanguages.vue'
 import { Flex, Layout } from 'ant-design-vue'
 const { Header } = Layout
 </script>

@@ -4,7 +4,7 @@ export const DEFAULT_THEME = 'light'
 export const LAYOUT_TYPE = {
   CLIENT: 'client',
   ADMIN: 'admin',
-  NO_LAYOUT: 'noLayout'
+  NO_LAYOUT: 'noLayout',
 }
 
 export const WINDOW_STORAGE = {
@@ -17,6 +17,8 @@ export const LOCAL_STR_PARAMS = {
   EXPAND_MENU: 'expand_menu',
   LANGUAGE: 'language',
   THEME: 'theme',
+  MENU_SELECTED: 'menu_selected',
+  OPEN_MENU_KEYS: 'keys_open',
 } as const
 
 export const APP_LANGUAGES = {

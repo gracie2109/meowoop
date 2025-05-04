@@ -1,5 +1,5 @@
 import type { LocalParamType, StorageType } from '@/types/app'
-import { WINDOW_STORAGE } from './../contants/app'
+import { WINDOW_STORAGE } from '@/contants/app'
 import { checkDataIsString } from './stringUtil'
 
 export function setLocal(storage: StorageType, key: LocalParamType, data: unknown) {
@@ -41,8 +41,10 @@ export function removeStorage(storage: StorageType, keysToKeep: LocalParamType[]
       savedItems[key] = value
     }
   })
-  window[WINDOW_STORAGE[storage]].clear()
-  Object.keys(savedItems).forEach((key: LocalParamType) => {
-    setLocal(storage, key, savedItems[key])
+
+  const store = window[WINDOW_STORAGE[storage] as 'localStorage' | 'sessionStorage'] as Storage
+  store.clear()
+  Object.keys(savedItems).forEach((key) => {
+    setLocal(storage, key as LocalParamType, savedItems[key])
   })
 }

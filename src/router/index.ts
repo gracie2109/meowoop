@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import NotFoundPage from '@/views/NotfoundPage.vue'
+import ErrorPage from '@/views/ErrorPage.vue'
 import { LAYOUT_TYPE } from '@/contants/app'
 import { ROUTE_NAME } from '@/router/route'
 import petModule from '@/router/modules/pets'
@@ -22,7 +22,8 @@ const router = createRouter({
       meta: {
         layout: LAYOUT_TYPE.NO_LAYOUT,
       },
-      component: NotFoundPage,
+      component: ErrorPage,
+      props: () => ({ code: '404' }),
     },
   ],
 })

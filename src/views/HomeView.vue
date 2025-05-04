@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { Button } from "ant-design-vue";
-import { removeStorage } from "@/utils/utilsLocal";
-const ddd = () => {
-  removeStorage("LOCAL", ['EXPAND_MENU','LANGUAGE']);
-};
+import { Button } from 'ant-design-vue'
+import { Icon } from '@iconify/vue'
 </script>
 
 <template>
   <div>
-    <Button type="primary" @click="ddd()">Remove </Button>
+    <Button type="primary">Remove </Button>
+    <div style="display: flex; gap: 20px">
+      <Icon icon="custom:home" color="blue" />
+      <Icon icon="custom:user" color="green" />
+    </div>
   </div>
 </template>

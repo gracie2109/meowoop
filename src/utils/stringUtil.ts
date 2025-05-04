@@ -4,7 +4,8 @@ export const capitalizeFirstLetter = (text: string): string => {
 
 export const capitalizeAll = (text: string): string => {
   return text
-    .replaceAll('_', ' ')
+    .split('_')
+    .join(' ')
     .split(' ')
     .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
