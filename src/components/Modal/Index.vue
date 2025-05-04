@@ -47,7 +47,7 @@ import { defineProps, useAttrs, withDefaults, type CSSProperties } from 'vue'
 import { Modal, Button } from 'ant-design-vue'
 
 defineOptions({
-    name: 'CustomModal'
+  name: 'CustomModal',
 })
 withDefaults(
   defineProps<{

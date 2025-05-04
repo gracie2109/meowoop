@@ -21,7 +21,7 @@ import { FormItem, Input } from 'ant-design-vue'
 import { computed, inject, useAttrs } from 'vue'
 
 const props = withDefaults(defineProps<AntdComponentProps>(), {
-  modelValue: ''
+  modelValue: '',
 })
 
 const attrs = useAttrs()

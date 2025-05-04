@@ -12,5 +12,8 @@
   "ic_source_2": "Thời tiết",
   "placeholderInput": "Nhập",
   "placeholderSelect": "Chọn",
-  "required": "{name} không được để trống."
+  "required": "{name} không được để trống.",
+  "clearFilter": "Xóa tất cả bộ lọc",
+  "advanceFilter": "Bộ lọc",
+  "searchDefaultTitle": "Tìm kiếm"
 }

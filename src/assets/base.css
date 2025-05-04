@@ -20,6 +20,7 @@
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
   --vt-c-primary: #e7a619;
+  --vt-c-primary-slate: #f1c25b;
 }
 
 /* semantic color variables for this project */

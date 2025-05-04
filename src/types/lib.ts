@@ -45,6 +45,6 @@ export interface AntdComponentProps {
   placeholder?: string
   label: string
   rules?: RuleObject | RuleObject[] | undefined
-  isRequired: boolean
+  isRequired?: boolean
   modelValue: string | number | undefined | null
 }
