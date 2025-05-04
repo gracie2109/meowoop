@@ -17,15 +17,26 @@
           @click="onEraser"
         />
       </Tooltip>
-      <Popover trigger="click" placement="bottom" v-if="showFilter">
+      <div id="filter_search"> </div>
+      
+      <Popover
+        trigger="click"
+        placement="bottom"
+        v-if="showFilter"
+        :get-popup-container="() => container"
+      >
         <template #content>
-          <div>
+          <div style=" width: auto; min-width: 450px">
             <slot name="filter_content" />
           </div>
         </template>
         <Tooltip :title="$t('common.advanceFilter')">
           <Badge :count="filterNumb" :overflow-count="9">
-            <Icon icon="tabler:filter" width="30px" color="var(--vt-c-primary-slate)" class="icons"
+            <Icon
+              icon="tabler:filter"
+              width="30px"
+              color="var(--vt-c-primary-slate)"
+              class="icons"
           /></Badge>
         </Tooltip>
       </Popover>
@@ -64,6 +75,8 @@ defineOptions({
   name: 'CustomSearchView',
 })
 const excludeKeys = ['search_text', 'from_time', 'to_time']
+const container =  window && window.document.getElementById('filter_search') || document.body;
+
 
 const filterNumb = computed(() => {
   if (props.dataSearch && !isString(props.dataSearch)) {

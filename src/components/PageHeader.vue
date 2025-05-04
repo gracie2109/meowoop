@@ -9,10 +9,11 @@
 <style scoped>
 .header_wrap {
   width: 100%;
-  height: 64px;
+  height: 55px;
   position: absolute;
-  top: -7rem;
+  top: -5rem;
   max-width: 80%;
+  
 }
 
 .header_content {
