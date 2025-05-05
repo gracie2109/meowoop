@@ -14,12 +14,12 @@ export const MENU_ADMIN = (t: Composer['t']): MenuItem[] => [
       {
         label: transformLabel(ROUTE_NAME.PET_SETTING_PET_TYPE, t('menu.menu_6')),
         title: t('menu.menu_6'),
-        key: '1.1',
+        key: ROUTE_NAME.PET_SETTING_PET_TYPE,
       },
       {
         label: transformLabel(ROUTE_NAME.PET_SETTING_SERVICES, t('menu.menu_5')),
         title: t('menu.menu_5'),
-        key: '1.2',
+        key: ROUTE_NAME.PET_SETTING_SERVICES,
       },
     ],
   },
