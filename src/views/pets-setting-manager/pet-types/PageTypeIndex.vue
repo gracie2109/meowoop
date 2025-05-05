@@ -11,6 +11,12 @@
       @onSearch="onSearch"
       :ignoreKeys="['hello']"
     />
+
+    <Form
+      v-if="showForm"
+
+    
+     />
   </div>
 </template>
 
@@ -20,19 +26,11 @@ import { useDynamicTitle } from '@/composables'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import Search from './Search.vue'
 import { h, markRaw, reactive, ref } from 'vue'
+import Form from './Form.vue'
 useDynamicTitle('menu.menu_6')
 
-const dataSearch = ref({
-  search_text: '12334',
-  a: '1',
-  b: undefined,
-  c: '',
-  d: null,
-  from_time: 'dadad',
-  to_time: 'a123123',
-  hello: 'nsjsjd',
-})
-
+const dataSearch = ref({})
+const showForm = ref(false)
 const onSearch = (val: unknown) => {
   console.log('val', val)
 }
@@ -46,7 +44,7 @@ const actionButton = reactive([
         color: 'var(--vt-c-primary-slate)',
         style: 'cursor: pointer',
         onClick: () => {
-          alert('click action button')
+          showForm.value = true
         },
       }),
     ),
