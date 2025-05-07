@@ -1,6 +1,6 @@
 <template>
   <Form :model="formRef" @finish="handleOk">
-    <Row :gutter="16">
+    <Row :gutter="[20, 12]">
       <Col span="12">
         <FormItemInput
           v-model:model-value="formRef.name"
@@ -15,7 +15,6 @@
           v-model:model-value="formRef.description"
           :name="PetTypeParams.desc"
           :label="$t('common.description')"
-          is-required
         />
       </Col>
       <Col span="12">
@@ -35,7 +34,13 @@
       </Col>
     </Row>
 
-    <Button html-type="submit" size="large" type="primary" :loading="false">
+    <Button
+      html-type="submit"
+      size="large"
+      type="primary"
+      :loading="false"
+      style="margin-top: 1rem"
+    >
       {{ $t('common.saveTitle') }}
     </Button>
   </Form>
@@ -49,7 +54,7 @@ import { reactive, ref } from 'vue'
 import IconPicker from '@/components/Icons/IconPicker.vue'
 import { DEFAULT_COLOR, DEFAULT_ICON } from '@/contants/lib'
 import FormSwitch from '@/components/FormItem/FormSwitch.vue'
-import { useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const useForm = Form.useForm
