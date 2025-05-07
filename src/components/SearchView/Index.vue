@@ -1,7 +1,7 @@
 <template>
   <Flex class="search_view_wrapper" gap="16">
-    <div class="search_input">
-      <Input style="height: 100%" :placeholder="placeholder ?? $t('common.searchDefaultTitle')">
+    <div class="search_input" style="height: 100%">
+      <Input size="large" :placeholder="placeholder ?? $t('common.searchDefaultTitle')">
         <template #suffix>
           <Icon icon="ic:baseline-search" height="20px" />
         </template>
@@ -17,8 +17,8 @@
           @click="onEraser"
         />
       </Tooltip>
-      <div id="filter_search"> </div>
-      
+      <div id="filter_search"></div>
+
       <Popover
         trigger="click"
         placement="bottom"
@@ -26,17 +26,13 @@
         :get-popup-container="() => container"
       >
         <template #content>
-          <div style=" width: auto; min-width: 450px">
+          <div style="width: auto; min-width: 450px">
             <slot name="filter_content" />
           </div>
         </template>
         <Tooltip :title="$t('common.advanceFilter')">
           <Badge :count="filterNumb" :overflow-count="9">
-            <Icon
-              icon="tabler:filter"
-              width="30px"
-              color="var(--vt-c-primary-slate)"
-              class="icons"
+            <Icon icon="tabler:filter" width="30px" color="var(--vt-c-primary-slate)" class="icons"
           /></Badge>
         </Tooltip>
       </Popover>
@@ -54,8 +50,7 @@
 import { isString } from '@/utils/stringUtil'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import { Input, Flex, Tooltip, Popover, Badge } from 'ant-design-vue'
-import { computed, ref, type VNode } from 'vue'
-
+import { computed, type VNode } from 'vue'
 const props = withDefaults(
   defineProps<{
     showFilter?: boolean
@@ -75,8 +70,7 @@ defineOptions({
   name: 'CustomSearchView',
 })
 const excludeKeys = ['search_text', 'from_time', 'to_time']
-const container =  window && window.document.getElementById('filter_search') || document.body;
-
+const container = (window && window.document.getElementById('filter_search')) || document.body
 
 const filterNumb = computed(() => {
   if (props.dataSearch && !isString(props.dataSearch)) {

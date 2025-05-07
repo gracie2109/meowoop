@@ -5,14 +5,13 @@
     destroyOnClose
     :width="width ?? '550px'"
     :closable="closable"
-    @ok="$emit('handleOk')"
     @cancel="$emit('handleCancel')"
     :bodyStyle="bodyStyle"
     :mask="showMask"
     v-bind="attrs"
   >
     <div class="modal_content">
-      {{ content }}
+      <slot name="content" />
     </div>
     <template #title>
       <div ref="modalTitleRef" class="modal_title">
@@ -20,12 +19,17 @@
       </div>
     </template>
 
-    <template #footer v-if="!hideFooter">
-      <slot name="footer">
-        <Button size="large" @click="$emit('handle1stBtn')">
+    <template #footer>
+      <div v-if="!hideFooter">
+        <Button size="large" @click="syncBtn ? $emit('handleCancel') : $emit('handle1stBtn')">
           {{ name1stBtn ?? $t('common.cancelTitle') }}
         </Button>
-        <Button size="large" type="primary" :loading="loading" @click="$emit('handle2ndBtn')">
+        <Button
+          size="large"
+          type="primary"
+          :loading="loading"
+          @click="syncBtn ? $emit('handleOk') : $emit('handleCancel')"
+        >
           {{ name2ndtBtn ?? $t('common.saveTitle') }}
         </Button>
         <Button
@@ -37,13 +41,13 @@
         >
           {{ name3ndtBtn ?? '3nd button' }}
         </Button>
-      </slot>
+      </div>
     </template>
   </Modal>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, useAttrs, withDefaults, type CSSProperties } from 'vue'
+import { computed, defineProps, useAttrs, withDefaults, type CSSProperties } from 'vue'
 import { Modal, Button } from 'ant-design-vue'
 
 defineOptions({
@@ -64,12 +68,15 @@ withDefaults(
     loading?: boolean
     hide3ndBtn?: boolean
     bodyStyle?: CSSProperties
+    syncBtn?: boolean // emit handleOk= handle1stBtn; handleCancel = handle2ndBtn
   }>(),
   {
     showMask: true,
     closable: true,
     hideFooter: false,
     loading: false,
+    hide3ndBtn: true,
+    syncBtn: true,
   },
 )
 const attrs = useAttrs()

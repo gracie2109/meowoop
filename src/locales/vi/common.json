@@ -15,5 +15,10 @@
   "required": "{name} không được để trống.",
   "clearFilter": "Xóa tất cả bộ lọc",
   "advanceFilter": "Bộ lọc",
-  "searchDefaultTitle": "Tìm kiếm"
+  "searchDefaultTitle": "Tìm kiếm",
+  "create": "Thêm mới",
+  "edit": "Chỉnh sửa",
+  "name": "Tên",
+  "description": "Mô tả",
+  "display": "Hiển thị"
 }

@@ -36,6 +36,7 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+  --input-height: 40px
 }
 
 @media (prefers-color-scheme: dark) {

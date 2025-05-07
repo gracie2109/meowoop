@@ -9,14 +9,19 @@
       :dataSearch="dataSearch"
       :actionButton="actionButton"
       @onSearch="onSearch"
-      :ignoreKeys="['hello']"
     />
 
-    <Form
-      v-if="showForm"
-
-    
-     />
+    <ModalCs
+      :open="showForm"
+      :title="dataItem ? $t('pType.T-02') : $t('pType.T-01')"
+      @handleCancel="showForm = false"
+      :width="'900px'"
+      :hide-footer="true"
+    >
+      <template #content>
+        <FormCs />
+      </template>
+    </ModalCs>
   </div>
 </template>
 
@@ -26,11 +31,13 @@ import { useDynamicTitle } from '@/composables'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import Search from './Search.vue'
 import { h, markRaw, reactive, ref } from 'vue'
-import Form from './Form.vue'
+import FormCs from './Form.vue'
+import ModalCs from '@/components/Modal/Index.vue'
 useDynamicTitle('menu.menu_6')
 
 const dataSearch = ref({})
 const showForm = ref(false)
+const dataItem = ref(null)
 const onSearch = (val: unknown) => {
   console.log('val', val)
 }

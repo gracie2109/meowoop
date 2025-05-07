@@ -2,6 +2,7 @@
   <div class="form_wrap_content" style="position: relative; width: 100%">
     <FormItem :name="name" :rules="rules" v-bind="validateBinding">
       <Input
+        size="large" 
         v-bind="attrs"
         :placeholder="placeholder ?? $t('common.placeholderInput')"
         :value="modelValue ?? ''"
@@ -75,7 +76,7 @@ const triggerValidate = () => {
   color: red;
   margin-left: 4px;
 }
-.ant-input {
+/* .ant-input {
   height: 40px;
-}
+} */
 </style>

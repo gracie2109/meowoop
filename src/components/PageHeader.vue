@@ -13,7 +13,6 @@
   position: absolute;
   top: -5rem;
   max-width: 80%;
-  
 }
 
 .header_content {

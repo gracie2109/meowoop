@@ -5,6 +5,7 @@
     trigger="click"
     overlayClassName="icon-picker-popover"
     :get-popup-container="getPopupContainer"
+    style="position: relative"
   >
     <template #content>
       <div class="icon-picker-container">
