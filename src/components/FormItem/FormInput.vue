@@ -2,7 +2,7 @@
   <div class="form_wrap_content" style="position: relative; width: 100%">
     <FormItem :name="name" :rules="rules" v-bind="validateBinding">
       <Input
-        size="large" 
+        size="large"
         v-bind="attrs"
         :placeholder="placeholder ?? $t('common.placeholderInput')"
         :value="modelValue ?? ''"

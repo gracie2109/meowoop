@@ -23,5 +23,4 @@ const props = defineProps<{
 defineEmits(['onSearch'])
 
 const form = Form.useForm
-
 </script>

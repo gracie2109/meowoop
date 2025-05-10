@@ -1,25 +1,34 @@
 import type { LocalParamType, StorageType } from '@/types/app'
 import { WINDOW_STORAGE } from '@/contants/app'
 import { checkDataIsString } from './stringUtil'
-
 export function setLocal(
   storage: StorageType,
   key: LocalParamType,
   data: unknown,
-  endCode?: boolean,
+  encode?: boolean,
 ) {
   if (!key || !storage) return
-  const value = (checkDataIsString(data) ? data : JSON.stringify(data)) as string
+
+  let value: string
+
+  try {
+    const raw = checkDataIsString(data) ? data : JSON.stringify(data)
+    value = encode ? btoa(unescape(encodeURIComponent(raw))) : raw
+  } catch {
+    console.error('Error encoding value for storage')
+    return
+  }
 
   if (storage === 'COOKIE') {
     document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(value)}; path=/;`
   } else {
-    window[WINDOW_STORAGE[storage]].setItem(key, endCode ? btoa(value) : value)
+    window[WINDOW_STORAGE[storage]].setItem(key, value)
   }
 }
 
 export function getLocal(storage: StorageType, key: LocalParamType, decode?: boolean) {
-  if (!key) return null
+  if (!key || !storage) return null
+
   if (storage === 'COOKIE') {
     const match = document.cookie.match(new RegExp(`(?:^|; )${encodeURIComponent(key)}=([^;]*)`))
     const value = match ? decodeURIComponent(match[1]) : null
@@ -29,11 +38,17 @@ export function getLocal(storage: StorageType, key: LocalParamType, decode?: boo
       return value
     }
   }
-  const value = window[WINDOW_STORAGE[storage]].getItem(key)
+
+  let value = window[WINDOW_STORAGE[storage]].getItem(key)
+  if (!value) return null
+
   try {
-    return value ? (decode ? atob(JSON.parse(value)) : JSON.parse(value)) : null
+    if (decode) {
+      value = decodeURIComponent(escape(atob(value)))
+    }
+    return JSON.parse(value)
   } catch {
-    return value
+    return null
   }
 }
 

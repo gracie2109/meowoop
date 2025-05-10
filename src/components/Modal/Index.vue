@@ -6,9 +6,10 @@
     :width="width ?? '550px'"
     :closable="closable"
     @cancel="$emit('handleCancel')"
-    :bodyStyle="bodyStyle"
     :mask="showMask"
     v-bind="attrs"
+    class="modalCs"
+    :bodyStyle="bodyStyle"
   >
     <div class="modal_content">
       <slot name="content" />
@@ -47,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, useAttrs, withDefaults, type CSSProperties } from 'vue'
+import { defineProps, useAttrs, withDefaults, type CSSProperties } from 'vue'
 import { Modal, Button } from 'ant-design-vue'
 
 defineOptions({
