@@ -54,8 +54,7 @@ function getIconStyle(action: RowAction) {
     fontSize: action.size,
     cursor: action.disabled ? 'not-allowed' : 'pointer',
     color: action.color,
-    transition: 'all 0.2s',
-    height: '40px',
+    transition: 'all 0.2s'
   }
 }
 </script>

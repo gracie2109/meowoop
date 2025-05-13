@@ -49,7 +49,7 @@
 import { Row, Col, Form } from 'ant-design-vue'
 import FormItemInput from '@/components/FormItem/FormInput.vue'
 import { type TPetTypeForm, PetTypeParams } from '@/types/pet-type'
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import IconPicker from '@/components/Icons/IconPicker.vue'
 import { DEFAULT_COLOR, DEFAULT_ICON } from '@/contants/lib'
 import FormSwitch from '@/components/FormItem/FormSwitch.vue'
@@ -58,8 +58,7 @@ import ModalCs from '@/components/Modal/Index.vue'
 
 const { t } = useI18n()
 const useForm = Form.useForm
-
-const formRef = ref<TPetTypeForm>({
+const DEFAULT_FORM: TPetTypeForm = {
   name: '',
   description: '',
   icon: {
@@ -67,7 +66,9 @@ const formRef = ref<TPetTypeForm>({
     icon: DEFAULT_ICON,
   },
   status: false,
-})
+}
+
+const formRef = ref<TPetTypeForm>({ ...DEFAULT_FORM })
 
 const rulesRef = reactive({
   [PetTypeParams.name]: [
@@ -89,12 +90,19 @@ const handleOk = () => {
       console.log('eeee', e)
     })
 }
-defineProps<{
+const props = defineProps<{
   showForm: boolean
   dataItem?: object | null
 }>()
 defineEmits(['onCancel'])
 defineOptions({ name: 'addAndEditPetType' })
+watch(
+  () => props.dataItem,
+  (newVal) => {
+    formRef.value = Object.assign({}, DEFAULT_FORM, newVal || {})
+  },
+  { immediate: true },
+)
 </script>
 
 <style>

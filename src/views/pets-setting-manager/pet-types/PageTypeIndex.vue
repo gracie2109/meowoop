@@ -11,19 +11,8 @@
       @onSearch="onSearch"
     />
 
-    <ModalCs
-      :open="showForm"
-      :title="dataItem ? $t('pType.T-02') : $t('pType.T-01')"
-      @handleCancel="showForm = false"
-      :width="'900px'"
-      :hide-footer="true"
-    >
-      <template #content>
-        <FormCs />
-      </template>
-    </ModalCs>
+    <FormCs :data-item="dataItem" :showForm="showForm" @onCancel="() => (showForm = false)" />
     <Table :columns="columns" :data="data" min-height="75.6vh" style="margin-top: 0.5rem" />
-    <FormCs :show-form="showForm" :data-item="dataItem" @on-cancel="showForm = false" />
   </div>
 </template>
 
@@ -34,7 +23,6 @@ import { Icon } from '@iconify/vue/dist/iconify.js'
 import Search from './Search.vue'
 import { h, markRaw, reactive, ref, toRaw } from 'vue'
 import FormCs from './Form.vue'
-import ModalCs from '@/components/Modal/Index.vue'
 import type { TPetType } from '@/types/pet-type'
 import { DEFAULT_COLOR, DEFAULT_ICON } from '@/contants/lib'
 import Table from '@/components/Table/Index.vue'
@@ -80,7 +68,10 @@ const columns = reactive<TableColumnsType>([
             disabled: !record.deletable,
           },
         ],
-        onEdit: (data) => console.log('Edit:', data),
+        onEdit: (data) => {
+          showForm.value = true
+          dataItem.value = data
+        },
         onView: (data) => console.log('View:', data),
         onDelete: (data) => console.log('Delete:', data),
       }),
