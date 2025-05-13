@@ -41,7 +41,7 @@
               v-model:checked="formRef.status"
             />
           </Col>
-          <Flex gap="20" align="center" justify="flex-end">
+          <Flex gap="20" align="center" justify="end">
             <Button size="large">
               {{ $t('common.cancelTitle') }}
             </Button>
@@ -65,9 +65,17 @@ import { DEFAULT_COLOR, DEFAULT_ICON } from '@/contants/lib'
 import FormSwitch from '@/components/FormItem/FormSwitch.vue'
 import { useI18n } from 'vue-i18n'
 import ModalCs from '@/components/Modal/Index.vue'
+import { usePetTypesStore } from '@/stores'
 
 const { t } = useI18n()
 const useForm = Form.useForm
+const props = defineProps<{
+  showForm: boolean
+  dataItem?: object | null
+}>()
+const emit = defineEmits(['onCancel'])
+defineOptions({ name: 'addAndEditPetType' })
+
 const DEFAULT_FORM: TPetTypeForm = {
   name: '',
   description: '',
@@ -89,23 +97,19 @@ const rulesRef = reactive({
   ],
 })
 const form = useForm(formRef, rulesRef)
-
+const $store = usePetTypesStore()
 const handleOk = () => {
   form
     .validate()
     .then(() => {
-      console.log('formState', formRef.value)
+      $store.createPetType(formRef.value)
+      emit('onCancel')
     })
     .catch((e) => {
       console.log('eeee', e)
     })
 }
-const props = defineProps<{
-  showForm: boolean
-  dataItem?: object | null
-}>()
-defineEmits(['onCancel'])
-defineOptions({ name: 'addAndEditPetType' })
+
 watch(
   () => props.dataItem,
   (newVal) => {

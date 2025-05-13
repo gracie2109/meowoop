@@ -53,7 +53,7 @@
         <Flex class="preview_icon_color" align="center" gap="16">
           <div style="height: 100%">
             <IconPreview
-              :svgId="`#${dataSelected.icon.replace('/', '-')}`"
+              :svgId="`#${dataSelected.icon?.replace('/', '-')}`"
               :color="dataSelected.color"
             />
           </div>

@@ -21,7 +21,7 @@
         }
       "
     />
-    <Table :columns="columns" :data="data" min-height="75.6vh" style="margin-top: 0.5rem" />
+    <Table :columns="columns" :data="dataList" min-height="75.6vh" style="margin-top: 0.5rem" />
   </div>
 </template>
 
@@ -39,10 +39,13 @@ import type { TableColumnsType } from 'ant-design-vue'
 import type { IPfIcon } from '@/types/common'
 import PreviewIcon from '@/components/Icons/PreviewIcon.vue'
 import RowActions from '@/components/Table/FunctionTable.vue'
-import { useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n'
 import type { TSearch } from '@/types/lib'
-useDynamicTitle('menu.menu_6')
+import { usePetTypesStore } from '@/stores'
+import { storeToRefs } from 'pinia'
 
+const $store = usePetTypesStore()
+const { dataList } = storeToRefs($store)
 const dataSearch = ref<TSearch>({
   search_text: '',
 })
@@ -78,7 +81,10 @@ const columns = computed<TableColumnsType>(() => [
     key: 'function',
     customRender: ({ record }) =>
       h(RowActions, {
-        actions: [{ type: 'edit', payload: record }],
+        actions: [
+          { type: 'edit', payload: record },
+          { type: 'delete', payload: record },
+        ],
         onEdit: (data) => {
           showForm.value = true
           dataItem.value = data
@@ -90,26 +96,7 @@ const columns = computed<TableColumnsType>(() => [
     fixed: 'right',
   },
 ])
-const data = reactive<TPetType[]>([
-  {
-    _id: '1',
-    id: '1',
-    name: 'PET 1',
-    description: 'fsdfsdfdsf',
-    icon: { color: DEFAULT_COLOR, icon: DEFAULT_ICON },
-    created_at: new Date(),
-    updated_at: new Date(),
-  },
-  {
-    _id: '2',
-    id: '12',
-    name: 'PET 2',
-    description: '',
-    icon: { color: DEFAULT_COLOR, icon: DEFAULT_ICON },
-    created_at: new Date(),
-    updated_at: new Date(),
-  },
-])
+
 const showForm = ref(false)
 const dataItem = ref(null)
 
@@ -146,4 +133,5 @@ const actionButton = reactive([
     ),
   },
 ])
+useDynamicTitle('menu.menu_6')
 </script>

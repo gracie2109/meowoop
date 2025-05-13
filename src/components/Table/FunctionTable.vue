@@ -3,29 +3,13 @@
     <template v-for="(action, index) in computedActions" :key="index">
       <component v-if="action.customRender" :is="action.customRender" />
       <Tooltip v-else :title="action.tooltip">
-        <span>
-          <Popconfirm
-            v-if="action.confirm"
-            :title="action.confirmMessage || 'Bạn có chắc?'"
-            ok-text="Đồng ý"
-            cancel-text="Huỷ"
-            @confirm="() => handleClick(action)"
-          >
-            <Icon
-              :icon="action.icon ?? 'lucide:dot'"
-              :style="getIconStyle(action)"
-              :class="{ 'opacity-50 pointer-events-none': action.disabled }"
-            />
-          </Popconfirm>
-          <Icon
-            v-else
-            :icon="action.icon ?? 'lucide:dot'"
-            height="22"
-            :style="getIconStyle(action)"
-            :class="{ 'opacity-50 pointer-events-none': action.disabled }"
-            @click="() => !action.disabled && handleClick(action)"
-          />
-        </span>
+        <Icon
+          :icon="action.icon ?? 'lucide:dot'"
+          height="22"
+          :style="getIconStyle(action)"
+          :class="{ 'opacity-50 pointer-events-none': action.disabled }"
+          @click="() => !action.disabled && handleClick(action)"
+        />
       </Tooltip>
     </template>
   </Flex>
@@ -33,7 +17,7 @@
 
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
-import { Tooltip, Popconfirm, Flex } from 'ant-design-vue'
+import { Tooltip, Flex } from 'ant-design-vue'
 import { ACTION_PRESETS, type RowAction } from './useRowActions'
 import { computed } from 'vue'
 

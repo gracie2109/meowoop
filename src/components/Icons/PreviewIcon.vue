@@ -24,7 +24,7 @@ const iconColor = computed(() => props.color || 'currentColor')
     :height="iconSize"
     :style="{ color: iconColor, height: '100%' }"
   >
-    <use :xlink:href="svgId?.includes('#') ? svgId : `#${svgId}`" />
+    <use :xlink:href="svgId?.includes('#') ? svgId?.replace('/', '-') : `#${svgId?.replace('/', '-')}`" />
   </svg>
 </template>
 
