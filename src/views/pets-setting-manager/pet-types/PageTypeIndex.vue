@@ -30,7 +30,7 @@ import PageHeader from '@/components/PageHeader.vue'
 import { useDynamicTitle } from '@/composables'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import Search from './Search.vue'
-import { h, markRaw, reactive, ref, toRaw } from 'vue'
+import { computed, h, markRaw, reactive, ref, toRaw } from 'vue'
 import FormCs from './Form.vue'
 import type { TPetType } from '@/types/pet-type'
 import { DEFAULT_COLOR, DEFAULT_ICON } from '@/contants/lib'
@@ -38,15 +38,23 @@ import Table from '@/components/Table/Index.vue'
 import type { TableColumnsType } from 'ant-design-vue'
 import type { IPfIcon } from '@/types/common'
 import PreviewIcon from '@/components/Icons/PreviewIcon.vue'
-import { renderTableField } from '@/utils/helpers'
 import RowActions from '@/components/Table/FunctionTable.vue'
+import { useI18n } from 'vue-i18n'
 useDynamicTitle('menu.menu_6')
 
 const dataSearch = ref({})
-const columns = reactive<TableColumnsType>([
-  renderTableField('Name', 'name'),
-  renderTableField('desc', 'description'),
-
+const { t } = useI18n()
+const columns = computed<TableColumnsType>(() => [
+  {
+    title: t('pType.param1'),
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: t('common.description'),
+    dataIndex: 'description',
+    key: 'description',
+  },
   {
     title: 'Icon',
     dataIndex: 'icon',
@@ -66,10 +74,7 @@ const columns = reactive<TableColumnsType>([
     key: 'function',
     customRender: ({ record }) =>
       h(RowActions, {
-        actions: [
-          { type: 'edit', payload: record },
-      
-        ],
+        actions: [{ type: 'edit', payload: record }],
         onEdit: (data) => {
           showForm.value = true
           dataItem.value = data
@@ -77,6 +82,8 @@ const columns = reactive<TableColumnsType>([
         onView: (data) => console.log('View:', data),
         onDelete: (data) => console.log('Delete:', data),
       }),
+    width: 100,
+    fixed: 'right',
   },
 ])
 const data = reactive<TPetType[]>([

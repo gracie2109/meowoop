@@ -21,7 +21,7 @@
     </template>
 
     <template #footer>
-      <div v-if="!hideFooter">
+      <div v-if="!hideFooter" style=" padding: 0 20px 20px 0">
         <Button size="large" @click="syncBtn ? $emit('handleCancel') : $emit('handle1stBtn')">
           {{ name1stBtn ?? $t('common.cancelTitle') }}
         </Button>
@@ -29,7 +29,7 @@
           size="large"
           type="primary"
           :loading="loading"
-          @click="syncBtn ? $emit('handleOk') : $emit('handleCancel')"
+          @click="syncBtn ? $emit('handleOk') : $emit('handle2ndBtn')"
         >
           {{ name2ndtBtn ?? $t('common.saveTitle') }}
         </Button>
@@ -69,7 +69,8 @@ withDefaults(
     loading?: boolean
     hide3ndBtn?: boolean
     bodyStyle?: CSSProperties
-    syncBtn?: boolean // emit handleOk= handle1stBtn; handleCancel = handle2ndBtn
+    syncBtn?: boolean
+    isSecondSubmit?: boolean
   }>(),
   {
     showMask: true,
@@ -78,6 +79,7 @@ withDefaults(
     loading: false,
     hide3ndBtn: true,
     syncBtn: true,
+    isSecondSubmit: true,
   },
 )
 const attrs = useAttrs()

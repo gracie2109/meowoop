@@ -56,8 +56,8 @@ const computedActions = computed(() =>
     })
 )
 function handleClick(action: RowAction) {
-  if (action.event) {
-    emit(action.event!, action.payload)
+  if (action.event && (action.event === 'edit' || action.event === 'view' || action.event === 'delete')) {
+    emit(action.event, action.payload)
   }
 }
 

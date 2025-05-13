@@ -4,6 +4,8 @@
     :title="dataItem ? $t('pType.T-02') : $t('pType.T-01')"
     @handleCancel="$emit('onCancel')"
     :width="'900px'"
+    @handle-ok="handleOk"
+    hide-footer
   >
     <template #content>
       <Form :model="formRef" @finish="handleOk">
@@ -39,6 +41,14 @@
               v-model:checked="formRef.status"
             />
           </Col>
+         <Flex gap="20" align="center" justify="flex-end">
+           <Button size="large">
+            {{ $t('common.cancelTitle') }}
+          </Button>
+          <Button size="large" type="primary" htmlType="submit">
+            {{ $t('common.saveTitle') }}
+          </Button>
+         </Flex>
         </Row>
       </Form>
     </template>
@@ -46,7 +56,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Row, Col, Form } from 'ant-design-vue'
+import { Row, Col, Form, Button, Flex } from 'ant-design-vue'
 import FormItemInput from '@/components/FormItem/FormInput.vue'
 import { type TPetTypeForm, PetTypeParams } from '@/types/pet-type'
 import { reactive, ref, watch } from 'vue'
@@ -71,7 +81,7 @@ const DEFAULT_FORM: TPetTypeForm = {
 const formRef = ref<TPetTypeForm>({ ...DEFAULT_FORM })
 
 const rulesRef = reactive({
-  [PetTypeParams.name]: [
+  name: [
     {
       required: true,
       message: t('common.required', { name: t('common.name') }),

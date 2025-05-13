@@ -6,7 +6,7 @@
         ...(props.style ?? {}),
       }"
       class="table_cs"
-      :columns="column"
+      :columns="props.columns"
       :data-source="props.data"
       :scroll="scrollComputed"
       :loading="props.loading"
@@ -38,9 +38,9 @@
       <template v-if="$slots.summary" #summary>
         <slot name="summary" />
       </template>
-      <template v-if="$slots.content">
+      <!-- <template v-if="$slots.content">
         <slot name="content" />
-      </template>
+      </template> -->
     </Table>
   </div>
 </template>
@@ -105,44 +105,7 @@ const locale = computed(() => ({
     h('p', { style: { marginTop: '12px' } }, t('common.noData')),
   ]),
 }))
-const column = computed(() => {
-  const columns = props.columns.map((col, idx, arr) => {
-    if (!col.title) return col
 
-    const titleText = typeof col.title === 'string' ? col.title : ''
-
-    const titleNode =
-      titleText.length > 10
-        ? h(
-            Tooltip,
-            { title: titleText },
-            { default: () => h('div', { style: titleStyle(col) }, titleText) },
-          )
-        : h('div', { style: titleStyle(col) }, titleText)
-
-    return {
-      ...col,
-      title: () => titleNode,
-      fixed:
-        arr.length >= 10
-          ? idx === 0
-            ? 'left'
-            : idx === arr.length - 1
-              ? 'right'
-              : col.fixed
-          : col.fixed,
-    }
-  })
-
-  return columns
-})
-
-const titleStyle = (col: TableColumnType) => ({
-  width: col?.width ? `${col.width}px` : 'auto',
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis',
-})
 </script>
 
 <style scoped>
