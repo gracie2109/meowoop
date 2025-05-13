@@ -3,7 +3,7 @@
     <FormItem :name="name">
       <Flex gap="8" align="end">
         <p v-if="content" class="content">{{ content }}</p>
-        <Switch v-bind="attrs" style="margin: .7rem 0 0 5px" />
+        <Switch v-bind="attrs" style="margin: 0.7rem 0 0 5px" />
       </Flex>
       <label class="form_label">
         {{ label }}

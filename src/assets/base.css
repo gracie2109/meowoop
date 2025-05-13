@@ -36,7 +36,7 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
-  --input-height: 45px
+  --input-height: 45px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -72,4 +72,25 @@ body,
   color: white;
   background-color: var(--vt-c-primary);
   height: 10px;
+}
+.modalCs .ant-modal-header {
+  background: var(--vt-c-primary);
+}
+
+.modalCs .modal_title {
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+}
+
+.modalCs .ant-modal-content {
+  padding: 0;
+}
+
+.modalCs .ant-modal-body {
+  padding: 20px;
+}
+
+.modalCs .ant-modal-footer {
+  padding: 0 20px 20px 0;
 }

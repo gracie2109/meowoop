@@ -39,6 +39,8 @@ const items = computed<ItemType[]>(() => {
   const rawItems = MENU_ADMIN(t) as MenuItem[]
   return transformMenu(rawItems)
 })
+
+console.log('daasd', items.value)
 </script>
 
 <style scoped>

@@ -23,6 +23,7 @@
       </template>
     </ModalCs>
     <Table :columns="columns" :data="data" min-height="75.6vh" style="margin-top: 0.5rem" />
+    <FormCs :show-form="showForm" :data-item="dataItem" @on-cancel="showForm = false" />
   </div>
 </template>
 

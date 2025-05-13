@@ -244,7 +244,7 @@ watch(
   cursor: pointer;
   width: 30px;
   height: 30px;
-  margin-top: .25rem;
+  margin-top: 0.25rem;
 }
 
 .picker_controls {
