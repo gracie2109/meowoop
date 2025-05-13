@@ -41,14 +41,14 @@
               v-model:checked="formRef.status"
             />
           </Col>
-         <Flex gap="20" align="center" justify="flex-end">
-           <Button size="large">
-            {{ $t('common.cancelTitle') }}
-          </Button>
-          <Button size="large" type="primary" htmlType="submit">
-            {{ $t('common.saveTitle') }}
-          </Button>
-         </Flex>
+          <Flex gap="20" align="center" justify="flex-end">
+            <Button size="large">
+              {{ $t('common.cancelTitle') }}
+            </Button>
+            <Button size="large" type="primary" htmlType="submit">
+              {{ $t('common.saveTitle') }}
+            </Button>
+          </Flex>
         </Row>
       </Form>
     </template>

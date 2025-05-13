@@ -1,15 +1,12 @@
 <template>
   <Flex gap="8" align="center">
     <template v-for="(action, index) in computedActions" :key="index">
-      <component
-        v-if="action.customRender"
-        :is="action.customRender"
-      />
+      <component v-if="action.customRender" :is="action.customRender" />
       <Tooltip v-else :title="action.tooltip">
         <span>
           <Popconfirm
             v-if="action.confirm"
-            :title="action.confirmMessage || 'Bạn có chắc?'" 
+            :title="action.confirmMessage || 'Bạn có chắc?'"
             ok-text="Đồng ý"
             cancel-text="Huỷ"
             @confirm="() => handleClick(action)"
@@ -31,7 +28,7 @@
         </span>
       </Tooltip>
     </template>
-  </FLex>
+  </Flex>
 </template>
 
 <script setup lang="ts">
@@ -45,18 +42,20 @@ const emit = defineEmits(['edit', 'view', 'delete'])
 
 const computedActions = computed(() =>
   props.actions
-    .filter(action => action.show !== false)
-    .map(action => {
+    .filter((action) => action.show !== false)
+    .map((action) => {
       const preset = ACTION_PRESETS[action.type] || {}
       return {
         ...preset,
         ...action,
-
       }
-    })
+    }),
 )
 function handleClick(action: RowAction) {
-  if (action.event && (action.event === 'edit' || action.event === 'view' || action.event === 'delete')) {
+  if (
+    action.event &&
+    (action.event === 'edit' || action.event === 'view' || action.event === 'delete')
+  ) {
     emit(action.event, action.payload)
   }
 }
@@ -66,7 +65,7 @@ function getIconStyle(action: RowAction) {
     fontSize: action.size,
     cursor: action.disabled ? 'not-allowed' : 'pointer',
     color: action.color,
-    transition: 'all 0.2s'
+    transition: 'all 0.2s',
   }
 }
 </script>

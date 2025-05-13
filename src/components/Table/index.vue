@@ -79,7 +79,7 @@ const props = defineProps<{
   }
   headerTitle?: string
   size?: AntdTableSize
-  style?: object,
+  style?: object
   minHeight?: string
 }>()
 
@@ -105,7 +105,6 @@ const locale = computed(() => ({
     h('p', { style: { marginTop: '12px' } }, t('common.noData')),
   ]),
 }))
-
 </script>
 
 <style scoped>

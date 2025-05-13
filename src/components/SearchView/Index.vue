@@ -1,13 +1,17 @@
 <template>
   <Flex class="search_view_wrapper" gap="16">
     <div class="search_input" style="height: 100%">
-      <Input size="large" :placeholder="placeholder ?? $t('common.searchDefaultTitle')">
+      <Input
+        size="large"
+        :placeholder="placeholder ?? $t('common.searchDefaultTitle')"
+        v-model:value="model.search_text"
+      >
         <template #suffix>
           <Icon icon="ic:baseline-search" height="20px" />
         </template>
       </Input>
     </div>
-    <Flex :gap="16" class="buttons_">
+    <Flex :gap="8" class="buttons_">
       <Tooltip :title="$t('common.clearFilter')">
         <Icon
           icon="lucide:eraser"
@@ -37,7 +41,7 @@
         </Tooltip>
       </Popover>
 
-      <Flex class="action-buttons" :gap="16">
+      <Flex class="action-buttons" :gap="8">
         <div v-for="(btn, index) in actionButton" :key="index" class="action-button">
           <component :is="btn.component" v-if="btn.isShow" />
         </div>
@@ -47,6 +51,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { TSearch } from '@/types/lib';
 import { isString } from '@/utils/stringUtil'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import { Input, Flex, Tooltip, Popover, Badge } from 'ant-design-vue'
@@ -72,6 +77,7 @@ defineOptions({
 const excludeKeys = ['search_text', 'from_time', 'to_time']
 const container = (window && window.document.getElementById('filter_search')) || document.body
 
+const model = defineModel<TSearch>({ default: { search_text: '' } })
 const filterNumb = computed(() => {
   if (props.dataSearch && !isString(props.dataSearch)) {
     const keys = [...excludeKeys, ...(props.ignoreKeys || [])]

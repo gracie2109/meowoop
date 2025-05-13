@@ -6,8 +6,8 @@
     </PageHeader>
     <Search
       placeholder="Search data pet types"
-      :dataSearch="dataSearch"
       :actionButton="actionButton"
+      v-model="dataSearch"
       @onSearch="onSearch"
     />
 
@@ -29,7 +29,7 @@
 import PageHeader from '@/components/PageHeader.vue'
 import { useDynamicTitle } from '@/composables'
 import { Icon } from '@iconify/vue/dist/iconify.js'
-import Search from './Search.vue'
+import Search from '@/views/pets-setting-manager/pet-types/Search.vue'
 import { computed, h, markRaw, reactive, ref, toRaw } from 'vue'
 import FormCs from './Form.vue'
 import type { TPetType } from '@/types/pet-type'
@@ -39,10 +39,14 @@ import type { TableColumnsType } from 'ant-design-vue'
 import type { IPfIcon } from '@/types/common'
 import PreviewIcon from '@/components/Icons/PreviewIcon.vue'
 import RowActions from '@/components/Table/FunctionTable.vue'
-import { useI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n';
+import type { TSearch } from '@/types/lib'
 useDynamicTitle('menu.menu_6')
 
-const dataSearch = ref({})
+const dataSearch = ref<TSearch>({
+  search_text: '',
+})
+
 const { t } = useI18n()
 const columns = computed<TableColumnsType>(() => [
   {

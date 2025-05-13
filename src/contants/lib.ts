@@ -51,7 +51,3 @@ export const ICON_SOURCES = (t: ComposerTranslation): IconCategory[] => [
     label: t('common.ic_source_2'),
   },
 ]
-
-
-
-

@@ -21,7 +21,7 @@
     </template>
 
     <template #footer>
-      <div v-if="!hideFooter" style=" padding: 0 20px 20px 0">
+      <div v-if="!hideFooter" style="padding: 0 20px 20px 0">
         <Button size="large" @click="syncBtn ? $emit('handleCancel') : $emit('handle1stBtn')">
           {{ name1stBtn ?? $t('common.cancelTitle') }}
         </Button>

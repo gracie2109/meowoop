@@ -1,26 +1,32 @@
 <template>
   <SearchView
     :placeholder="placeholder"
-    :actionButton="actionButton"
-    :data-search="props.dataSearch"
-    :form="form"
+    :actionButton="actionButton ?? []"
     :ignoreKeys="props.ignoreKeys"
-  >
-    <template #filter_content> dada </template>
-  </SearchView>
+    v-model="model"
+    :showFilter="false"
+  />
 </template>
 
 <script lang="ts" setup>
 import SearchView from '@/components/SearchView/Index.vue'
-import { Form } from 'ant-design-vue'
+import type { TSearch } from '@/types/lib'
+
+import type { VNode, RendererNode, RendererElement } from 'vue'
+
 const props = defineProps<{
-  dataSearch?: string | object
-  actionButton?: unknown[]
+  dataSearch?: object
+  actionButton?: Array<{
+    isShow: boolean
+    component: VNode<RendererNode, RendererElement, { [key: string]: unknown }>
+  }>
   placeholder?: string
   ignoreKeys?: string[]
 }>()
 
+const model = defineModel<TSearch>()
 defineEmits(['onSearch'])
-
-const form = Form.useForm
+defineOptions({
+  name: 'CustomSearchView',
+})
 </script>

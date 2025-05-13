@@ -14,8 +14,7 @@ const iconSize = computed(() =>
   typeof props.size === 'number' ? `${props.size}px` : props.size || '24px',
 )
 
-const iconColor = computed(() => props.color || 'currentColor');
-
+const iconColor = computed(() => props.color || 'currentColor')
 </script>
 
 <template>

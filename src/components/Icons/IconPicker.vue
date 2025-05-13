@@ -75,7 +75,6 @@
       </div>
     </template>
     <div class="icon-picker-trigger">
-  
       <IconPreview :svgId="currentIconPath" :color="props.modelValue.color" />
     </div>
   </Popover>
