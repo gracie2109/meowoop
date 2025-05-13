@@ -2,7 +2,7 @@
   <div class="container" id="pet_types" ref="el" style="position: relative">
     <PageHeader>
       <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
-      {{ $t('menu.menu_6') }}
+      {{ $t('menu.menu_8') }}
     </PageHeader>
     <Search
       placeholder="Search data pet types"
@@ -32,61 +32,63 @@ import { Icon } from '@iconify/vue/dist/iconify.js'
 import Search from '@/views/pets-setting-manager/pet-types/Search.vue'
 import { computed, h, markRaw, reactive, ref, toRaw } from 'vue'
 import FormCs from './Form.vue'
-import type { TPetType } from '@/types/pet-type'
-import { DEFAULT_COLOR, DEFAULT_ICON } from '@/contants/lib'
 import Table from '@/components/Table/Index.vue'
 import type { TableColumnsType } from 'ant-design-vue'
-import type { IPfIcon } from '@/types/common'
-import PreviewIcon from '@/components/Icons/PreviewIcon.vue'
 import RowActions from '@/components/Table/FunctionTable.vue'
 import { useI18n } from 'vue-i18n'
 import type { TSearch } from '@/types/lib'
-import { usePetTypesStore } from '@/stores'
+import { usePetServices } from '@/stores'
 import { storeToRefs } from 'pinia'
+import type { TPetType } from '@/types/pet-type'
 
-const $store = usePetTypesStore()
+const $store = usePetServices()
 const { dataList } = storeToRefs($store)
 const dataSearch = ref<TSearch>({
   search_text: '',
 })
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const columns = computed<TableColumnsType>(() => [
   {
-    title: t('pType.param1'),
+    title: t('pType.B-01'),
     dataIndex: 'name',
     key: 'name',
-    width: 300,
-  },
-  {
-    title: 'Icon',
-    dataIndex: 'icon',
-    key: 'icon',
-    customRender: ({ record }: { record: Partial<TPetType> }) => {
-      const data = toRaw(record.icon) as IPfIcon
-      return h(PreviewIcon, {
-        svgId: data.icon || DEFAULT_ICON,
-        color: data.color || DEFAULT_COLOR,
-        size: 24,
-      })
-    },
-    width: 100,
+    customRender: ({ text }) => h('span', toRaw(text[locale.value])),
   },
   {
     title: t('common.description'),
     dataIndex: 'description',
     key: 'description',
-  },
-
-  {
-    title: t('common.created_at'),
-    dataIndex: 'created_at',
-    key: 'created_at',
+    customRender: ({ text }) => h('span', toRaw(text[locale.value])),
   },
   {
-    title: t('common.updated_at'),
-    dataIndex: 'updated_time',
-    key: 'updated_time',
+    title: t('pType.S4'),
+    dataIndex: 'duration',
+    key: 'duration',
+  },
+  {
+    title: t('pType.S7'),
+    dataIndex: 'price',
+    key: 'price',
+  },
+  {
+    title: t('pType.S5'),
+    dataIndex: 'category_id',
+    key: 'category_id',
+    customRender: ({ record }) => h('span', toRaw(record.category_data.name[locale.value])),
+  },
+  {
+    title: t('pType.S6'),
+    dataIndex: 'pet_type_ids',
+    key: 'pet_type_ids',
+    customRender: ({ record }) => {
+      const targets = record.pet_target_data
+        .map((i: Partial<TPetType>) => i?.name)
+        .filter(Boolean)
+        .join(', ')
+      console.log('targets', targets)
+      return h('span', targets)
+    },
   },
   {
     title: 'function',
@@ -146,5 +148,6 @@ const actionButton = reactive([
     ),
   },
 ])
-useDynamicTitle('menu.menu_6')
+useDynamicTitle('menu.menu_8')
+defineOptions({ name: 'petServices' })
 </script>

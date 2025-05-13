@@ -1,14 +1,27 @@
 <template>
   <div class="form_wrap_content" style="position: relative; width: 100%">
     <FormItem :name="name" :rules="rules" v-bind="validateBinding">
-      <Input
+      <InputNumber
         size="large"
         v-bind="attrs"
+        :min="min"
+        :max="max"
+        :formatter="
+          (value) => (props.isMoney ? `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : formatter(value))
+        "
+        :parser="(value) => (props.isMoney ? value.replace(/\$\s?|(,*)/g, '') : parser(value))"
+        :keyboard="true"
         :placeholder="placeholder ?? $t('common.placeholderInput')"
-        :value="modelValue ?? ''"
-        @input="$emit('update:modelValue', $event.target.value)"
+        :value="modelValue"
+        @change="$emit('update:modelValue', $event)"
         @blur="triggerValidate"
-      />
+      >
+        <template #prefix>
+          <template v-if="props.isMoney">
+            <Icon icon="tdesign:money" />
+          </template>
+        </template>
+      </InputNumber>
       <label class="form_label" :class="['floating-label', { isRequired, error: hasError }]">
         {{ label }}
       </label>
@@ -17,16 +30,34 @@
 </template>
 
 <script lang="ts" setup>
-import type { AntdComponentProps, InjectedFormContext } from '@/types/lib'
-import { FormItem, Input } from 'ant-design-vue'
+import { FormItem, InputNumber } from 'ant-design-vue'
 import { computed, inject, useAttrs } from 'vue'
+import type { AntdComponentProps, InjectedFormContext } from '@/types/lib'
+import { Icon } from '@iconify/vue/dist/iconify.js'
 
-const props = withDefaults(defineProps<AntdComponentProps>(), {
-  modelValue: '',
-})
+const props = withDefaults(
+  defineProps<
+    AntdComponentProps & {
+      formatter?: (value: string | number) => string
+      parser?: (value: string) => number
+      min?: number
+      max?: number
+      isMoney?: boolean
+    }
+  >(),
+  {
+    modelValue: '',
+    min: undefined,
+    max: undefined,
+    formatter: undefined,
+    parser: undefined,
+    isMoney: true,
+  },
+)
+
+defineEmits(['update:modelValue'])
 
 const attrs = useAttrs()
-defineEmits(['update:modelValue'])
 const form = inject('form') as InjectedFormContext
 const validateInfos = form?.validateInfos ?? {}
 
@@ -41,7 +72,7 @@ const triggerValidate = () => {
 }
 </script>
 
-<style>
+<style scoped>
 .isRequired::after {
   content: '*';
   padding-left: 0.3rem;
@@ -55,6 +86,7 @@ const triggerValidate = () => {
   background-color: white;
   padding: 0 0.5em;
   font-size: 11px;
+  z-index: 12;
 }
 
 .floating-label.error {
@@ -76,7 +108,4 @@ const triggerValidate = () => {
   color: red;
   margin-left: 4px;
 }
-/* .ant-input {
-  height: 40px;
-} */
 </style>

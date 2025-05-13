@@ -20,5 +20,16 @@
   "edit": "Chỉnh sửa",
   "name": "Tên",
   "description": "Mô tả",
-  "display": "Hiển thị"
+  "display": "Hiển thị",
+  "created_at": "Thời gian tạo",
+  "updated_at": "Thời gian cập nhật",
+  "created_by": "Người tạo",
+  "updated_by": "Người cập nhật",
+  "status": "Trạng thái",
+  "active": "Hoạt động",
+  "inactive": "Không hoạt động",
+  "delete": "Xóa",
+  "deleteConfirm": "Bạn có chắc chắn muốn xóa {name} này không?",
+  "deleteSuccess": "{name} đã được xóa thành công.",
+  "deleteFail": "{name} không thể xóa."
 }

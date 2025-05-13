@@ -41,12 +41,12 @@ type OptionType = {
 export type AntdOptionsType = OptionType[]
 
 export interface AntdComponentProps {
-  name: string
+  name: string | string[]
   placeholder?: string
   label: string
   rules?: RuleObject | RuleObject[] | undefined
   isRequired?: boolean
-  modelValue: string | number | undefined | null
+  modelValue: string | number | undefined | null | string[] | unknown
 }
 
 

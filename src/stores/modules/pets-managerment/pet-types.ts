@@ -15,7 +15,7 @@ export const usePetTypesStore = defineStore('petTypes', () => {
     },
     {
       _id: '2',
-      id: '12',
+      id: '2',
       name: 'PET 2',
       description: '',
       icon: { color: DEFAULT_COLOR, icon: DEFAULT_ICON },
