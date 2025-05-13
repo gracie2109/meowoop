@@ -203,7 +203,6 @@ const handleOk = () => {
   form
     .validate()
     .then(() => {
-      console.log('formRef.value', formRef.value)
       $store.onCreateData(formRef.value)
       emit('onCancel')
     })

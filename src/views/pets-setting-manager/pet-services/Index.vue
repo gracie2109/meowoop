@@ -42,7 +42,8 @@ import { storeToRefs } from 'pinia'
 import type { TPetType } from '@/types/pet-type'
 
 const $store = usePetServices()
-const { dataList } = storeToRefs($store)
+const { dataList } = storeToRefs($store);
+console.log('dataList', dataList)
 const dataSearch = ref<TSearch>({
   search_text: '',
 })
@@ -75,18 +76,17 @@ const columns = computed<TableColumnsType>(() => [
     title: t('pType.S5'),
     dataIndex: 'category_id',
     key: 'category_id',
-    customRender: ({ record }) => h('span', toRaw(record.category_data.name[locale.value])),
+    customRender: ({ record }) => h('span', toRaw(record?.category_data?.name?.[locale.value])),
   },
   {
     title: t('pType.S6'),
     dataIndex: 'pet_type_ids',
     key: 'pet_type_ids',
     customRender: ({ record }) => {
-      const targets = record.pet_target_data
-        .map((i: Partial<TPetType>) => i?.name)
-        .filter(Boolean)
-        .join(', ')
-      console.log('targets', targets)
+      const targets = record?.pet_target_data
+        ?.map((i: Partial<TPetType>) => i?.name)
+        ?.filter(Boolean)
+        ?.join(', ');
       return h('span', targets)
     },
   },
