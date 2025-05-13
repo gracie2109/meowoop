@@ -11,7 +11,16 @@
       @onSearch="onSearch"
     />
 
-    <FormCs :data-item="dataItem" :showForm="showForm" @onCancel="() => (showForm = false)" />
+    <FormCs
+      :data-item="dataItem"
+      :showForm="showForm"
+      @onCancel="
+        () => {
+          showForm = false
+          dataItem = null
+        }
+      "
+    />
     <Table :columns="columns" :data="data" min-height="75.6vh" style="margin-top: 0.5rem" />
   </div>
 </template>
@@ -59,14 +68,7 @@ const columns = reactive<TableColumnsType>([
       h(RowActions, {
         actions: [
           { type: 'edit', payload: record },
-          { type: 'view', payload: record },
-          {
-            type: 'delete',
-            payload: record,
-            confirm: true,
-            confirmMessage: 'Bạn có chắc chắn muốn xoá?',
-            disabled: !record.deletable,
-          },
+      
         ],
         onEdit: (data) => {
           showForm.value = true
@@ -100,7 +102,6 @@ const data = reactive<TPetType[]>([
 const showForm = ref(false)
 const dataItem = ref(null)
 
-console.log('columns', columns)
 const onSearch = (val: unknown) => {
   console.log('val', val)
 }

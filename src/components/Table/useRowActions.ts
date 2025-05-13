@@ -1,5 +1,7 @@
+import type { VNode } from 'vue'
+
 // useRowActions.ts
-export type BaseActionType = 'edit' | 'delete' | 'view' | 'custom'
+export type BaseActionType = 'edit' | 'delete' | 'view'
 
 export interface RowAction {
   type: BaseActionType | string
@@ -14,27 +16,25 @@ export interface RowAction {
   confirmMessage?: string
   color?: string
   size?: string
+  customRender?: () => VNode
 }
 
 const DEFAULT_ICONS: Record<BaseActionType, string> = {
   edit: 'nimbus:edit',
   delete: 'mdi:delete-outline',
   view: 'icon-park-outline:doc-detail',
-  custom: 'mdi:gesture-tap-button',
 }
 
 const DEFAULT_TOOLTIPS: Record<BaseActionType, string> = {
   edit: 'Chỉnh sửa',
   delete: 'Xoá',
   view: 'Xem chi tiết',
-  custom: 'Hành động',
 }
 
 export const DEFAULT_ICON_COLOR: Record<BaseActionType, string> = {
   edit: 'var(--vt-c-primary)',
   delete: 'var(--vt-c-primary)',
   view: 'var(--vt-c-primary)',
-  custom: 'var(--vt-c-primary)',
 }
 export function normalizeActions(actions: RowAction[]): Required<RowAction>[] {
   return actions
@@ -43,7 +43,7 @@ export function normalizeActions(actions: RowAction[]): Required<RowAction>[] {
       const type = a.type as BaseActionType
       return {
         ...a,
-        icon: a.icon || DEFAULT_ICONS[type] || DEFAULT_ICONS.custom,
+        icon: a.icon || DEFAULT_ICONS[type],
         tooltip: a.tooltip || DEFAULT_TOOLTIPS[type] || a.type,
         event: a.event || type,
         size: a.size || '20px',
@@ -54,6 +54,31 @@ export function normalizeActions(actions: RowAction[]): Required<RowAction>[] {
         payload: a.payload || null,
         show: a.show || true,
         confirmMessage: a.confirmMessage || '',
+        customRender: a.customRender || (() => null),
       }
     })
+}
+
+export const ACTION_PRESETS: Record<string, Partial<RowAction>> = {
+  edit: {
+    icon: 'nimbus:edit',
+    tooltip: 'Sửa',
+    event: 'edit',
+    color: '#409EFF',
+  },
+  view: {
+    icon: 'mingcute:eye-line',
+    tooltip: 'Xem chi tiết',
+    event: 'view',
+    color: '#67C23A',
+  },
+  delete: {
+    icon: 'mdi:trash-can-outline',
+    tooltip: 'Xóa',
+    event: 'delete',
+    color: '#F56C6C',
+    confirm: true,
+    confirmMessage: 'Bạn có chắc chắn muốn xóa?',
+  },
+  // Thêm preset khác nếu cần
 }

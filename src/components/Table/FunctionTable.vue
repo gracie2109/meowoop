@@ -1,48 +1,60 @@
 <template>
   <Flex gap="8" align="center">
     <template v-for="(action, index) in computedActions" :key="index">
-      <Tooltip :title="action.tooltip">
+      <component
+        v-if="action.customRender"
+        :is="action.customRender"
+      />
+      <Tooltip v-else :title="action.tooltip">
         <span>
           <Popconfirm
             v-if="action.confirm"
-            :title="action.confirmMessage || 'Bạn có chắc?'"
+            :title="action.confirmMessage || 'Bạn có chắc?'" 
             ok-text="Đồng ý"
             cancel-text="Huỷ"
             @confirm="() => handleClick(action)"
           >
             <Icon
-              height="25px"
-              :icon="action.icon"
+              :icon="action.icon ?? 'lucide:dot'"
               :style="getIconStyle(action)"
               :class="{ 'opacity-50 pointer-events-none': action.disabled }"
             />
           </Popconfirm>
           <Icon
             v-else
-            :icon="action.icon"
+            :icon="action.icon ?? 'lucide:dot'"
+            height="22"
             :style="getIconStyle(action)"
-            height="25px"
-            :color="action.color ?? 'var(--vt-c-primary)'"
             :class="{ 'opacity-50 pointer-events-none': action.disabled }"
             @click="() => !action.disabled && handleClick(action)"
           />
         </span>
       </Tooltip>
     </template>
-  </Flex>
+  </FLex>
 </template>
 
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 import { Tooltip, Popconfirm, Flex } from 'ant-design-vue'
-import { type RowAction, normalizeActions } from './useRowActions'
+import { ACTION_PRESETS, type RowAction } from './useRowActions'
 import { computed } from 'vue'
 
 const props = defineProps<{ actions: RowAction[] }>()
-const emit = defineEmits(['edit', 'view', 'delete', 'custom'])
+const emit = defineEmits(['edit', 'view', 'delete'])
 
-const computedActions = computed(() => normalizeActions(props.actions))
+const computedActions = computed(() =>
+  props.actions
+    .filter(action => action.show !== false)
+    .map(action => {
+      const preset = ACTION_PRESETS[action.type] || {}
+      return {
+        ...preset,
+        ...action,
 
+      }
+    })
+)
 function handleClick(action: RowAction) {
   if (action.event) {
     emit(action.event!, action.payload)
