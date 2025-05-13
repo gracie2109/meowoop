@@ -1,7 +1,10 @@
 <template>
   <div class="table_ref" ref="el">
     <Table
-      style=""
+      :style="{
+        minHeight: props.minHeight ?? 'auto',
+        ...(props.style ?? {}),
+      }"
       class="table_cs"
       :columns="column"
       :data-source="props.data"
@@ -12,9 +15,8 @@
         current: props.pagination?.page,
         total: props.pagination?.total,
       }"
-      :size="props.size ?? 'large'"
+      :size="props.size ?? 'middle'"
       bordered
-      :style="props.style"
       :get-popup-container="() => container"
       :locale="locale"
     >
@@ -77,7 +79,8 @@ const props = defineProps<{
   }
   headerTitle?: string
   size?: AntdTableSize
-  style?: object
+  style?: object,
+  minHeight?: string
 }>()
 
 const scrollComputed = computed(() => {

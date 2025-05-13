@@ -38,7 +38,7 @@ export const COLOR_PREFIX = {
 export const iconPets = Array.from({ length: 21 }, (_, i) => `${ICON_PREFIX.pets}_${i + 1}`)
 export const iconNature = Array.from({ length: 1 }, (_, i) => `${ICON_PREFIX.nature}_${i + 1}`)
 
-export const DEFAULT_ICON = `${ICON_PREFIX.pets}/${iconPets[0]}`
+export const DEFAULT_ICON = `${ICON_PREFIX.pets}-${iconPets[0]}`
 export const DEFAULT_COLOR = 'rgb(252, 192, 46)'
 
 export const ICON_SOURCES = (t: ComposerTranslation): IconCategory[] => [
@@ -51,3 +51,7 @@ export const ICON_SOURCES = (t: ComposerTranslation): IconCategory[] => [
     label: t('common.ic_source_2'),
   },
 ]
+
+
+
+
