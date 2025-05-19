@@ -24,7 +24,7 @@ import { useRoute } from 'vue-router'
 const $app = useGlobalStore()
 const { collapseMenu, selectedMenu, opensMenu } = storeToRefs($app)
 const $route = useRoute()
-
+console.log('selectedMenu',selectedMenu.value)
 const selected = computed(() => {
   const name = String($route.name ?? '')
   const a = selectedMenu?.value?.[0] === $route.name

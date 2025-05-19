@@ -1,7 +1,7 @@
 <template>
   <div class="container" id="pet_types" ref="el" style="position: relative">
     <PageHeader>
-      <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
+      <Icon :icon="MENU_ASSET.menu_1.icon" :color="MENU_ASSET.menu_1.color"  width="20" />&nbsp; &gt;
       {{ $t('menu.menu_6') }}
     </PageHeader>
     <Search
@@ -43,6 +43,7 @@ import { useI18n } from 'vue-i18n'
 import type { TSearch } from '@/types/lib'
 import { usePetTypesStore } from '@/stores'
 import { storeToRefs } from 'pinia'
+import { MENU_ASSET } from '@/contants/menu'
 
 const $store = usePetTypesStore()
 const { dataList } = storeToRefs($store)

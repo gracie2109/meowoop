@@ -46,10 +46,11 @@ export const PetCategoryParams = {
 export type IPetServiceForm = {
   name: FieldMultiLang
   description: FieldMultiLang,
-  category_id: string,
-  pet_type_ids: string[],
+  category_id: string | null,
+  pet_type_ids: string[]  | null,
   price: number,
   duration:number,
+  isRetail?:boolean,
   category_data?:Partial<TPetCategory>,
   pet_target_data?:Partial<TPetType>[]
 }

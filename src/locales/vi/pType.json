@@ -14,12 +14,20 @@
   "C-02-1": "Mô tả tiếng việt",
   "C-02-2": "Mô tả tiếng anh",
 
-
-  "S1": "Thêm dịch vụ",
-  "S2": "Chỉnh sửa dịch vụ",
+  "S1": "Thêm dịch vụ lẻ",
+  "S2": "Chỉnh sửa dịch vụ lẻ",
   "S3": "Tên dịch vụ",
   "S4": "Thời gian thực hiện",
   "S5": "Danh mục",
   "S6": "Đối tượng áp dụng",
-  "S7": "Chi phí"
+  "S7": "Chi phí",
+
+  "w0": "< 1.5kg",
+  "w1": "1.5 < 3kg",
+  "w2": "3 < 5kg",
+  "w3": "5 < 7kg",
+  "w4": "7 < 10kg",
+  "w5": "10 < 15kg",
+  "w6": "15 < 20kg",
+  "w7": "20 < 30kg"
 }

@@ -36,8 +36,8 @@
               :name="IPetServiceParams.category_id"
               :label="$t('pType.S5')"
               :options="
-                petTypes?.map((i) => ({
-                  label: i.name,
+                categories?.map((i) => ({
+                  label: i.name?.[locale as 'vi' | 'en'],
                   value: i.id,
                 }))
               "
@@ -51,8 +51,8 @@
               :name="IPetServiceParams.pet_type_ids"
               :label="$t('pType.S6')"
               :options="
-                categories?.map((i) => ({
-                  label: i.name?.[locale as 'vi' | 'en'],
+                petTypes?.map((i) => ({
+                  label: i.name,
                   value: i.id,
                 }))
               "
@@ -166,7 +166,7 @@ const DEFAULT_FORM: IPetServiceForm = {
   duration: 0,
   price: 0,
   pet_type_ids: [],
-  category_id: '',
+  category_id: null,
 }
 
 const formRef = ref<IPetServiceForm>({ ...DEFAULT_FORM })

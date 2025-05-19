@@ -1,7 +1,7 @@
 <template>
   <div class="container" id="pet_types" ref="el" style="position: relative">
     <PageHeader>
-      <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
+      <Icon :icon="MENU_ASSET.menu_1.icon" :color="MENU_ASSET.menu_1.color" width="20" />&nbsp; &gt;
       {{ $t('menu.menu_8') }}
     </PageHeader>
     <Search
@@ -40,9 +40,10 @@ import type { TSearch } from '@/types/lib'
 import { usePetServices } from '@/stores'
 import { storeToRefs } from 'pinia'
 import type { TPetType } from '@/types/pet-type'
+import { MENU_ASSET } from '@/contants/menu'
 
 const $store = usePetServices()
-const { dataList } = storeToRefs($store);
+const { dataList } = storeToRefs($store)
 console.log('dataList', dataList)
 const dataSearch = ref<TSearch>({
   search_text: '',
@@ -86,7 +87,7 @@ const columns = computed<TableColumnsType>(() => [
       const targets = record?.pet_target_data
         ?.map((i: Partial<TPetType>) => i?.name)
         ?.filter(Boolean)
-        ?.join(', ');
+        ?.join(', ')
       return h('span', targets)
     },
   },

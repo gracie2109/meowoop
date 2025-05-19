@@ -5,18 +5,18 @@ import { ref } from 'vue'
 export const usePetTypesStore = defineStore('petTypes', () => {
   const dataList = ref<TPetType[]>([
     {
-      _id: '1',
-      id: '1',
-      name: 'PET 1',
+      _id: 'type1',
+      id: 'type1',
+      name: 'Chó',
       description: 'fsdfsdfdsf',
       icon: { color: DEFAULT_COLOR, icon: DEFAULT_ICON },
       created_at: new Date(),
       updated_at: new Date(),
     },
     {
-      _id: '2',
-      id: '2',
-      name: 'PET 2',
+      _id: 'type2',
+      id: 'type2',
+      name: 'Mèo',
       description: '',
       icon: { color: DEFAULT_COLOR, icon: DEFAULT_ICON },
       created_at: new Date(),

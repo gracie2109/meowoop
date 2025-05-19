@@ -7,7 +7,7 @@ export const usePetCategoryStore = defineStore('petCategory', () => {
       _id: 'cate1',
       id: 'cate1',
       name: {
-        vi: 'cate 1 vi',
+        vi: 'Chăm sóc sức khoer',
         en: 'cate 1 en',
       },
       description: {
