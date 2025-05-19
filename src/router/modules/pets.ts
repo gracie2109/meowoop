@@ -4,6 +4,7 @@ import PetService from '@/views/pets-setting-manager/pet-services/Index.vue'
 import PetType from '@/views/pets-setting-manager/pet-types/PageTypeIndex.vue'
 import PetCategory from '@/views/pets-setting-manager/pet-category/Index.vue'
 import PetServices from '@/views/pets-setting-manager/pet-services/Index.vue'
+import PetServicesPrice from '@/views/pets-setting-manager/pet-service-price/Index.vue'
 
 const a = [
   {
@@ -30,6 +31,11 @@ const a = [
     path: ROUTER_PATH.PET_SERVICES,
     name: ROUTE_NAME.PET_SERVICES,
     component: PetServices,
+  },
+   {
+    path: ROUTER_PATH.PET_SETTING_PRICE_BY_SERVICE,
+    name: ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE,
+    component: PetServicesPrice,
   },
 ]
 

@@ -40,25 +40,44 @@ export const PetCategoryParams = {
   desc: 'description',
 } as const satisfies Record<string, keyof TPetCategoryForm>
 
-
 // services
 
 export type IPetServiceForm = {
   name: FieldMultiLang
-  description: FieldMultiLang,
-  category_id: string,
-  pet_type_ids: string[],
-  price: number,
-  duration:number,
-  category_data?:Partial<TPetCategory>,
-  pet_target_data?:Partial<TPetType>[]
+  description: FieldMultiLang
+  category_id: string
+  pet_type_ids: string[]
+  price: number
+  duration: number
+  category_data?: Partial<TPetCategory>
+  pet_target_data?: Partial<TPetType>[]
 }
 export type IPetService = IPetServiceForm & ICommon
 export const IPetServiceParams = {
   name: 'name',
   desc: 'description',
   category_id: 'category_id',
-  pet_type_ids:'pet_type_ids',
-  price:'price',
+  pet_type_ids: 'pet_type_ids',
+  price: 'price',
   duration: 'duration',
 } as const satisfies Record<string, keyof IPetServiceForm>
+
+// service-price
+export type IPetServicerPriceParam = {
+  pet_id?: string
+  service_id?: string
+  isAllService?:boolean,
+  isAllPets?:boolean
+}
+export type  IPetServicerPriceResponse = {
+ pet_data?: TPetType
+  service_data?: IPetService
+  pets?: TPetType[]
+  services?: IPetService[],
+}
+export const PetServicerPriceParam = {
+  pet_id: 'pet_id',
+  service_id: 'service_id',
+  is_all_service: 'isAllService',
+  is_all_pets: 'isAllPets'
+} as const satisfies Record<string, keyof IPetServicerPriceParam>

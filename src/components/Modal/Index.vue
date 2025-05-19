@@ -14,7 +14,7 @@
     <div class="modal_content">
       <slot name="content" />
     </div>
-    <template #title>
+    <template #title v-if="!hideHeader">
       <div ref="modalTitleRef" class="modal_title">
         <p>{{ title || '' }}</p>
       </div>
@@ -70,7 +70,8 @@ withDefaults(
     hide3ndBtn?: boolean
     bodyStyle?: CSSProperties
     syncBtn?: boolean
-    isSecondSubmit?: boolean
+    isSecondSubmit?: boolean,
+    hideHeader?:boolean
   }>(),
   {
     showMask: true,
@@ -80,6 +81,7 @@ withDefaults(
     hide3ndBtn: true,
     syncBtn: true,
     isSecondSubmit: true,
+    hideHeader: false
   },
 )
 const attrs = useAttrs()
