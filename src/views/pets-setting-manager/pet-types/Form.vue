@@ -72,6 +72,7 @@ const useForm = Form.useForm
 const props = defineProps<{
   showForm: boolean
   dataItem?: object | null
+  dataSearch?: object
 }>()
 const emit = defineEmits(['onCancel'])
 defineOptions({ name: 'addAndEditPetType' })
@@ -98,11 +99,21 @@ const rulesRef = reactive({
 })
 const form = useForm(formRef, rulesRef)
 const $store = usePetTypesStore()
+
+const resetForm = () => {
+  formRef.value = { ...DEFAULT_FORM }
+}
+
 const handleOk = () => {
   form
     .validate()
     .then(() => {
-      $store.createPetType(formRef.value)
+      if (!props.dataItem) {
+        $store.createPetType(formRef.value, () => {
+          $store.searchList({ ...(props.dataSearch || {}) })
+          resetForm()
+        })
+      }
       emit('onCancel')
     })
     .catch((e) => {

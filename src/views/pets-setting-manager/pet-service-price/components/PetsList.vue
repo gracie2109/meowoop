@@ -12,7 +12,7 @@
     >
       <Flex :justify="'center'" :align="'center'" wrap="wrap" gap="16" class="content">
         <PreviewIcon :svg-id="i.icon.icon" :color="i.icon.color" />
-        <Typography.Title :level="4">{{ i.name }}</Typography.Title>
+        <Typography.Title :level="5">{{ i.name }}</Typography.Title>
       </Flex>
     </Col>
   </Flex>

@@ -5,6 +5,7 @@
         size="large"
         :placeholder="placeholder ?? $t('common.searchDefaultTitle')"
         v-model:value="model.search_text"
+       @pressEnter="handleEnter"
       >
         <template #suffix>
           <Icon icon="ic:baseline-search" height="20px" />
@@ -74,6 +75,8 @@ const props = withDefaults(
 defineOptions({
   name: 'CustomSearchView',
 })
+const emits = defineEmits(['onSearch', 'onEraser'])
+
 const excludeKeys = ['search_text', 'from_time', 'to_time']
 const container = (window && window.document.getElementById('filter_search')) || document.body
 
@@ -93,7 +96,12 @@ const filterNumb = computed(() => {
 })
 
 const onEraser = () => {
-  alert('onEraser')
+  emits('onEraser')
+}
+
+
+const handleEnter = () => {
+  emits('onSearch')
 }
 </script>
 

@@ -9,11 +9,13 @@
       :actionButton="actionButton"
       v-model="dataSearch"
       @onSearch="onSearch"
+      @on-eraser="onEraser"
     />
 
     <FormCs
       :data-item="dataItem"
       :showForm="showForm"
+      :dataSearch="{...dataSearch, ...dataPage}"
       @onCancel="
         () => {
           showForm = false
@@ -21,7 +23,13 @@
         }
       "
     />
-    <Table :columns="columns" :data="dataList" min-height="75.6vh" style="margin-top: 0.5rem" />
+    <Table
+      :loading="loading"
+      :columns="columns"
+      :data="dataList"
+      min-height="75.6vh"
+      style="margin-top: 0.5rem"
+    />
   </div>
 </template>
 
@@ -30,13 +38,13 @@ import PageHeader from '@/components/PageHeader.vue'
 import { useDynamicTitle } from '@/composables'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import Search from '@/views/pets-setting-manager/pet-types/Search.vue'
-import { computed, h, markRaw, reactive, ref, toRaw } from 'vue'
+import { computed, h, markRaw, onMounted, reactive, ref, toRaw } from 'vue'
 import FormCs from './Form.vue'
-import type { TPetType } from '@/types/pet-type'
+import { PetTypeParams, type TPetType } from '@/types/pet-type'
 import { DEFAULT_COLOR, DEFAULT_ICON } from '@/contants/lib'
 import Table from '@/components/Table/Index.vue'
 import type { TableColumnsType } from 'ant-design-vue'
-import type { IPfIcon } from '@/types/common'
+import { CommonParam, type IPfIcon } from '@/types/common'
 import PreviewIcon from '@/components/Icons/PreviewIcon.vue'
 import RowActions from '@/components/Table/FunctionTable.vue'
 import { useI18n } from 'vue-i18n'
@@ -45,7 +53,12 @@ import { usePetTypesStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 
 const $store = usePetTypesStore()
-const { dataList } = storeToRefs($store)
+const { dataList, loading } = storeToRefs($store)
+const dataPage = ref({
+  page: 1,
+  page_size: 25,
+})
+
 const dataSearch = ref<TSearch>({
   search_text: '',
 })
@@ -54,19 +67,19 @@ const { t } = useI18n()
 const columns = computed<TableColumnsType>(() => [
   {
     title: t('pType.param1'),
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: PetTypeParams.name,
+    key: PetTypeParams.name,
     width: 300,
   },
   {
     title: 'Icon',
-    dataIndex: 'icon',
-    key: 'icon',
+    dataIndex: PetTypeParams.icon,
+    key: PetTypeParams.icon,
     customRender: ({ record }: { record: Partial<TPetType> }) => {
       const data = toRaw(record.icon) as IPfIcon
       return h(PreviewIcon, {
-        svgId: data.icon || DEFAULT_ICON,
-        color: data.color || DEFAULT_COLOR,
+        svgId: data?.icon || DEFAULT_ICON,
+        color: data?.color || DEFAULT_COLOR,
         size: 24,
       })
     },
@@ -74,19 +87,19 @@ const columns = computed<TableColumnsType>(() => [
   },
   {
     title: t('common.description'),
-    dataIndex: 'description',
-    key: 'description',
+    dataIndex: PetTypeParams.desc,
+    key: PetTypeParams.desc,
   },
 
   {
     title: t('common.created_at'),
-    dataIndex: 'created_at',
-    key: 'created_at',
+    dataIndex: CommonParam.createdAt,
+    key: CommonParam.createdAt,
   },
   {
     title: t('common.updated_at'),
-    dataIndex: 'updated_time',
-    key: 'updated_time',
+    dataIndex: CommonParam.updatedAt,
+    key: CommonParam.updatedAt,
   },
   {
     title: 'function',
@@ -113,8 +126,12 @@ const columns = computed<TableColumnsType>(() => [
 const showForm = ref(false)
 const dataItem = ref(null)
 
-const onSearch = (val: unknown) => {
-  console.log('val', val)
+const onSearch = () => {
+  $store.searchList({ ...dataPage.value, ...dataSearch.value })
+}
+const onEraser = () => {
+  Object.assign(dataSearch.value, { search_text: null })
+  $store.searchList({ ...dataPage.value })
 }
 const actionButton = reactive([
   {
@@ -140,11 +157,15 @@ const actionButton = reactive([
         color: 'var(--vt-c-primary-slate)',
         style: 'cursor: pointer',
         onClick: () => {
-          alert('click reload')
+          $store.searchList({ ...dataPage.value, ...dataSearch.value })
         },
       }),
     ),
   },
 ])
+
+onMounted(() => {
+  $store.searchList({ ...dataPage.value, ...dataSearch.value })
+})
 useDynamicTitle('menu.menu_6')
 </script>
