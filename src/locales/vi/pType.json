@@ -3,6 +3,7 @@
   "T-02": "Chỉnh sửa loại thú cưng",
   "T-03": "Xóa loại thú cưng",
   "param1": "Tên loại thú cưng",
+  "T-04": "Bạn có chắc chắn muốn xóa loại {name}  không?",
 
   "B-01": "Tên dịch vụ",
 
@@ -13,7 +14,6 @@
   "C-01-2": "Tên danh mục tiếng anh",
   "C-02-1": "Mô tả tiếng việt",
   "C-02-2": "Mô tả tiếng anh",
-
 
   "S1": "Thêm dịch vụ",
   "S2": "Chỉnh sửa dịch vụ",

@@ -7,7 +7,8 @@
         :min="min"
         :max="max"
         :formatter="
-          (value) => (props.isMoney ? `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : formatter(value))
+          (value) =>
+            props.isMoney ? `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : formatter(value)
         "
         :parser="(value) => (props.isMoney ? value.replace(/\$\s?|(,*)/g, '') : parser(value))"
         :keyboard="true"

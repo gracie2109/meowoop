@@ -15,7 +15,7 @@
     <FormCs
       :data-item="dataItem"
       :showForm="showForm"
-      :dataSearch="{...dataSearch, ...dataPage}"
+      :dataSearch="{ ...dataSearch, ...dataPage }"
       @onCancel="
         () => {
           showForm = false
@@ -30,6 +30,22 @@
       min-height="75.6vh"
       style="margin-top: 0.5rem"
     />
+
+    <Modal
+      :loading="loading"
+      :open="!!deleteItem"
+      :title="$t('pType.T-03')"
+      @handle-cancel="deleteItem = null"
+      @handle-ok="handleDelete"
+    >
+      <template #content>
+        {{
+          $t('pType.T-04', {
+            name: deleteItem?.name || '',
+          })
+        }}
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -51,7 +67,8 @@ import { useI18n } from 'vue-i18n'
 import type { TSearch } from '@/types/lib'
 import { usePetTypesStore } from '@/stores'
 import { storeToRefs } from 'pinia'
-
+import { formatFullTime } from '@/utils/time'
+import Modal from '@/components/Modal/Index.vue'
 const $store = usePetTypesStore()
 const { dataList, loading } = storeToRefs($store)
 const dataPage = ref({
@@ -59,11 +76,14 @@ const dataPage = ref({
   page_size: 25,
 })
 
+const showForm = ref(false)
+const dataItem = ref<TPetType | null>(null)
+const deleteItem = ref<TPetType | null>(null)
 const dataSearch = ref<TSearch>({
   search_text: '',
 })
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const columns = computed<TableColumnsType>(() => [
   {
     title: t('pType.param1'),
@@ -95,11 +115,19 @@ const columns = computed<TableColumnsType>(() => [
     title: t('common.created_at'),
     dataIndex: CommonParam.createdAt,
     key: CommonParam.createdAt,
+    customRender: ({ record }: { record: Partial<TPetType> }) => {
+      const data = toRaw(record.createdAt)
+      return h('p', formatFullTime(data, locale.value))
+    },
   },
   {
     title: t('common.updated_at'),
     dataIndex: CommonParam.updatedAt,
     key: CommonParam.updatedAt,
+    customRender: ({ record }: { record: Partial<TPetType> }) => {
+      const data = toRaw(record.updatedAt)
+      return h('p', formatFullTime(data, locale.value))
+    },
   },
   {
     title: 'function',
@@ -115,16 +143,12 @@ const columns = computed<TableColumnsType>(() => [
           showForm.value = true
           dataItem.value = data
         },
-        onView: (data) => console.log('View:', data),
-        onDelete: (data) => console.log('Delete:', data),
+        onDelete: (data) => (deleteItem.value = data),
       }),
     width: 100,
     fixed: 'right',
   },
 ])
-
-const showForm = ref(false)
-const dataItem = ref(null)
 
 const onSearch = () => {
   $store.searchList({ ...dataPage.value, ...dataSearch.value })
@@ -132,6 +156,15 @@ const onSearch = () => {
 const onEraser = () => {
   Object.assign(dataSearch.value, { search_text: null })
   $store.searchList({ ...dataPage.value })
+}
+
+const handleDelete = () => {
+  if (deleteItem.value) {
+    $store.deleteType(deleteItem.value?.id, () => {
+      deleteItem.value = null
+      $store.searchList({ ...dataPage.value, ...dataSearch.value })
+    })
+  }
 }
 const actionButton = reactive([
   {

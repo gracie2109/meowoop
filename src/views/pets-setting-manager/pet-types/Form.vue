@@ -58,7 +58,7 @@
 <script lang="ts" setup>
 import { Row, Col, Form, Button, Flex } from 'ant-design-vue'
 import FormItemInput from '@/components/FormItem/FormInput.vue'
-import { type TPetTypeForm, PetTypeParams } from '@/types/pet-type'
+import { type TPetType, type TPetTypeForm, PetTypeParams } from '@/types/pet-type'
 import { reactive, ref, watch } from 'vue'
 import IconPicker from '@/components/Icons/IconPicker.vue'
 import { DEFAULT_COLOR, DEFAULT_ICON } from '@/contants/lib'
@@ -71,7 +71,7 @@ const { t } = useI18n()
 const useForm = Form.useForm
 const props = defineProps<{
   showForm: boolean
-  dataItem?: object | null
+  dataItem?: TPetType | null
   dataSearch?: object
 }>()
 const emit = defineEmits(['onCancel'])
@@ -110,6 +110,11 @@ const handleOk = () => {
     .then(() => {
       if (!props.dataItem) {
         $store.createPetType(formRef.value, () => {
+          $store.searchList({ ...(props.dataSearch || {}) })
+          resetForm()
+        })
+      } else {
+        $store.updateType({ ...formRef.value, id: props.dataItem?.id }, () => {
           $store.searchList({ ...(props.dataSearch || {}) })
           resetForm()
         })

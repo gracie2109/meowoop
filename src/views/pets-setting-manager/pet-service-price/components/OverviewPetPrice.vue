@@ -1,13 +1,9 @@
 <template>
-    <div>
-            overview-pet-price
-    </div>
+  <div>overview-pet-price</div>
 </template>
 
 <script setup lang="ts">
-defineOptions({name: 'overview-pet-price'})
+defineOptions({ name: 'overview-pet-price' })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

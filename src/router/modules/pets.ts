@@ -32,7 +32,7 @@ const a = [
     name: ROUTE_NAME.PET_SERVICES,
     component: PetServices,
   },
-   {
+  {
     path: ROUTER_PATH.PET_SETTING_PRICE_BY_SERVICE,
     name: ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE,
     component: PetServicesPrice,

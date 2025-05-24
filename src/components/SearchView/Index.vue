@@ -5,7 +5,7 @@
         size="large"
         :placeholder="placeholder ?? $t('common.searchDefaultTitle')"
         v-model:value="model.search_text"
-       @pressEnter="handleEnter"
+        @pressEnter="handleEnter"
       >
         <template #suffix>
           <Icon icon="ic:baseline-search" height="20px" />
@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { TSearch } from '@/types/lib';
+import type { TSearch } from '@/types/lib'
 import { isString } from '@/utils/stringUtil'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import { Input, Flex, Tooltip, Popover, Badge } from 'ant-design-vue'
@@ -98,7 +98,6 @@ const filterNumb = computed(() => {
 const onEraser = () => {
   emits('onEraser')
 }
-
 
 const handleEnter = () => {
   emits('onSearch')

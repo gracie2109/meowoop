@@ -1,13 +1,9 @@
 <template>
-    <div>
-            overview-service-price
-    </div>
+  <div>overview-service-price</div>
 </template>
 
 <script setup lang="ts">
-defineOptions({name: 'overview-service-price'})
+defineOptions({ name: 'overview-service-price' })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

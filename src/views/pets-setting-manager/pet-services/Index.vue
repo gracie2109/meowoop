@@ -4,15 +4,23 @@
       <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
       {{ $t('menu.menu_8') }}
     </PageHeader>
-    <Search placeholder="Search data pet types" :actionButton="actionButton" v-model="dataSearch"
-      @onSearch="onSearch" />
+    <Search
+      placeholder="Search data pet types"
+      :actionButton="actionButton"
+      v-model="dataSearch"
+      @onSearch="onSearch"
+    />
 
-    <FormCs :data-item="dataItem" :showForm="showForm" @onCancel="
-      () => {
-        showForm = false
-        dataItem = null
-      }
-    " />
+    <FormCs
+      :data-item="dataItem"
+      :showForm="showForm"
+      @onCancel="
+        () => {
+          showForm = false
+          dataItem = null
+        }
+      "
+    />
     <Table :columns="columns" :data="dataList" min-height="75.6vh" style="margin-top: 0.5rem" />
   </div>
 </template>
@@ -36,13 +44,13 @@ import { useRouter } from 'vue-router'
 import { ROUTE_NAME } from '@/router/route'
 
 const $store = usePetServices()
-const { dataList } = storeToRefs($store);
+const { dataList } = storeToRefs($store)
 const router = useRouter()
 const dataSearch = ref<TSearch>({
   search_text: '',
 })
 
-const { t, locale } = useI18n();
+const { t, locale } = useI18n()
 
 const columns = computed<TableColumnsType>(() => [
   {
@@ -81,7 +89,7 @@ const columns = computed<TableColumnsType>(() => [
       const targets = record?.pet_target_data
         ?.map((i: Partial<TPetType>) => i?.name)
         ?.filter(Boolean)
-        ?.join(', ');
+        ?.join(', ')
       return h('span', targets)
     },
   },
@@ -92,26 +100,29 @@ const columns = computed<TableColumnsType>(() => [
     customRender: ({ record }) =>
       h(RowActions, {
         actions: [
-          { type: 'edit', payload: record, },
-          { type: 'delete', payload: record, },
+          { type: 'edit', payload: record },
+          { type: 'delete', payload: record },
           {
-            type: 'custom', payload: record,
-            customRender: () => markRaw(
-              h(Icon, {
-                icon: 'mage:money-exchange',
-                height: '30px',
-                color: 'var(--vt-c-primary-slate)',
-                style: 'cursor: pointer',
-                onClick: () => {
-                  router.push({ 
-                    name: ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE, query: {
-                      [PetServicerPriceParam.service_id]: record.id,
-                    }
-                  })
-                },
-              }),
-            )
-          }
+            type: 'custom',
+            payload: record,
+            customRender: () =>
+              markRaw(
+                h(Icon, {
+                  icon: 'mage:money-exchange',
+                  height: '30px',
+                  color: 'var(--vt-c-primary-slate)',
+                  style: 'cursor: pointer',
+                  onClick: () => {
+                    router.push({
+                      name: ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE,
+                      query: {
+                        [PetServicerPriceParam.service_id]: record.id,
+                      },
+                    })
+                  },
+                }),
+              ),
+          },
         ],
         onEdit: (data) => {
           showForm.value = true

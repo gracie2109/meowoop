@@ -1,7 +1,6 @@
 import { axiosPost, axiosPatch, axiosDeleteMulti } from '@/utils/axios'
 
-const PREFIX = 'pets'
-
+const PREFIX = 'pet-category'
 export const fetchAllPets = async (body: unknown) => {
   return await axiosPost(`/${PREFIX}/get-all`, body)
 }

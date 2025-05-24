@@ -49,8 +49,7 @@ export interface AntdComponentProps {
   modelValue: string | number | undefined | null | string[] | unknown
 }
 
-
 export type TSearch = {
-  search_text: string,
-  [key: string]: unknown,
+  search_text: string
+  [key: string]: unknown
 }

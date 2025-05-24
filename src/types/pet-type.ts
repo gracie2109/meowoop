@@ -66,18 +66,18 @@ export const IPetServiceParams = {
 export type IPetServicerPriceParam = {
   pet_id?: string
   service_id?: string
-  isAllService?:boolean,
-  isAllPets?:boolean
+  isAllService?: boolean
+  isAllPets?: boolean
 }
-export type  IPetServicerPriceResponse = {
- pet_data?: TPetType
+export type IPetServicerPriceResponse = {
+  pet_data?: TPetType
   service_data?: IPetService
   pets?: TPetType[]
-  services?: IPetService[],
+  services?: IPetService[]
 }
 export const PetServicerPriceParam = {
   pet_id: 'pet_id',
   service_id: 'service_id',
   is_all_service: 'isAllService',
-  is_all_pets: 'isAllPets'
+  is_all_pets: 'isAllPets',
 } as const satisfies Record<string, keyof IPetServicerPriceParam>

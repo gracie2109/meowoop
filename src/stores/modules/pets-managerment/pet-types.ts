@@ -1,7 +1,12 @@
-import { createData, fetchAllPets } from '@/services/modules/pets-managerment/pet-types.service'
+import {
+  createData,
+  deleteData,
+  fetchAllPets,
+  updateData,
+} from '@/services/modules/pets-managerment/pet-types.service'
 import type { TPetType, TPetTypeForm } from '@/types/pet-type'
 import { defineStore } from 'pinia'
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 export const usePetTypesStore = defineStore('petTypes', () => {
   const dataList = ref<TPetType[]>([])
@@ -26,6 +31,40 @@ export const usePetTypesStore = defineStore('petTypes', () => {
       console.log('ee', error)
 
       loading.value = false
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function updateType(
+    petType: TPetTypeForm & { id: string },
+    callback?: (data?: unknown) => void,
+    callbackErr?: (error?: unknown) => void,
+  ): Promise<void> {
+    try {
+      loading.value = true
+      const result = await updateData(petType)
+      if (callback) callback(result)
+    } catch (error) {
+      console.error('Error updating pet type:', error)
+      if (callbackErr) callbackErr(error)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function deleteType(
+    ids: string | string[],
+    callback?: (data?: unknown) => void,
+    callbackErr?: (error?: unknown) => void,
+  ): Promise<void> {
+    try {
+      loading.value = true
+      const result = await deleteData(ids)
+      if (callback) callback(result)
+    } catch (error) {
+      console.error('Error updating pet type:', error)
+      if (callbackErr) callbackErr(error)
     } finally {
       loading.value = false
     }
@@ -59,5 +98,7 @@ export const usePetTypesStore = defineStore('petTypes', () => {
     totalRecord,
     createPetType,
     searchList,
+    updateType,
+    deleteType,
   }
 })

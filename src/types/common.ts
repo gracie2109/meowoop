@@ -10,9 +10,8 @@ export type IPfIcon = {
   color: string
 }
 
-
 export const CommonParam = {
   id: 'id',
-  createdAt:'createdAt',
-  updatedAt:'updatedAt'
-}as const satisfies Record<string, keyof ICommon>
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+} as const satisfies Record<string, keyof ICommon>

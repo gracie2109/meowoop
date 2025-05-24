@@ -16,7 +16,7 @@ export const MENU_ADMIN = (t: Composer['t']): MenuItem[] => [
         title: t('menu.menu_6'),
         key: ROUTE_NAME.PET_SETTING_PET_TYPE,
       },
-    
+
       {
         label: transformLabel(ROUTE_NAME.PET_CATEGORY, t('menu.menu_7')),
         title: t('menu.menu_7'),

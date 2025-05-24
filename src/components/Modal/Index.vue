@@ -70,8 +70,8 @@ withDefaults(
     hide3ndBtn?: boolean
     bodyStyle?: CSSProperties
     syncBtn?: boolean
-    isSecondSubmit?: boolean,
-    hideHeader?:boolean
+    isSecondSubmit?: boolean
+    hideHeader?: boolean
   }>(),
   {
     showMask: true,
@@ -81,7 +81,7 @@ withDefaults(
     hide3ndBtn: true,
     syncBtn: true,
     isSecondSubmit: true,
-    hideHeader: false
+    hideHeader: false,
   },
 )
 const attrs = useAttrs()
