@@ -18,9 +18,9 @@ export const useGlobalStore = defineStore('global', () => {
   const lang: Ref<string> = ref(getLocal('LOCAL', 'LANGUAGE') ?? DEFAULT_LANGUAGE)
   const theme: Ref<string> = ref(getLocal('LOCAL', 'THEME') ?? DEFAULT_THEME)
 
-  const collapseMenu: Ref<boolean> = ref(getLocal('LOCAL', 'EXPAND_MENU') ?? false)
-  const selectedMenu = ref(getLocal('LOCAL', 'MENU_SELECTED') || [])
-  const opensMenu = ref(getLocal('LOCAL', 'OPEN_MENU_KEYS') || [])
+  const collapseMenu: Ref<boolean> = ref(getLocal('LOCAL', 'toggle') ?? false)
+  const selectedMenu = ref(getLocal('LOCAL', 'menu_current', true) || [])
+  const opensMenu = ref(getLocal('LOCAL', 'expand_menus', true) || [])
 
   ;(() => {
     const staticFunction = App.useApp()
@@ -31,7 +31,7 @@ export const useGlobalStore = defineStore('global', () => {
 
   function changeCollapse() {
     collapseMenu.value = !collapseMenu.value
-    setLocal('LOCAL', 'EXPAND_MENU', collapseMenu.value)
+    setLocal('LOCAL', 'toggle', collapseMenu.value)
   }
 
   function changeLanguage(data: AppLanguageType) {
@@ -45,10 +45,10 @@ export const useGlobalStore = defineStore('global', () => {
   }
 
   const updateSelectedKey = (keys: Key[]) => {
-    setLocal('LOCAL', 'MENU_SELECTED', keys)
+    setLocal('LOCAL', 'menu_current', keys, true)
   }
   const updateOpenKeys = (keys: Key[]) => {
-    setLocal('LOCAL', 'OPEN_MENU_KEYS', keys)
+    setLocal('LOCAL', 'expand_menus', keys, true)
   }
 
   return {

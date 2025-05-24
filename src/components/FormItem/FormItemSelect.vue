@@ -4,7 +4,7 @@
       <Select
         v-bind="attrs"
         :placeholder="placeholder ?? $t('common.placeholderSelect')"
-        :value="modelValue"
+        :value="modelValue ?? undefined"
         @change="$emit('update:modelValue', $event)"
         @blur="triggerValidate"
         :options="options"
@@ -37,7 +37,7 @@ defineEmits(['update:modelValue'])
 const form = inject('form') as InjectedFormContext
 const validateInfos = form?.validateInfos ?? {}
 
-const validateBinding = computed(() => validateInfos[props.name] || {})
+const validateBinding = computed(() => validateInfos[props.name as string] || {})
 
 const hasError = computed(() => {
   return validateBinding.value?.validateStatus === 'error'

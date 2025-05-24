@@ -5,6 +5,7 @@
     trigger="click"
     overlayClassName="icon-picker-popover"
     :get-popup-container="getPopupContainer"
+    style="position: relative"
   >
     <template #content>
       <div class="icon-picker-container">
@@ -52,7 +53,7 @@
         <Flex class="preview_icon_color" align="center" gap="16">
           <div style="height: 100%">
             <IconPreview
-              :svgId="`#${dataSelected.icon.replace('/', '-')}`"
+              :svgId="`#${dataSelected.icon?.replace('/', '-')}`"
               :color="dataSelected.color"
             />
           </div>
@@ -73,7 +74,6 @@
         </Row>
       </div>
     </template>
-
     <div class="icon-picker-trigger">
       <IconPreview :svgId="currentIconPath" :color="props.modelValue.color" />
     </div>
@@ -243,6 +243,7 @@ watch(
   cursor: pointer;
   width: 30px;
   height: 30px;
+  margin-top: 0.25rem;
 }
 
 .picker_controls {
