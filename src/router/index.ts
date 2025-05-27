@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/Dashboard/Index.vue'
 import ErrorPage from '@/views/ErrorPage.vue'
 import { LAYOUT_TYPE } from '@/contants/app'
 import { ROUTE_NAME } from '@/router/route'
