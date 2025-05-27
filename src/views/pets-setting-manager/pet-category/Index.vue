@@ -15,6 +15,7 @@
     <FormCs
       :data-item="dataItem"
       :showForm="showForm"
+      :dataSearch="{ ...dataSearch, ...dataPage }"
       @onCancel="
         () => {
           showForm = false

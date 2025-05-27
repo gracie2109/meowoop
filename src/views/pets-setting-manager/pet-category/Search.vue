@@ -5,6 +5,8 @@
     :ignoreKeys="props.ignoreKeys"
     v-model="model"
     :showFilter="false"
+    @onSearch="$emit('onSearch')"
+    @onEraser="$emit('onEraser')"
   />
 </template>
 
@@ -25,7 +27,7 @@ const props = defineProps<{
 }>()
 
 const model = defineModel<TSearch>()
-defineEmits(['onSearch'])
+defineEmits(['onSearch', 'onEraser'])
 defineOptions({
   name: 'CustomSearchView',
 })
