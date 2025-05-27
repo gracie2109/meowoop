@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/Dashboard/Index.vue'
+import HomeView from '@/views/Dashboard/Index.vue';
+import DashboardListView from '@/views/Dashboard/dashboard/Index.vue'
+
 import ErrorPage from '@/views/ErrorPage.vue'
 import { LAYOUT_TYPE } from '@/contants/app'
 import { ROUTE_NAME } from '@/router/route'
@@ -17,6 +19,15 @@ const router = createRouter({
       },
     },
     ...petModule,
+ {
+      path: '/dashboard-list',
+      name: ROUTE_NAME.DASHBOARD_LIST,
+      component: DashboardListView,
+      meta: {
+        layout: LAYOUT_TYPE.ADMIN,
+      },
+    },
+
     {
       path: '/:pathMatch(.*)*',
       meta: {

@@ -47,8 +47,8 @@
 
 <script lang="ts" setup>
 import type { AntdTableSize } from '@/types/lib'
-import { Table, Tooltip } from 'ant-design-vue'
-import { type TableColumnsType, type TableColumnType } from 'ant-design-vue'
+import { Table } from 'ant-design-vue'
+import { type TableColumnsType } from 'ant-design-vue'
 import { defineProps, computed, h } from 'vue'
 import iconEmpty from '@/assets/images/common/empt_box.webp'
 import { useI18n } from 'vue-i18n'

@@ -1,74 +1,72 @@
-<script setup lang="ts">
-import { reactive, watch } from 'vue'
-import { GridLayout, GridItem } from 'vue-grid-layout-v3'
-
-const state = reactive({
-  layout: [
-    { x: 0, y: 0, w: 2, h: 2, i: '0', static: false },
-    { x: 2, y: 0, w: 2, h: 4, i: '1', static: true },
-    { x: 4, y: 0, w: 2, h: 5, i: '2', static: false },
-    { x: 6, y: 0, w: 2, h: 3, i: '3', static: false },
-    { x: 8, y: 0, w: 2, h: 3, i: '4', static: false },
-    { x: 10, y: 0, w: 2, h: 3, i: '5', static: false },
-    { x: 0, y: 5, w: 2, h: 5, i: '6', static: false },
-    { x: 2, y: 5, w: 2, h: 5, i: '7', static: false },
-    { x: 4, y: 5, w: 2, h: 5, i: '8', static: false },
-    { x: 6, y: 3, w: 2, h: 4, i: '9', static: true },
-    { x: 8, y: 4, w: 2, h: 4, i: '10', static: false },
-    { x: 10, y: 4, w: 2, h: 4, i: '11', static: false },
-    { x: 0, y: 10, w: 2, h: 5, i: '12', static: false },
-    { x: 2, y: 10, w: 2, h: 5, i: '13', static: false },
-    { x: 4, y: 8, w: 2, h: 4, i: '14', static: false },
-    { x: 6, y: 8, w: 2, h: 4, i: '15', static: false },
-    { x: 8, y: 10, w: 2, h: 5, i: '16', static: false },
-    { x: 10, y: 4, w: 2, h: 2, i: '17', static: false },
-    { x: 0, y: 9, w: 2, h: 3, i: '18', static: false },
-    { x: 2, y: 6, w: 2, h: 2, i: '19', static: false },
-  ],
-  draggable: true,
-  resizable: true,
-  index: 0,
-  eventsDiv: undefined,
-  eventLog: [],
-})
-
-watch(
-  state.eventLog,
-  () => {
-    if (state.eventsDiv) {
-      state.eventsDiv.scrollTop = state.eventsDiv.scrollHeight
-    }
-  },
-  { deep: true },
-)
-
-</script>
 <template>
-  <div style="margin-top: 10px" class="grid-container">
-    <GridLayout v-model:layout="state.layout" :col-num="12" :row-height="30" :is-draggable="state.draggable"
-      :is-resizable="state.resizable" :responsive="false" :vertical-compact="false" :prevent-collision="true"
-      :use-css-transforms="true" class="grid">
-      <GridItem v-for="item in state.layout" :key="item.i" :static="item.static" :x="item.x" :y="item.y" :w="item.w"
-        :h="item.h" :i="item.i">
-        <span class="text">{{ item.i }}</span>
-      </GridItem>
-    </GridLayout>
+  <div style="position: relative">
+    <DashboardHeader />
+    <DashboardControlHeader />
+    <div class="dashboard-content">
+      <GridLayout
+        v-model:layout="currentWidget"
+        :col-num="12"
+        :row-height="30"
+        :is-draggable="!!editMode"
+        :is-resizable="!!editMode"
+        :responsive="false"
+        :vertical-compact="false"
+        :prevent-collision="true"
+        :use-css-transforms="true"
+        class="grid"
+        :class="{ 'edit-mode': editMode }"
+      >
+        <GridItem
+          v-for="item in currentWidget"
+          :key="item?.i"
+          :static="item?.static"
+          :x="item?.x"
+          :y="item?.y"
+          :w="item?.w"
+          :h="item?.h"
+          :i="item?.i"
+        >
+          <span class="text">{{ item?.i }}</span>
+        </GridItem>
+      </GridLayout>
+    </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import DashboardHeader from '@/views/Dashboard/components/dashboard-header/Index.vue'
+import DashboardControlHeader from './components/control-header/Index.vue'
+import { useDashboardStore } from '@/stores'
+import { storeToRefs } from 'pinia'
+import { GridLayout, GridItem } from 'vue-grid-layout-v3'
+import { onMounted } from 'vue'
+
+const $store = useDashboardStore()
+const { currentWidget, editMode, currentDashboard } = storeToRefs($store)
+
+defineOptions({
+  name: 'DashboardIndex',
+});
+
+
+onMounted(() => {
+  $store.searchList({ page: 1, size: 1000 });
+})
+</script>
+
 <style scoped>
 .grid {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 82vh;
   margin: 0 auto;
 }
 
-.grid::before {
+.edit-mode::before {
   content: '';
   background-size: calc(calc(100% - 5px) / 24) 40px;
-  background-image: linear-gradient(to right,
-      lightgrey 1px,
-      transparent 1px),
+  background-image:
+    linear-gradient(to right, lightgrey 1px, transparent 1px),
     linear-gradient(to bottom, lightgrey 1px, transparent 1px);
   height: calc(100% - 5px);
   width: calc(100% - 5px);
@@ -78,7 +76,7 @@ watch(
 }
 
 .vue-grid-layout {
-  background: #eee;
+  background: white;
 }
 
 .vue-grid-item:not(.vue-grid-placeholder) {
@@ -86,12 +84,7 @@ watch(
   border: 1px solid black;
 }
 
-.vue-grid-item.static {
-  background: #cce;
-}
-
 .vue-grid-item .text {
-  font-size: 24px;
   text-align: center;
   position: absolute;
   top: 0;
