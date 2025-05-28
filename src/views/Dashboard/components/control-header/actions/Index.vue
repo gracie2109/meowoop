@@ -1,12 +1,11 @@
 <template>
-  <div style="cursor: pointer">
-    <Icon
-      @click="handleClick"
-      v-if="!editMode"
-      icon="lucide:edit"
-      height="24"
-      color="var(--vt-c-primary)"
-    />
+  <Flex align="center" style="cursor: pointer" :gap="16">
+    <div>
+      <Icon @click="addWidget" icon="typcn:plus-outline" height="28" color="var(--vt-c-primary)" />
+    </div>
+    <div v-if="!editMode">
+      <Icon @click="handleClick" icon="lucide:edit" height="24" color="var(--vt-c-primary)" />
+    </div>
 
     <Flex v-else style="gap: 1rem">
       <Flex>
@@ -24,7 +23,8 @@
         </Flex>
       </Button>
     </Flex>
-  </div>
+   <slot name="content" />
+  </Flex>
 </template>
 
 <script setup lang="ts">
@@ -34,13 +34,15 @@ import { useDashboardStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 
 const $store = useDashboardStore()
-const { editMode } = storeToRefs($store)
+const { editMode, currentDashboard } = storeToRefs($store)
 
 const handleClick = () => {
   $store.toggleEditMode(!editMode.value)
 }
 
 const saveWidgetSetting = () => {}
+const addWidget = () => {}
+
 defineOptions({
   name: 'DashboardActions',
 })

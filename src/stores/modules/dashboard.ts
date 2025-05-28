@@ -15,7 +15,9 @@ import type { TDashboard, TDashboardForm } from '@/types/dashboard'
 export const useDashboardStore = defineStore('dashboard', () => {
   const loading = ref(false)
   const totalDashboard = ref(0)
-  const editMode = ref(false)
+  const editMode = ref(false);
+
+  const fullscreenDashboard = ref(false)
   const timeFilter = ref({
     from_time: dayjs().subtract(1, 'day'),
     to_time: dayjs(),

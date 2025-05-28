@@ -1,22 +1,30 @@
 <template>
   <div class="control_header">
-    <div class="control_content">
-      <div class="right_actions">
+    <Row align="center" justify="space-between" :gutter="16">
+      <Col lg="4" sm="24" class="right_actions">
         <DashboardSelector />
         <Tooltip placement="top" auto-adjust-overflow>
           <template #title>{{ $t('dashboard.d3') }}</template>
           <div @click="goListDashboard">
-            <Icon style="cursor: pointer" icon="material-symbols:dashboard-outline-rounded" height="30"
-              color="var(--vt-c-primary)" />
+            <Icon
+              style="cursor: pointer"
+              icon="material-symbols:dashboard-outline-rounded"
+              height="30"
+              color="var(--vt-c-primary)"
+            />
           </div>
         </Tooltip>
-      </div>
+      </Col>
 
-      <div class="right_actions">
+      <Col lg="8" sm="24"  class="right_actions">
         <TimeFilter />
-        <DashboardAction />
-      </div>
-    </div>
+        <DashboardAction>
+          <template #content>
+            <slot name="content" />
+          </template>
+        </DashboardAction>
+      </Col>
+    </Row>
   </div>
 </template>
 
@@ -26,12 +34,12 @@ import DashboardSelector from './dashboard-selector/Index.vue'
 import DashboardAction from '@/views/Dashboard/components/control-header/actions/Index.vue'
 import TimeFilter from '@/views/Dashboard/components/control-header/time-filter/Index.vue'
 import { Icon } from '@iconify/vue/dist/iconify.js'
-import { Tooltip } from 'ant-design-vue'
+import { Row, Col, Tooltip } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
-const router = useRouter();
+const router = useRouter()
 
 const goListDashboard = () => {
-  router.push({ name: ROUTE_NAME.DASHBOARD_LIST });
+  router.push({ name: ROUTE_NAME.DASHBOARD_LIST })
 }
 
 defineOptions({

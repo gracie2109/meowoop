@@ -4,11 +4,11 @@
     show-search
     placeholder="Select a dashboard"
     allow-clear
-    style="width: 300px"
     :options="options"
     :filter-option="true"
     @change="handleChange"
     :size="'middle'"
+    style="width: 250px;"
   />
 </template>
 

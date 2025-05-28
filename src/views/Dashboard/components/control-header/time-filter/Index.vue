@@ -1,6 +1,6 @@
 <template>
   <RangePicker
-    style="width: 400px"
+  
     format="DD/MM/YYYY HH:mm:ss"
     :presets="PRESET_OPTION_2"
     @change="onRangeChange"
