@@ -1,59 +1,54 @@
-import type { IPetServicerPriceParam, IPetServicerPriceResponse } from '@/types/pet-type'
-import { defineStore, storeToRefs } from 'pinia'
-import { usePetServices, usePetTypesStore } from '@/stores'
-import { toRaw } from 'vue'
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import {
+  createData,
+  getDetailServicePrice,
+} from '@/services/modules/pets-managerment/pet-service-price.service'
 
 export const usePetServicePrice = defineStore('petServicePrice', () => {
-  const $petT = usePetTypesStore()
-  const $service = usePetServices()
-  const { dataList: pets } = storeToRefs($petT)
-  const { dataList: services } = storeToRefs($service)
+  const loading = ref(false)
 
-  function getSeviceByPet(petTypes?: string) {
-    const data = toRaw(services.value)
-    if (!data || !petTypes) return
-    const petTypeSet = new Set(Array.isArray(petTypes) ? petTypes : [petTypes])
-    const result = []
-    for (const item of data) {
-      if (item.pet_type_ids?.some((id) => petTypeSet.has(id))) {
-        result.push(item)
-      }
+  async function onSetPrice(
+    payload: any,
+    callback?: (data?: unknown) => void,
+    callbackErr?: (data?: unknown) => void,
+  ) {
+    try {
+      loading.value = true
+      await createData(payload)
+        .then((vl: unknown) => {
+          if (callback) callback(vl)
+        })
+        .catch((err) => {
+          if (callbackErr) callbackErr(err)
+        })
+    } catch (error) {
+      console.log('ee', error)
+
+      loading.value = false
+    } finally {
+      loading.value = false
     }
-    return result
   }
 
-  function getData(data: Partial<IPetServicerPriceParam>): IPetServicerPriceResponse {
-    if (!data)
-      return {
-        service_data: undefined,
-        pet_data: undefined,
+  async function getDetailSvPrice(payload: any) {
+    try {
+      loading.value = true
+      const rs = (await getDetailServicePrice(payload)) as {
+        success: boolean
+        data: any
       }
 
-    const validPet = toRaw(pets.value).find((i) => i?._id === data.pet_id)
-    const detailService = toRaw(services.value).find((i) => i?._id === data.service_id)
+      return rs
+    } catch (err) {
+      loading.value = false
 
-    const service_by_pets = getSeviceByPet(data.pet_id)
-    let rs = {
-      service_data: detailService ?? undefined,
-      pet_data: validPet ?? undefined,
+      console.log('err', err)
+    } finally {
+      loading.value = false
     }
-
-    if (data.pet_id && data.service_id) {
-      Object.assign(rs, { pets: [], services: [] })
-    }
-    if (!(data.pet_id && data.service_id)) {
-      Object.assign(rs, { pets: toRaw(pets.value), services: toRaw(services.value) })
-    }
-
-    if (!data.pet_id && data.service_id) {
-      Object.assign(rs, { pets: toRaw(pets.value), services: service_by_pets })
-    }
-    if (data.pet_id && !data.service_id) {
-      Object.assign(rs, { pets: [], services: service_by_pets })
-    }
-
-    return rs
   }
 
-  return { getData, getSeviceByPet }
+
+  return { onSetPrice, getDetailSvPrice }
 })

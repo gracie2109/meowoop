@@ -1,6 +1,6 @@
 <template>
-  <div class="container" id="pet_types" ref="el" style="position: relative">
-   <DashboardHeader />
+  <div id="pet_types" ref="el" style="position: relative">
+    <DashboardHeader />
     <Search
       placeholder="Search data pet types"
       :actionButton="actionButton"

@@ -8,7 +8,7 @@
     :filter-option="true"
     @change="handleChange"
     :size="'middle'"
-    style="width: 250px;"
+    style="width: 250px"
   />
 </template>
 

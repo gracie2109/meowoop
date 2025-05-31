@@ -6,5 +6,5 @@ export default {
   menu,
   common,
   pType,
-  dashboard
+  dashboard,
 }

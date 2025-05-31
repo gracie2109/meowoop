@@ -26,7 +26,7 @@
               :label="$t('common.description')"
             />
           </Col>
-      
+
           <Flex gap="20" align="center" justify="end">
             <Button size="large">
               {{ $t('common.cancelTitle') }}
@@ -45,7 +45,7 @@
 import { Row, Col, Form, Button, Flex } from 'ant-design-vue'
 import FormItemInput from '@/components/FormItem/FormInput.vue'
 import { DashboardParams, type TDashboard, type TDashboardForm } from '@/types/dashboard'
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ModalCs from '@/components/Modal/Index.vue'
 import { useDashboardStore } from '@/stores'
@@ -63,7 +63,7 @@ defineOptions({ name: 'addAndEditPetType' })
 const DEFAULT_FORM: TDashboardForm = {
   name: '',
   description: '',
-  status: false
+  status: false,
 }
 
 const formRef = ref<TDashboardForm>({ ...DEFAULT_FORM })

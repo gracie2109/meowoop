@@ -23,7 +23,7 @@
         </Flex>
       </Button>
     </Flex>
-   <slot name="content" />
+    <slot name="content" />
   </Flex>
 </template>
 

@@ -30,7 +30,7 @@
             />
           </Col>
 
-          <Col span="12">
+          <!-- <Col span="12">
             <FormItemSelect
               v-model:model-value="formRef.category_id"
               :name="IPetServiceParams.category_id"
@@ -44,15 +44,15 @@
               is-required
               :rules="rulesRef.category_id"
             />
-          </Col>
-          <Col span="12">
+          </Col> -->
+          <Col span="24">
             <FormItemSelect
               v-model:model-value="formRef.pet_type_ids"
               :name="IPetServiceParams.pet_type_ids"
               :label="$t('pType.S6')"
               :options="
-                categories?.map((i) => ({
-                  label: i.name?.[locale as 'vi' | 'en'],
+                petTypes?.map((i) => ({
+                  label: i.name,
                   value: i.id,
                 }))
               "
@@ -76,7 +76,7 @@
               :label="$t('pType.C-02-2')"
             />
           </Col>
-          <Col span="24">
+          <!-- <Col span="24">
             <FormItemInputNumber
               v-model:model-value="formRef.price"
               :name="IPetServiceParams.price"
@@ -96,7 +96,7 @@
               </Slider>
               <label class="form_label" style="left: 22px"> {{ $t('pType.S4') }} </label>
             </div>
-          </Col>
+          </Col> -->
 
           <Flex gap="20" align="center" justify="end">
             <Button size="large">
@@ -135,25 +135,15 @@ const useForm = Form.useForm
 const props = defineProps<{
   showForm: boolean
   dataItem?: object | null
+  dataSearch?: object
 }>()
 const emit = defineEmits(['onCancel'])
 
-const $category = usePetCategoryStore()
+// const $category = usePetCategoryStore()
 const $petType = usePetTypesStore()
 const $store = usePetServices()
 
-const { dataList: categories } = storeToRefs($category)
 const { dataList: petTypes } = storeToRefs($petType)
-const marks = ref({
-  10: '10m',
-  20: '20m',
-  30: '30m',
-  60: '1h',
-  90: '1h30m',
-  120: '2h',
-  150: '2h30m',
-  180: '3h',
-})
 const DEFAULT_FORM: IPetServiceForm = {
   name: {
     vi: '',
@@ -184,12 +174,6 @@ const rulesRef = reactive({
       message: t('common.required', { name: t('pType.C-01-2') }),
     },
   ],
-  category_id: [
-    {
-      required: true,
-      message: t('common.required', { name: t('pType.S5') }),
-    },
-  ],
   pet_type_ids: [
     {
       required: true,
@@ -203,8 +187,19 @@ const handleOk = () => {
   form
     .validate()
     .then(() => {
-      $store.onCreateData(formRef.value)
-      emit('onCancel')
+      // $store.onCreateData(formRef.value)
+      // emit('onCancel')
+      if (!props.dataItem) {
+        $store.onCreateData(formRef.value, () => {
+          $store.searchList({ ...(props.dataSearch || {}) })
+          emit('onCancel')
+        })
+      } else {
+        $store.onUpdateData({ ...formRef.value, id: props.dataItem?.id }, () => {
+          $store.searchList({ ...(props.dataSearch || {}) })
+          emit('onCancel')
+        })
+      }
     })
     .catch((e) => {
       console.log('eeee', e)

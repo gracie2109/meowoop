@@ -24,8 +24,6 @@ export const PIE_CHART = 'pie-chart'
 export const TIMER_COUNTDOWN = 'timer-countdown'
 export const TIMER_TIMER = 'timer-timer'
 
-
-
 // list groups
 export const CARD_GROUP = [CARD_TYPE_1, CARD_TYPE_2]
 export const TABLE_GROUP = [TABLE_TYPE_1, TABLE_TYPE_2]

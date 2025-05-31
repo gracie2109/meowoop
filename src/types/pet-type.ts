@@ -1,4 +1,4 @@
-import type { ICommon, IPfIcon } from './common'
+import type { ICommon, IData, IPfIcon } from './common'
 
 export type FieldMultiLang = {
   vi: string
@@ -47,12 +47,16 @@ export type IPetServiceForm = {
   description: FieldMultiLang
   category_id: string
   pet_type_ids: string[]
-  price: number
-  duration: number
+  price?: number
+  duration?: number
   category_data?: Partial<TPetCategory>
-  pet_target_data?: Partial<TPetType>[]
+  pet_target_data?: Partial<TPetType>[] 
 }
 export type IPetService = IPetServiceForm & ICommon
+export type IPetServiceDetail = IPetService & {
+  pet_service_data?: unknown,
+  pet_types_info?: Partial<TPetType>[]
+}
 export const IPetServiceParams = {
   name: 'name',
   desc: 'description',

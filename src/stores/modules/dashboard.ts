@@ -15,7 +15,7 @@ import type { TDashboard, TDashboardForm } from '@/types/dashboard'
 export const useDashboardStore = defineStore('dashboard', () => {
   const loading = ref(false)
   const totalDashboard = ref(0)
-  const editMode = ref(false);
+  const editMode = ref(false)
 
   const fullscreenDashboard = ref(false)
   const timeFilter = ref({
@@ -27,7 +27,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
 
   const dashboardList = ref<unknown>([])
 
-  function toggleEditMode(bool:boolean) {
+  function toggleEditMode(bool: boolean) {
     editMode.value = bool
   }
 
@@ -90,8 +90,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
       const data = res.data?.data as TDashboard[]
 
       dashboardList.value = data
-      totalDashboard.value = res.totalRecord;
-      
+      totalDashboard.value = res.totalRecord
     } catch (err) {
       loading.value = false
 

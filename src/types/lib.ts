@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs'
 import type { TABLE_SIZE, COLOR_TYPE, ICON_PREFIX } from '@/contants/lib'
 import type { NamePath, RuleObject } from 'ant-design-vue/es/form/interface'
 import type { ValidateErrorEntity } from 'ant-design-vue/es/form/interface'
@@ -55,5 +55,4 @@ export type TSearch = {
   [key: string]: unknown
 }
 
-
-  export type TimeType = string | Dayjs
+export type TimeType = string | Dayjs

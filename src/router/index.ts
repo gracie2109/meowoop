@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/Dashboard/Index.vue';
+import HomeView from '@/views/Dashboard/Index.vue'
 import DashboardListView from '@/views/Dashboard/dashboard/Index.vue'
 
 import ErrorPage from '@/views/ErrorPage.vue'
@@ -19,7 +19,7 @@ const router = createRouter({
       },
     },
     ...petModule,
- {
+    {
       path: '/dashboard-list',
       name: ROUTE_NAME.DASHBOARD_LIST,
       component: DashboardListView,

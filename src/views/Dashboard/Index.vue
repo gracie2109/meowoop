@@ -1,16 +1,8 @@
 <template>
-  <div style="position: relative;" >
+  <div style="position: relative">
     <DashboardHeader />
-    <DashboardControlHeader>
-      <template #content>
-
-      
-        <div @click="toggle"><Icon  icon="typcn:plus-outline" height="28" color="var(--vt-c-primary)" /></div>
-
-      </template>
-    </DashboardControlHeader>
-
-    <div class="dashboard-content"  ref="el">
+    <DashboardControlHeader />
+    <div class="dashboard-content" ref="el">
       <GridLayout
         v-model:layout="layout"
         :col-num="12"
@@ -25,7 +17,6 @@
         :is-bounded="true"
       >
         <GridItem
-
           v-for="item in layout"
           :key="item?.i"
           :x="item?.x"
@@ -50,7 +41,7 @@ import { useDashboardStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import { GridLayout, GridItem } from 'vue-grid-layout-v3'
 import { computed, onMounted, ref, useTemplateRef } from 'vue'
-import { useFullscreen } from '@vueuse/core';
+import { useFullscreen } from '@vueuse/core'
 const el = useTemplateRef('el')
 
 const { toggle } = useFullscreen(el)
@@ -138,5 +129,4 @@ onMounted(() => {
   height: 100%;
   width: 100%;
 }
-
 </style>

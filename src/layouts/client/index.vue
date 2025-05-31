@@ -5,5 +5,5 @@
 </template>
 
 <script setup lang="ts">
-defineOptions({name: 'clientLayout'})
+defineOptions({ name: 'clientLayout' })
 </script>

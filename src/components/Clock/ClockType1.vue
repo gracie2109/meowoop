@@ -10,36 +10,24 @@ setInterval(() => {
 }, 1000)
 
 // Computed functions to get units
-const getSeconds = computed(() =>
-  time.value.getSeconds().toString().padStart(2, '0'),
-)
-const getMinutes = computed(() =>
-  time.value.getMinutes().toString().padStart(2, '0'),
-)
-const getHours = computed(() =>
-  time.value.getHours().toString().padStart(2, '0'),
-)
+const getSeconds = computed(() => time.value.getSeconds().toString().padStart(2, '0'))
+const getMinutes = computed(() => time.value.getMinutes().toString().padStart(2, '0'))
+const getHours = computed(() => time.value.getHours().toString().padStart(2, '0'))
 </script>
 
 <template>
   <section class="clock mt-12">
     <div class="clock__col">
       <DigitalClockDigit :value="getHours" />
-      <div class="clock__unit">
-        Hours
-      </div>
+      <div class="clock__unit">Hours</div>
     </div>
     <div class="clock__col">
       <DigitalClockDigit :value="getMinutes" />
-      <div class="clock__unit">
-        Minutes
-      </div>
+      <div class="clock__unit">Minutes</div>
     </div>
     <div class="clock__col">
       <DigitalClockDigit :value="getSeconds" />
-      <div class="clock__unit">
-        Seconds
-      </div>
+      <div class="clock__unit">Seconds</div>
     </div>
   </section>
 </template>
@@ -73,5 +61,4 @@ const getHours = computed(() =>
   font-weight: 900; /* font-black */
   margin-top: 0.25rem; /* mt-1 */
 }
-
 </style>

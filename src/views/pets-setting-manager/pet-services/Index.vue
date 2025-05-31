@@ -1,5 +1,5 @@
 <template>
-  <div class="container" id="pet_types" ref="el" style="position: relative">
+  <div  id="pet_types" ref="el" style="position: relative">
     <PageHeader>
       <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
       {{ $t('menu.menu_8') }}
@@ -9,11 +9,13 @@
       :actionButton="actionButton"
       v-model="dataSearch"
       @onSearch="onSearch"
+      @on-eraser="onEraser"
     />
 
     <FormCs
       :data-item="dataItem"
       :showForm="showForm"
+      :dataSearch="{ ...dataSearch, ...dataPage }"
       @onCancel="
         () => {
           showForm = false
@@ -21,7 +23,13 @@
         }
       "
     />
-    <Table :columns="columns" :data="dataList" min-height="75.6vh" style="margin-top: 0.5rem" />
+    <Table
+      :loading="loading"
+      :columns="columns"
+      :data="dataList"
+      min-height="75.6vh"
+      style="margin-top: 0.5rem"
+    />
   </div>
 </template>
 
@@ -30,24 +38,32 @@ import PageHeader from '@/components/PageHeader.vue'
 import { useDynamicTitle } from '@/composables'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import Search from '@/views/pets-setting-manager/pet-types/Search.vue'
-import { computed, h, markRaw, reactive, ref, toRaw } from 'vue'
+import { computed, h, markRaw, onMounted, reactive, ref, toRaw } from 'vue'
 import FormCs from './Form.vue'
 import Table from '@/components/Table/Index.vue'
 import type { TableColumnsType } from 'ant-design-vue'
 import RowActions from '@/components/Table/FunctionTable.vue'
 import { useI18n } from 'vue-i18n'
 import type { TSearch } from '@/types/lib'
-import { usePetServices } from '@/stores'
+import { usePetServices, usePetTypesStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import { PetServicerPriceParam, type TPetType } from '@/types/pet-type'
 import { useRouter } from 'vue-router'
 import { ROUTE_NAME } from '@/router/route'
 
 const $store = usePetServices()
-const { dataList } = storeToRefs($store)
+const $petType = usePetTypesStore()
+
+const { dataList, loading } = storeToRefs($store)
 const router = useRouter()
+const showForm = ref(false)
+const dataItem = ref(null)
 const dataSearch = ref<TSearch>({
   search_text: '',
+})
+const dataPage = ref({
+  page: 1,
+  page_size: 25,
 })
 
 const { t, locale } = useI18n()
@@ -83,10 +99,10 @@ const columns = computed<TableColumnsType>(() => [
   },
   {
     title: t('pType.S6'),
-    dataIndex: 'pet_type_ids',
-    key: 'pet_type_ids',
+    dataIndex: 'pet_types_info',
+    key: 'pet_types_info',
     customRender: ({ record }) => {
-      const targets = record?.pet_target_data
+      const targets = record?.pet_types_info
         ?.map((i: Partial<TPetType>) => i?.name)
         ?.filter(Boolean)
         ?.join(', ')
@@ -136,11 +152,12 @@ const columns = computed<TableColumnsType>(() => [
   },
 ])
 
-const showForm = ref(false)
-const dataItem = ref(null)
-
-const onSearch = (val: unknown) => {
-  console.log('val', val)
+const onSearch = () => {
+  $store.searchList({ ...dataPage.value, ...dataSearch.value })
+}
+const onEraser = () => {
+  Object.assign(dataSearch.value, { search_text: null })
+  $store.searchList({ ...dataPage.value })
 }
 
 const actionButton = reactive([
@@ -167,12 +184,17 @@ const actionButton = reactive([
         color: 'var(--vt-c-primary-slate)',
         style: 'cursor: pointer',
         onClick: () => {
-          alert('click reload')
+          $store.searchList({ ...dataPage.value, ...dataSearch.value })
         },
       }),
     ),
   },
 ])
+
+onMounted(() => {
+  $store.searchList({ ...dataPage.value, ...dataSearch.value })
+  $petType.searchList({ page: 1, page_size: 500 })
+})
 useDynamicTitle('menu.menu_8')
 defineOptions({ name: 'petServices' })
 </script>

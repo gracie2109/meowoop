@@ -16,7 +16,7 @@
         </Tooltip>
       </Col>
 
-      <Col lg="8" sm="24"  class="right_actions">
+      <Col lg="8" sm="24" class="right_actions">
         <TimeFilter />
         <DashboardAction>
           <template #content>
