@@ -1,9 +1,11 @@
 <template>
-  <div>Render service list</div>
+  <div></div>
 </template>
 
 <script setup lang="ts">
-defineOptions({ name: 'service-list' })
+defineOptions({
+  name: 'TableWidget',
+})
 </script>
 
 <style scoped></style>

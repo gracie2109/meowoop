@@ -1,9 +1,11 @@
 <template>
-  <div>overview-pet-price</div>
+  <div></div>
 </template>
 
 <script setup lang="ts">
-defineOptions({ name: 'overview-pet-price' })
+defineOptions({
+  name: 'DashboardChart',
+})
 </script>
 
 <style scoped></style>

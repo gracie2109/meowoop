@@ -1,5 +1,5 @@
 <template>
-  <div class="container" id="pet_types" ref="el" style="position: relative">
+  <div id="pet_types" ref="el" style="position: relative">
     <PageHeader>
       <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
       {{ $t('menu.menu_6') }}
@@ -56,7 +56,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js'
 import Search from '@/views/pets-setting-manager/pet-types/Search.vue'
 import { computed, h, markRaw, onMounted, reactive, ref, toRaw } from 'vue'
 import FormCs from './Form.vue'
-import { PetTypeParams, type TPetType } from '@/types/pet-type'
+import { PetServicerPriceParam, PetTypeParams, type TPetType } from '@/types/pet-type'
 import { DEFAULT_COLOR, DEFAULT_ICON } from '@/contants/lib'
 import Table from '@/components/Table/Index.vue'
 import type { TableColumnsType } from 'ant-design-vue'
@@ -69,6 +69,8 @@ import { usePetTypesStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import { formatFullTime } from '@/utils/time'
 import Modal from '@/components/Modal/Index.vue'
+import { ROUTE_NAME } from '@/router/route'
+import { useRouter } from 'vue-router'
 const $store = usePetTypesStore()
 const { dataList, loading } = storeToRefs($store)
 const dataPage = ref({
@@ -84,6 +86,8 @@ const dataSearch = ref<TSearch>({
 })
 
 const { t, locale } = useI18n()
+const router = useRouter()
+
 const columns = computed<TableColumnsType>(() => [
   {
     title: t('pType.param1'),
@@ -138,6 +142,31 @@ const columns = computed<TableColumnsType>(() => [
         actions: [
           { type: 'edit', payload: record },
           { type: 'delete', payload: record },
+          {
+            type: 'custom',
+            payload: record,
+            customRender: () =>
+              markRaw(
+                h(Icon, {
+                  icon: 'mage:money-exchange',
+                  height: '30px',
+                  color: 'var(--vt-c-primary-slate)',
+                  style: 'cursor: pointer',
+                  onClick: () => {
+                    router.push({
+                      name: ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE,
+                      query: {
+                        [PetServicerPriceParam.pet_id]: record.id,
+                      },
+                      state: {
+                        dataSearch: { ...dataPage.value, ...dataSearch.value },
+                        title: JSON.stringify("t('menu.menu_6')"),
+                      },
+                    })
+                  },
+                }),
+              ),
+          },
         ],
         onEdit: (data) => {
           showForm.value = true

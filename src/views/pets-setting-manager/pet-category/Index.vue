@@ -1,5 +1,5 @@
 <template>
-  <div class="container" id="pet_types" ref="el" style="position: relative">
+  <div  id="pet_types" ref="el" style="position: relative">
     <PageHeader>
       <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
       {{ $t('menu.menu_7') }}
@@ -15,6 +15,7 @@
     <FormCs
       :data-item="dataItem"
       :showForm="showForm"
+      :dataSearch="{ ...dataSearch, ...dataPage }"
       @onCancel="
         () => {
           showForm = false

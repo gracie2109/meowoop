@@ -15,3 +15,8 @@ export const CommonParam = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const satisfies Record<string, keyof ICommon>
+
+export interface IData extends ICommon {
+  name: string,
+  [key:string]: unknown
+}

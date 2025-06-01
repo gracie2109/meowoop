@@ -1,89 +1,113 @@
+import {
+  fetchAllService,
+  createData,
+  getDetaiPetlService,
+  updateData
+} from '@/services/modules/pets-managerment/pet-service.service'
 import type { IPetService, IPetServiceForm } from '@/types/pet-type'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 export const usePetServices = defineStore('petServices', () => {
-  const dataList = ref<IPetService[]>([
-    {
-      _id: '1',
-      id: '1',
-      created_at: new Date(),
-      updated_at: new Date(),
-      name: {
-        vi: 'services 1 vi',
-        en: 'services 1 en',
-      },
-      description: {
-        en: 'services 1 desc en ',
-        vi: 'services 1 desc vi ',
-      },
-      category_id: 'cate1',
-      pet_type_ids: ['1'],
-      duration: 33,
-      price: 1200,
-      category_data: {
-        id: 'cate1',
-        name: {
-          vi: 'cate 1 vi',
-          en: 'cate 1 en',
-        },
-      },
-      pet_target_data: [
-        {
-          id: '1',
-          name: 'PET 1',
-        },
-        {
-          id: '2',
-          name: 'PET 2',
-        },
-      ],
-    },
-    {
-      _id: '2',
-      id: '2',
-      created_at: new Date(),
-      updated_at: new Date(),
-      name: {
-        vi: 'services 2 vi',
-        en: 'services 2 en',
-      },
-      description: {
-        en: 'services 2 desc en ',
-        vi: 'services 2 desc vi ',
-      },
-      category_id: 'cate1',
-      pet_type_ids: ['2'],
-      duration: 33,
-      price: 1200,
-      category_data: {
-        id: 'cate1',
-        name: {
-          vi: 'cate 1 vi',
-          en: 'cate 1 en',
-        },
-      },
-      pet_target_data: [
-        {
-          id: '2',
-          name: 'PET 2',
-        },
-      ],
-    },
-  ])
+  const dataList = ref<IPetService[]>([])
+  const loading = ref(false)
+  const totalRecord = ref(0)
 
-  function onCreateData(petType: IPetServiceForm) {
-    const payload = {
-      ...petType,
-      _id: String(dataList.value.length + 1),
-      id: String(dataList.value.length + 1),
-      created_at: new Date(),
-      updated_at: new Date(),
+  async function onCreateData(
+    payload: IPetServiceForm,
+    callback?: (data?: unknown) => void,
+    callbackErr?: (data?: unknown) => void,
+  ) {
+    try {
+      loading.value = true
+      await createData(payload)
+        .then((vl: unknown) => {
+          if (callback) callback(vl)
+        })
+        .catch((err) => {
+          if (callbackErr) callbackErr(err)
+        })
+    } catch (error) {
+      console.log('ee', error)
+
+      loading.value = false
+    } finally {
+      loading.value = false
     }
-    dataList.value.push(payload as IPetService)
+  }
+
+   async function onUpdateData(
+    payload: IPetServiceForm & {id: string},
+    callback?: (data?: unknown) => void,
+    callbackErr?: (data?: unknown) => void,
+  ) {
+    try {
+      loading.value = true
+      await updateData(payload)
+        .then((vl: unknown) => {
+          if (callback) callback(vl)
+        })
+        .catch((err) => {
+          if (callbackErr) callbackErr(err)
+        })
+    } catch (error) {
+      console.log('ee', error)
+
+      loading.value = false
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function searchList(payload: unknown, bool?: boolean = false) {
+    try {
+      loading.value = true
+      const res = (await fetchAllService(payload)) as {
+        success: boolean
+        totalRecord: number
+        data: { data: IPetService[] }
+      }
+
+      const data = res.data?.data as IPetService[]
+
+      if (!bool) {
+        dataList.value = data
+        totalRecord.value = res.totalRecord
+      }else{
+        return data
+      }
+    } catch (err) {
+      loading.value = false
+
+      console.log('err', err)
+    } finally {
+      loading.value = false
+    }
+  }
+  async function getDetailService(payload: { id: string }) {
+    try {
+      loading.value = true
+      const rs = (await getDetaiPetlService(payload)) as {
+        success: boolean
+        data: any
+      }
+
+      return rs
+    } catch (err) {
+      loading.value = false
+
+      console.log('err', err)
+    } finally {
+      loading.value = false
+    }
   }
 
   return {
     dataList,
+    loading,
+    totalRecord,
     onCreateData,
+    searchList,
+    getDetailService,
+    onUpdateData
   }
 })
