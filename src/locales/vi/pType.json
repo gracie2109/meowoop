@@ -1,0 +1,27 @@
+{
+  "T-01": "Thêm mới loại thú cưng",
+  "T-02": "Chỉnh sửa loại thú cưng",
+  "T-03": "Xóa loại thú cưng",
+  "param1": "Tên loại thú cưng",
+  "T-04": "Bạn có chắc chắn muốn xóa loại {name}  không?",
+
+  "B-01": "Tên dịch vụ",
+
+  "C_add": "Thêm mới danh mục dịch vụ",
+  "C_edit": "Sửa danh mục dịch vụ",
+  "C-01": "Tên danh mục",
+  "C-01-1": "Tên danh mục tiếng việt",
+  "C-01-2": "Tên danh mục tiếng anh",
+  "C-02-1": "Mô tả tiếng việt",
+  "C-02-2": "Mô tả tiếng anh",
+
+  "S1": "Thêm dịch vụ",
+  "S2": "Chỉnh sửa dịch vụ",
+  "S3": "Tên dịch vụ",
+  "S4": "Thời gian thực hiện",
+  "S5": "Danh mục",
+  "S6": "Đối tượng áp dụng",
+  "S7": "Chi phí",
+
+  "P1": "Giá dịch vụ"
+}

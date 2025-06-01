@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs'
 import type { TABLE_SIZE, COLOR_TYPE, ICON_PREFIX } from '@/contants/lib'
 import type { NamePath, RuleObject } from 'ant-design-vue/es/form/interface'
 import type { ValidateErrorEntity } from 'ant-design-vue/es/form/interface'
@@ -41,10 +42,17 @@ type OptionType = {
 export type AntdOptionsType = OptionType[]
 
 export interface AntdComponentProps {
-  name: string
+  name: string | string[]
   placeholder?: string
   label: string
   rules?: RuleObject | RuleObject[] | undefined
-  isRequired: boolean
-  modelValue: string | number | undefined | null
+  isRequired?: boolean
+  modelValue: string | number | undefined | null | string[] | unknown
 }
+
+export type TSearch = {
+  search_text: string
+  [key: string]: unknown
+}
+
+export type TimeType = string | Dayjs

@@ -4,7 +4,7 @@
       <Row
         justify="space-between"
         align="middle"
-        style="height: 65px; margin: auto 0; padding: 1rem"
+        style="height: 55px; margin: auto 0; padding: 1rem"
       >
         <div style="padding-left: 0.5rem; cursor: pointer">
           <Icon
@@ -23,9 +23,8 @@
       <MenuHeader />
       <Content
         :style="{
-          margin: '24px 16px',
-          padding: '24px',
-          background: '#fff',
+          margin: '12px 12px',
+          padding: '12px ',
           minHeight: '280px',
           height: '100%',
         }"
@@ -66,12 +65,12 @@ defineOptions({
   color: #1890ff;
 }
 
-#components-layout-demo-custom-trigger .logo {
+/* #components-layout-demo-custom-trigger .logo {
   height: 62px;
   background: rgba(255, 255, 255, 0.3);
   margin: 16px;
   border: 1px solid red;
-}
+} */
 
 .site-layout .site-layout-background {
   background: #fff;

@@ -1,7 +1,7 @@
 <template>
   <Header
     class=""
-    style="background: #ffff; border-left: 1px solid #dddd; color: #fff; color: #000"
+    style="background: #ffff; border-left: 1px solid #dddd; color: #fff; color: #000; height: 55px"
   >
     <Flex
       :gutter="16"

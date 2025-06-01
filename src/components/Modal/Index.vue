@@ -5,27 +5,32 @@
     destroyOnClose
     :width="width ?? '550px'"
     :closable="closable"
-    @ok="$emit('handleOk')"
     @cancel="$emit('handleCancel')"
-    :bodyStyle="bodyStyle"
     :mask="showMask"
     v-bind="attrs"
+    class="modalCs"
+    :bodyStyle="bodyStyle"
   >
     <div class="modal_content">
-      {{ content }}
+      <slot name="content" />
     </div>
-    <template #title>
+    <template #title v-if="!hideHeader">
       <div ref="modalTitleRef" class="modal_title">
         <p>{{ title || '' }}</p>
       </div>
     </template>
 
-    <template #footer v-if="!hideFooter">
-      <slot name="footer">
-        <Button size="large" @click="$emit('handle1stBtn')">
+    <template #footer>
+      <div v-if="!hideFooter" style="padding: 0 20px 20px 0">
+        <Button size="large" @click="syncBtn ? $emit('handleCancel') : $emit('handle1stBtn')">
           {{ name1stBtn ?? $t('common.cancelTitle') }}
         </Button>
-        <Button size="large" type="primary" :loading="loading" @click="$emit('handle2ndBtn')">
+        <Button
+          size="large"
+          type="primary"
+          :loading="loading"
+          @click="syncBtn ? $emit('handleOk') : $emit('handle2ndBtn')"
+        >
           {{ name2ndtBtn ?? $t('common.saveTitle') }}
         </Button>
         <Button
@@ -37,7 +42,7 @@
         >
           {{ name3ndtBtn ?? '3nd button' }}
         </Button>
-      </slot>
+      </div>
     </template>
   </Modal>
 </template>
@@ -47,7 +52,7 @@ import { defineProps, useAttrs, withDefaults, type CSSProperties } from 'vue'
 import { Modal, Button } from 'ant-design-vue'
 
 defineOptions({
-    name: 'CustomModal'
+  name: 'CustomModal',
 })
 withDefaults(
   defineProps<{
@@ -64,12 +69,19 @@ withDefaults(
     loading?: boolean
     hide3ndBtn?: boolean
     bodyStyle?: CSSProperties
+    syncBtn?: boolean
+    isSecondSubmit?: boolean
+    hideHeader?: boolean
   }>(),
   {
     showMask: true,
     closable: true,
     hideFooter: false,
     loading: false,
+    hide3ndBtn: true,
+    syncBtn: true,
+    isSecondSubmit: true,
+    hideHeader: false,
   },
 )
 const attrs = useAttrs()

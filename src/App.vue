@@ -25,7 +25,7 @@ import ErrorPage from './views/ErrorPage.vue'
 const isOnline = useOnline()
 
 const route = useRoute()
-const layouts = new Map<string, any>()
+const layouts = new Map<string, unknown>()
 
 function getLayout(name: string) {
   if (layouts.has(name)) return layouts.get(name)

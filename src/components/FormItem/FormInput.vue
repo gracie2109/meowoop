@@ -2,6 +2,7 @@
   <div class="form_wrap_content" style="position: relative; width: 100%">
     <FormItem :name="name" :rules="rules" v-bind="validateBinding">
       <Input
+        size="large"
         v-bind="attrs"
         :placeholder="placeholder ?? $t('common.placeholderInput')"
         :value="modelValue ?? ''"
@@ -21,7 +22,7 @@ import { FormItem, Input } from 'ant-design-vue'
 import { computed, inject, useAttrs } from 'vue'
 
 const props = withDefaults(defineProps<AntdComponentProps>(), {
-  modelValue: ''
+  modelValue: '',
 })
 
 const attrs = useAttrs()
@@ -29,7 +30,7 @@ defineEmits(['update:modelValue'])
 const form = inject('form') as InjectedFormContext
 const validateInfos = form?.validateInfos ?? {}
 
-const validateBinding = computed(() => validateInfos[props.name] || {})
+const validateBinding = computed(() => validateInfos[props.name as string] || {})
 
 const hasError = computed(() => {
   return validateBinding.value?.validateStatus === 'error'
@@ -75,7 +76,7 @@ const triggerValidate = () => {
   color: red;
   margin-left: 4px;
 }
-.ant-input {
+/* .ant-input {
   height: 40px;
-}
+} */
 </style>

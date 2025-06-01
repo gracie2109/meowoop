@@ -1,7 +1,7 @@
 <template>
   <Menu
     v-model:openKeys="opensMenu"
-    v-model:selectedKeys="selectedMenu"
+    v-model:selectedKeys="selected"
     :collapsed="collapseMenu"
     :items="items"
     theme="light"
@@ -19,10 +19,20 @@ import { transformMenu } from '@/utils/menu'
 import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '@/stores'
 import type { MenuItem } from '@/types/menu'
+import { useRoute } from 'vue-router'
 
 const $app = useGlobalStore()
 const { collapseMenu, selectedMenu, opensMenu } = storeToRefs($app)
+const $route = useRoute()
 
+const selected = computed(() => {
+  const name = String($route.name ?? '')
+  const a = selectedMenu?.value?.[0] === $route.name
+  if (!a) {
+    $app.updateSelectedKey([name])
+  }
+  return a ? selectedMenu.value : [name]
+})
 const { t } = useI18n()
 
 const items = computed<ItemType[]>(() => {

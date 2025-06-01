@@ -12,5 +12,10 @@
   "ic_source_2": "Weather",
   "placeholderInput": "Enter",
   "placeholderSelect": "Choose",
-  "required": "{name} can't be blank."
+  "required": "{name} can't be blank.",
+  "create": "Create",
+  "edit": "Edit",
+  "name": "Name",
+  "description": "Description",
+  "display": "Display"
 }
