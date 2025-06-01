@@ -2,7 +2,6 @@
   <div style="position: relative">
     <DashboardHeader />
     <DashboardControlHeader />
-    ::: {{ showDrawer }}
     <div class="dashboard-content">
       <GridLayout
         v-model:layout="layout"
@@ -32,25 +31,24 @@
         </GridItem>
       </GridLayout>
     </div>
-
-  
   </div>
-   <Drawer
-      :title="$t('dashboard.d5')"
-      placement="right"
-      :closable="true"
-      :open="showDrawer"
-      :get-container="false"
-      :style="{ position: 'absolute' }"
-      @close="closeDrawer"
-      width="60vw"
-      :maskClosable="false"
-      :body-style="{
-        background: '#fffffe'
-      }"
-    >
-      <ListWidget />
-    </Drawer>
+  <Drawer
+    placement="right"
+    :closable="false"
+    :open="showDrawer"
+    :get-container="false"
+    :style="{ position: 'absolute' }"
+    width="60vw"
+    destroyOnClose
+    :maskClosable="false"
+    :body-style="{
+      background: '#fffffe',
+      padding: 0,
+    
+    }"
+  >
+    <ListWidget />
+  </Drawer>
 </template>
 
 <script setup lang="ts">
@@ -65,9 +63,7 @@ import ListWidget from './Widgets/ListWidget.vue'
 const $store = useDashboardStore()
 
 const { editMode, showDrawer } = storeToRefs($store)
-const closeDrawer = () => {
-  $store.toggleshowDrawer()
-}
+
 const layout = ref([
   { x: 0, y: 0, w: 2, h: 2, i: '0' },
   { x: 2, y: 0, w: 2, h: 4, i: '1' },

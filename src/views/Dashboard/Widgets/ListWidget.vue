@@ -1,4 +1,16 @@
 <template>
+  <div id="header">
+    <div class="header-wrap" style="padding: 0 1rem">
+      <div class="header-wrap">
+        <p>{{ $t('dashboard.d5') }}</p>
+      </div>
+
+      <div class="icon" @click="$dbStore.toggleshowDrawer()">
+        <Icon icon="ic:twotone-close" />
+      </div>
+    </div>
+  </div>
+
   <div class="wrap">
     <div class="wrap_w">
       <div v-for="i in WIDGET_LIST" :key="i.key" style="border: 1px solid #cccc" class="widget">
@@ -21,7 +33,7 @@
       </div>
     </div>
 
-    <div class="wrap_w" >
+    <div class="wrap_w">
       <div
         v-for="i in selectedGroup?.comp"
         :key="i.key"
@@ -50,8 +62,11 @@
 </template>
 
 <script setup lang="ts">
-import {  WIDGET_LIST } from '@/views/Dashboard/contants/widget'
-import {  ref } from 'vue'
+import { useDashboardStore } from '@/stores'
+import { WIDGET_LIST } from '@/views/Dashboard/contants/widget'
+import { Icon } from '@iconify/vue/dist/iconify.js'
+import { ref } from 'vue'
+const $dbStore = useDashboardStore()
 
 const selectedGroup = ref({})
 </script>
@@ -61,6 +76,7 @@ const selectedGroup = ref({})
   width: 100%;
   height: 100%;
   position: relative;
+  padding: 1rem;
 }
 
 .wrap_w {
@@ -80,5 +96,22 @@ const selectedGroup = ref({})
   margin: 0 auto;
   display: grid;
   place-content: center;
+}
+
+#header {
+  height: 60px;
+  border-bottom: 1px solid #cccc;
+}
+
+.header-wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 100%;
+  align-items: center;
+}
+
+.icon {
+  cursor: pointer;
 }
 </style>
