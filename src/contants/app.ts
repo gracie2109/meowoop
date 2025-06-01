@@ -19,6 +19,7 @@ export const LOCAL_STR_PARAMS = {
   THEME: 'theme',
   menu_current: 'menu_current',
   expand_menus: 'expand_menus',
+  current_dashboard:'current_dashboard'
 } as const
 
 export const APP_LANGUAGES = {

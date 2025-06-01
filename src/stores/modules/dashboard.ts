@@ -3,26 +3,23 @@ import { ref } from 'vue'
 import type { SelectValue } from 'ant-design-vue/es/select'
 import dayjs from 'dayjs'
 import type { TimeType } from '@/types/lib'
-import {
-  defaultWidget,
-  widgetData1,
-  widgetData2,
-  widgetData3,
-} from '@/views/Dashboard/contants/data'
+
 import { createData, deleteData, searchDataList } from '@/services/dashboard.service'
 import type { TDashboard, TDashboardForm } from '@/types/dashboard'
+import { getLocal, setLocal } from '@/utils/utilsLocal'
 
 export const useDashboardStore = defineStore('dashboard', () => {
   const loading = ref(false)
   const totalDashboard = ref(0)
   const editMode = ref(false)
+  const showDrawer = ref(false)
 
-  const fullscreenDashboard = ref(false)
   const timeFilter = ref({
     from_time: dayjs().subtract(1, 'day'),
     to_time: dayjs(),
-  })
-  const currentDashboard = ref<string | null>(null)
+  });
+  
+  const currentDashboard = ref<string | null>(getLocal('COOKIE', 'current_dashboard') ?? null)
   const currentWidget = ref<unknown>([])
 
   const dashboardList = ref<unknown>([])
@@ -30,7 +27,10 @@ export const useDashboardStore = defineStore('dashboard', () => {
   function toggleEditMode(bool: boolean) {
     editMode.value = bool
   }
-
+ function toggleshowDrawer() {
+    showDrawer.value = !showDrawer.value;
+  
+  }
   function setTimeFilter(from: TimeType, to: TimeType) {
     Object.assign(timeFilter.value, {
       from_time: from,
@@ -39,20 +39,8 @@ export const useDashboardStore = defineStore('dashboard', () => {
   }
 
   function setCurrentDashboard(val: SelectValue) {
-    currentDashboard.value = val as string
-    switch (val) {
-      case '1':
-        currentWidget.value = widgetData1
-        break
-      case '2':
-        currentWidget.value = widgetData2
-        break
-      case '3':
-        currentWidget.value = widgetData3
-        break
-      default:
-        currentWidget.value = defaultWidget
-    }
+    currentDashboard.value = val as string;
+    setLocal('COOKIE', 'current_dashboard', val)
   }
 
   async function createDashboard(
@@ -124,6 +112,8 @@ export const useDashboardStore = defineStore('dashboard', () => {
     currentDashboard,
     currentWidget,
     totalDashboard,
+    showDrawer,
+    toggleshowDrawer,
     toggleEditMode,
     setTimeFilter,
     setCurrentDashboard,

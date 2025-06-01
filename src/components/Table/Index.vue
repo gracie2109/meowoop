@@ -25,7 +25,7 @@
           style="height: 100%; width: 100%; border: none; min-height: 72.6vh; position: relative"
         >
           <div style="height: 100%; width: 100%; margin: auto; position: absolute; top: 35%">
-            <img :src="iconEmpty" style="width: 120px; height: 120px; object-fit: contain" />
+            <img :src="iconEmpty" style="width: 120px; height: 120px; object-fit: contain" loading="lazy" />
             <p style="margin-top: 12px">{{ $t('common.noData') }}</p>
           </div>
         </div>

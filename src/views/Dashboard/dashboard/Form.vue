@@ -49,6 +49,7 @@ import { reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ModalCs from '@/components/Modal/Index.vue'
 import { useDashboardStore } from '@/stores'
+import { storeToRefs } from 'pinia'
 
 const { t } = useI18n()
 const useForm = Form.useForm
@@ -78,7 +79,7 @@ const rulesRef = reactive({
 })
 const form = useForm(formRef, rulesRef)
 const $store = useDashboardStore()
-
+const { currentDashboard } = storeToRefs($store)
 const resetForm = () => {
   formRef.value = { ...DEFAULT_FORM }
 }
@@ -88,8 +89,14 @@ const handleOk = () => {
     .validate()
     .then(() => {
       if (!props.dataItem) {
-        $store.createDashboard(formRef.value, () => {
-          $store.searchList({ ...(props.dataSearch || {}) })
+        $store.createDashboard(formRef.value, (vl) => {
+          if (vl?.success) {
+            if (!currentDashboard.value) {
+              $store.setCurrentDashboard(vl?.data?.id)
+            }
+            $store.searchList({ ...(props.dataSearch || {}) })
+          }
+
           resetForm()
         })
       } else {

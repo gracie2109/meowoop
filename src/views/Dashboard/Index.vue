@@ -2,7 +2,8 @@
   <div style="position: relative">
     <DashboardHeader />
     <DashboardControlHeader />
-    <div class="dashboard-content" ref="el">
+    ::: {{ showDrawer }}
+    <div class="dashboard-content">
       <GridLayout
         v-model:layout="layout"
         :col-num="12"
@@ -31,7 +32,25 @@
         </GridItem>
       </GridLayout>
     </div>
+
+  
   </div>
+   <Drawer
+      :title="$t('dashboard.d5')"
+      placement="right"
+      :closable="true"
+      :open="showDrawer"
+      :get-container="false"
+      :style="{ position: 'absolute' }"
+      @close="closeDrawer"
+      width="60vw"
+      :maskClosable="false"
+      :body-style="{
+        background: '#fffffe'
+      }"
+    >
+      <ListWidget />
+    </Drawer>
 </template>
 
 <script setup lang="ts">
@@ -40,23 +59,15 @@ import DashboardControlHeader from './components/control-header/Index.vue'
 import { useDashboardStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import { GridLayout, GridItem } from 'vue-grid-layout-v3'
-import { computed, onMounted, ref, useTemplateRef } from 'vue'
-import { useFullscreen } from '@vueuse/core'
-const el = useTemplateRef('el')
-
-const { toggle } = useFullscreen(el)
+import { onMounted, ref } from 'vue'
+import { Drawer } from 'ant-design-vue'
+import ListWidget from './Widgets/ListWidget.vue'
 const $store = useDashboardStore()
-import { useResizeObserver } from '@vueuse/core'
-import { Icon } from '@iconify/vue/dist/iconify.js'
 
-const { currentWidget, editMode, currentDashboard } = storeToRefs($store)
-const text = ref('')
-
-useResizeObserver(el, (entries) => {
-  const entry = entries[0]
-  const { width } = entry.contentRect
-})
-
+const { editMode, showDrawer } = storeToRefs($store)
+const closeDrawer = () => {
+  $store.toggleshowDrawer()
+}
 const layout = ref([
   { x: 0, y: 0, w: 2, h: 2, i: '0' },
   { x: 2, y: 0, w: 2, h: 4, i: '1' },
