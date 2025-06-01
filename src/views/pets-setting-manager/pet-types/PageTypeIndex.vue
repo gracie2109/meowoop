@@ -58,8 +58,8 @@ import { computed, h, markRaw, onMounted, reactive, ref, toRaw } from 'vue'
 import FormCs from './Form.vue'
 import { PetServicerPriceParam, PetTypeParams, type TPetType } from '@/types/pet-type'
 import { DEFAULT_COLOR, DEFAULT_ICON } from '@/contants/lib'
-import Table from '@/components/Table/Index.vue' 
-import type { TableColumnsType } from 'ant-design-vue'
+import Table from '@/components/Table/Index.vue'
+import { Tooltip, type TableColumnsType } from 'ant-design-vue'
 import { CommonParam, type IPfIcon } from '@/types/common'
 import PreviewIcon from '@/components/Icons/PreviewIcon.vue'
 import RowActions from '@/components/Table/FunctionTable.vue'
@@ -147,24 +147,28 @@ const columns = computed<TableColumnsType>(() => [
             payload: record,
             customRender: () =>
               markRaw(
-                h(Icon, {
-                  icon: 'mage:money-exchange',
-                  height: '30px',
-                  color: 'var(--vt-c-primary-slate)',
-                  style: 'cursor: pointer',
-                  onClick: () => {
-                    router.push({
-                      name: ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE,
-                      query: {
-                        [PetServicerPriceParam.pet_id]: record.id,
-                      },
-                      state: {
-                        dataSearch: { ...dataPage.value, ...dataSearch.value },
-                        title: JSON.stringify("t('menu.menu_6')"),
-                      },
-                    })
+                h(
+                  Tooltip,
+                  {
+                    title: t('pType.P2'),
                   },
-                }),
+                  [
+                    h(Icon, {
+                      icon: 'mage:money-exchange',
+                      height: '30px',
+                      color: 'var(--vt-c-primary-slate)',
+                      style: 'cursor: pointer',
+                      onClick: () => {
+                        router.push({
+                          name: ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE,
+                          query: {
+                            [PetServicerPriceParam.pet_id]: record.id,
+                          },
+                        })
+                      },
+                    }),
+                  ],
+                ),
               ),
           },
         ],

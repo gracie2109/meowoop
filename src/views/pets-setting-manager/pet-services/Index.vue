@@ -1,5 +1,5 @@
 <template>
-  <div  id="pet_types" ref="el" style="position: relative">
+  <div id="pet_types" ref="el" style="position: relative">
     <PageHeader>
       <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
       {{ $t('menu.menu_8') }}
@@ -41,7 +41,7 @@ import Search from '@/views/pets-setting-manager/pet-types/Search.vue'
 import { computed, h, markRaw, onMounted, reactive, ref, toRaw } from 'vue'
 import FormCs from './Form.vue'
 import Table from '@/components/Table/Index.vue'
-import type { TableColumnsType } from 'ant-design-vue'
+import { Tooltip, type TableColumnsType } from 'ant-design-vue'
 import RowActions from '@/components/Table/FunctionTable.vue'
 import { useI18n } from 'vue-i18n'
 import type { TSearch } from '@/types/lib'
@@ -123,20 +123,28 @@ const columns = computed<TableColumnsType>(() => [
             payload: record,
             customRender: () =>
               markRaw(
-                h(Icon, {
-                  icon: 'mage:money-exchange',
-                  height: '30px',
-                  color: 'var(--vt-c-primary-slate)',
-                  style: 'cursor: pointer',
-                  onClick: () => {
-                    router.push({
-                      name: ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE,
-                      query: {
-                        [PetServicerPriceParam.service_id]: record.id,
-                      },
-                    })
+                h(
+                  Tooltip,
+                  {
+                    title: t('pType.P2'),
                   },
-                }),
+                  [
+                    h(Icon, {
+                      icon: 'mage:money-exchange',
+                      height: '30px',
+                      color: 'var(--vt-c-primary-slate)',
+                      style: 'cursor: pointer',
+                      onClick: () => {
+                        router.push({
+                          name: ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE,
+                          query: {
+                            [PetServicerPriceParam.service_id]: record.id,
+                          },
+                        })
+                      },
+                    }),
+                  ],
+                ),
               ),
           },
         ],
