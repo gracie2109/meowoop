@@ -5,7 +5,7 @@
     destroyOnClose
     :width="width ?? '550px'"
     :closable="closable"
-    @cancel="$emit('handleCancel')"
+    @onCancel="() => $emit('handleCancel')"
     :mask="showMask"
     v-bind="attrs"
     class="modalCs"

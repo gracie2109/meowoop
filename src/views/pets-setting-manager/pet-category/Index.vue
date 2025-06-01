@@ -1,5 +1,5 @@
 <template>
-  <div  id="pet_types" ref="el" style="position: relative">
+  <div id="pet_types" ref="el" style="position: relative">
     <PageHeader>
       <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
       {{ $t('menu.menu_7') }}
@@ -176,7 +176,7 @@ const actionButton = reactive([
         color: 'var(--vt-c-primary-slate)',
         style: 'cursor: pointer',
         onClick: () => {
-          alert('click reload')
+          $store.searchList({ ...dataPage.value, ...dataSearch.value })
         },
       }),
     ),

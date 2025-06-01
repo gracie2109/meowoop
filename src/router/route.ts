@@ -6,7 +6,7 @@ export const ROUTE_NAME = {
   PET_SERVICES: 'pets-setting/pet-services',
   // price
   PET_SETTING_PRICE_BY_SERVICE: 'pets-setting/price-by-service',
-  PET_SERVICE_OVERVIEW: 'pets-setting/price-by-service/overview/:id',
+  PET_SERVICE_OVERVIEW: 'pets-setting/price-by-service/overview',
 
   DASHBOARD_LIST: 'dashboards',
 }

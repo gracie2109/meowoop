@@ -50,5 +50,5 @@ export const usePetServicePrice = defineStore('petServicePrice', () => {
   }
 
 
-  return { onSetPrice, getDetailSvPrice }
+  return { onSetPrice, getDetailSvPrice , loading}
 })

@@ -1,23 +1,53 @@
 <template>
-  <Table :columns="columns" :dataSource="dataSource" bordered />
+  <Spin :spinning="priceLoad || serviceLoad">
+    <div style="height: 100%; position: relative">
+      <PageHeader>
+        <Icon
+          icon="fluent:money-settings-24-regular"
+          width="24"
+          color="var(--vt-c-primary)"
+        />&nbsp; &gt;
+        {{ pageHeader }}
+        <p>&nbsp; &gt; Overview</p>
+      </PageHeader>
+      <div @click="handleBack" style="margin-bottom: 1.5rem;">
+        <Flex class="backBtn" gap="8">
+          <Icon icon="icon-park-outline:left-square" width="24" color="var(--vt-c-primary)" />
+          <p class="backBtnText">{{ $t('common.backTitle') }}</p>
+        </Flex>
+      </div>
+      <Table :columns="columns" :dataSource="dataSource" bordered />
+    </div>
+  </Spin>
 </template>
 
 <script setup lang="ts">
 import { usePetServicePrice, usePetServices } from '@/stores'
 import { computed, onMounted, ref, toRaw } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { groupBy } from 'lodash'
-import { Flex, Table } from 'ant-design-vue'
+import { Flex, Spin, Table } from 'ant-design-vue'
 import { getListWeight } from '@/services/modules/pets-managerment/pet-weight.service'
 import { useI18n } from 'vue-i18n'
+import PageHeader from '@/components/PageHeader.vue'
+import { Icon } from '@iconify/vue/dist/iconify.js'
+import type { IPetServicerPriceParam } from '@/types/pet-type'
+import { storeToRefs } from 'pinia'
 const $servicePrice = usePetServicePrice()
 const $service = usePetServices()
 
+const { loading: priceLoad } = storeToRefs($servicePrice)
+const { loading: serviceLoad } = storeToRefs($service)
+
 const route = useRoute()
+const router = useRouter()
+
 const { locale } = useI18n()
 const dataPriceSlip = ref([])
 const dataService = ref([])
 const petWeights = ref([])
+const query = route.query as IPetServicerPriceParam
+
 const getColTitle = (key) => {
   if (route.query?.service_id && dataService.value?.[0]) {
     const source = dataService.value?.[0]
@@ -28,6 +58,24 @@ const getColTitle = (key) => {
   }
 }
 
+const pageHeader = computed(() => {
+  const { pet_id, service_id } = query
+
+  if (service_id) {
+    const selected = dataService.value.find((i) => i?._id === service_id)
+
+    return selected ? selected?.name?.[locale.value] : ''
+  }
+
+  if (pet_id) {
+    const selected = dataService.value?.[0]?.pet_types_info?.find((i) => i?._id === pet_id)
+    return selected ? selected?.name : ''
+  }
+  return ''
+})
+const handleBack = () => {
+  router.go(-1)
+}
 const getColumnTable = (lang: string) => {
   const weightColumn = {
     title: 'Weight',

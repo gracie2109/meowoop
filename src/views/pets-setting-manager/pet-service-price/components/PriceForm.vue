@@ -40,7 +40,6 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import type { UnwrapRef } from 'vue'
 import { Table, Button, InputNumber, Flex } from 'ant-design-vue'
-import { getListWeight } from '@/services/modules/pets-managerment/pet-weight.service'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import { usePetServicePrice } from '@/stores'
 
@@ -52,7 +51,7 @@ const props = defineProps<{
   service_id?: string
   data?: unknown
   loading: boolean
-  petWeights:unknown[]
+  petWeights: unknown[]
 }>()
 
 const columns = [
@@ -116,7 +115,7 @@ const handleEdit = () => {
   editMode.value = !editMode.value
   if (!editMode.value) {
     const result =
-      detailSlip.value.length > 0
+      detailSlip.value && detailSlip.value.length > 0
         ? detailSlip.value.reduce((acc, item) => {
             const key = item.weight_id.id
             acc[key] = {
@@ -187,7 +186,22 @@ onMounted(async () => {
     }
   }
 
+  function getList() {
+    const initialData = props.petWeights.reduce((acc, item) => {
+      acc[item.id] = {
+        weight_id: item.id,
+        weight_name: item.key,
+        price: null,
+        duration: null,
+        key: item.id,
+      }
+      return acc
+    }, {})
+    Object.assign(editableData, initialData)
+  }
+
   getSlip()
+  getList()
 })
 </script>
 

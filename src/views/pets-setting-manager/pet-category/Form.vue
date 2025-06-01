@@ -2,7 +2,6 @@
   <ModalCs
     :open="showForm"
     :title="dataItem ? $t('pType.C_edit') : $t('pType.C_add')"
-    @handleCancel="$emit('onCancel')"
     :width="'900px'"
     @handle-ok="handleOk"
     hide-footer
@@ -45,7 +44,7 @@
             />
           </Col>
           <Flex gap="20" align="center" justify="end">
-            <Button size="large">
+            <Button size="large" @click="() => $emit('onCancel')">
               {{ $t('common.cancelTitle') }}
             </Button>
             <Button size="large" type="primary" htmlType="submit">
