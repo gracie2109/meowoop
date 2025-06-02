@@ -5,6 +5,13 @@ import { ROUTE_NAME } from '../router/route'
 
 export const MENU_ADMIN = (t: Composer['t']): MenuItem[] => [
   {
+    label: transformLabel(ROUTE_NAME.DASHBOARD_VIEW, t('dashboard.d1')),
+    title: t('dashboard.d1'),
+    key: ROUTE_NAME.DASHBOARD_VIEW,
+    icon: 'pixel:analytics'
+  },
+
+  {
     label: t('menu.menu_4'),
     title: t('menu.menu_4'),
     color: 'red',
@@ -28,5 +35,17 @@ export const MENU_ADMIN = (t: Composer['t']): MenuItem[] => [
         key: ROUTE_NAME.PET_SERVICES,
       },
     ],
+  },
+   {
+    label: transformLabel(ROUTE_NAME.BOSS, t('pType.B1')),
+    title: t('pType.B1'),
+    key: ROUTE_NAME.BOSS,
+    icon: 'arcticons:pet-first-aid'
+  },
+  {
+    label: transformLabel(ROUTE_NAME.USERS, t('pType.B2')),
+    title: t('pType.B2'),
+    key: ROUTE_NAME.USERS,
+    icon: 'bx:user'
   },
 ]

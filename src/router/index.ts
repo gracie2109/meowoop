@@ -7,6 +7,7 @@ import ErrorPage from '@/views/ErrorPage.vue'
 import { LAYOUT_TYPE } from '@/contants/app'
 import { ROUTE_NAME } from '@/router/route'
 import petModule from '@/router/modules/pets'
+import petBossModule from '@/router/modules/pet-boss'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,9 +21,10 @@ const router = createRouter({
       },
     },
     ...petModule,
+    ...petBossModule,
     {
       path: '/dashboard',
-      name: ROUTE_NAME.DASHBOARD_LIST,
+      name: ROUTE_NAME.DASHBOARD_VIEW,
       component: DashboardView,
       meta: {
         layout: LAYOUT_TYPE.ADMIN,

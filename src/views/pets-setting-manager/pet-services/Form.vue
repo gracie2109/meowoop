@@ -2,7 +2,7 @@
   <ModalCs
     :open="showForm"
     :title="dataItem ? $t('pType.C_edit') : $t('pType.C_add')"
-
+      @handle-cancel="() =>$emit('onCancel')"
     :width="'900px'"
     @handle-ok="handleOk"
     hide-footer

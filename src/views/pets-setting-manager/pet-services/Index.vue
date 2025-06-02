@@ -82,22 +82,6 @@ const columns = computed<TableColumnsType>(() => [
     customRender: ({ text }) => h('span', toRaw(text[locale.value])),
   },
   {
-    title: t('pType.S4'),
-    dataIndex: 'duration',
-    key: 'duration',
-  },
-  {
-    title: t('pType.S7'),
-    dataIndex: 'price',
-    key: 'price',
-  },
-  {
-    title: t('pType.S5'),
-    dataIndex: 'category_id',
-    key: 'category_id',
-    customRender: ({ record }) => h('span', toRaw(record?.category_data?.name?.[locale.value])),
-  },
-  {
     title: t('pType.S6'),
     dataIndex: 'pet_types_info',
     key: 'pet_types_info',
