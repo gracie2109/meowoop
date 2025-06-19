@@ -2,7 +2,7 @@
   <ModalCs
     :open="showForm"
     :title="dataItem ? $t('pType.C_edit') : $t('pType.C_add')"
-      @handle-cancel="() =>$emit('onCancel')"
+    @handle-cancel="() => $emit('onCancel')"
     :width="'900px'"
     @handle-ok="handleOk"
     hide-footer
@@ -29,22 +29,6 @@
               :rules="rulesRef.name_en"
             />
           </Col>
-
-          <!-- <Col span="12">
-            <FormItemSelect
-              v-model:model-value="formRef.category_id"
-              :name="IPetServiceParams.category_id"
-              :label="$t('pType.S5')"
-              :options="
-                petTypes?.map((i) => ({
-                  label: i.name,
-                  value: i.id,
-                }))
-              "
-              is-required
-              :rules="rulesRef.category_id"
-            />
-          </Col> -->
           <Col span="24">
             <FormItemSelect
               v-model:model-value="formRef.pet_type_ids"
@@ -76,28 +60,6 @@
               :label="$t('pType.C-02-2')"
             />
           </Col>
-          <!-- <Col span="24">
-            <FormItemInputNumber
-              v-model:model-value="formRef.price"
-              :name="IPetServiceParams.price"
-              :label="$t('pType.S7')"
-              style="width: 100%"
-            />
-          </Col>
-          <Col span="24">
-            <div class="form_wrap_content-slider" style="padding: 1rem">
-              <Slider
-                v-model:value="formRef.duration"
-                :tooltip-open="false"
-                :min="10"
-                :max="180"
-                :marks="marks"
-              >
-              </Slider>
-              <label class="form_label" style="left: 22px"> {{ $t('pType.S4') }} </label>
-            </div>
-          </Col> -->
-
           <Flex gap="20" align="center" justify="end">
             <Button size="large" @click="() => $emit('onCancel')">
               {{ $t('common.cancelTitle') }}
@@ -113,8 +75,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Row, Col, Form, Button, Flex, Slider } from 'ant-design-vue'
-import FormItemInputNumber from '@/components/FormItem/InputNumber.vue'
+import { Row, Col, Form, Button, Flex } from 'ant-design-vue'
 import FormItemInput from '@/components/FormItem/FormInput.vue'
 import {
   FieldMultiLangParam,
@@ -125,11 +86,11 @@ import {
 import { reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ModalCs from '@/components/Modal/Index.vue'
-import { usePetCategoryStore, usePetTypesStore, usePetServices } from '@/stores'
+import { usePetTypesStore, usePetServices } from '@/stores'
 import { storeToRefs } from 'pinia'
 import FormItemSelect from '@/components/FormItem/FormItemSelect.vue'
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 const useForm = Form.useForm
 
 const props = defineProps<{
@@ -138,8 +99,6 @@ const props = defineProps<{
   dataSearch?: object
 }>()
 const emit = defineEmits(['onCancel'])
-
-// const $category = usePetCategoryStore()
 const $petType = usePetTypesStore()
 const $store = usePetServices()
 
