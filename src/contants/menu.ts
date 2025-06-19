@@ -43,9 +43,9 @@ export const MENU_ADMIN = (t: Composer['t']): MenuItem[] => [
     icon: 'arcticons:pet-first-aid'
   },
   {
-    label: transformLabel(ROUTE_NAME.USERS, t('pType.B2')),
+    label: transformLabel(ROUTE_NAME.CUSTOMERS, t('pType.B2')),
     title: t('pType.B2'),
-    key: ROUTE_NAME.USERS,
+    key: ROUTE_NAME.CUSTOMERS,
     icon: 'bx:user'
   },
 ]

@@ -7,7 +7,8 @@ import ErrorPage from '@/views/ErrorPage.vue'
 import { LAYOUT_TYPE } from '@/contants/app'
 import { ROUTE_NAME } from '@/router/route'
 import petModule from '@/router/modules/pets'
-import petBossModule from '@/router/modules/pet-boss'
+import customerRoute from '@/router/modules/customers'
+import bossRoute from '@/router/modules/boss'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,7 +22,8 @@ const router = createRouter({
       },
     },
     ...petModule,
-    ...petBossModule,
+    ...customerRoute,
+    ...bossRoute,
     {
       path: '/dashboard',
       name: ROUTE_NAME.DASHBOARD_VIEW,

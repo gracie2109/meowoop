@@ -1,9 +1,9 @@
 <template>
-  <div>user</div>
+  <div>customers-list</div>
 </template>
 
 <script setup lang="ts">
-defineOptions({ name: 'pet-owner' })
+defineOptions({ name: 'customers-list' })
 </script>
 
 <style scoped></style>
