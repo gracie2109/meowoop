@@ -42,7 +42,7 @@
         </div>
 
         <div v-if="!query.pet_id && query.service_id">
-          <ListOption :data="data" :isPetList="true" :loading="loading || priceLoad" />
+          <ListOption  :data="data" :isPetList="true" :loading="loading || priceLoad" />
         </div>
 
         <div v-else-if="!query.service_id && query.pet_id">
@@ -56,6 +56,7 @@
               :pet_id="query.pet_id"
               :loading="loading || priceLoad"
               :petWeights="petWeights"
+              :mode="mode"
             />
           </div>
         </div>
@@ -73,7 +74,7 @@ import {
   type IPetServicerPriceParam,
 } from '@/types/pet-type'
 import { usePetServices, usePetServicePrice } from '@/stores'
-import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import ListOption from '@/views/pets-setting-manager/pet-service-price/components/ListOption.vue'
 
 import PageHeader from '@/components/PageHeader.vue'
@@ -93,6 +94,8 @@ const $route = useRoute()
 const { locale } = useI18n()
 const data = ref<IPetServiceDetail>()
 const query = $route.query as IPetServicerPriceParam
+const mode = ref(query[PetServicerPriceParam.mode])
+console.log('mode', mode);
 
 const { loading } = storeToRefs($service)
 const { loading: priceLoad } = storeToRefs($servicePrice)

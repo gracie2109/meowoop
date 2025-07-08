@@ -8,7 +8,7 @@
       v-for="i in dataMap"
       :key="i._id"
       class="card"
-      @click="handleClick(i)"
+      @click="handleClick(i as IData)"
       style="cursor: pointer"
       :style="{
         background: dataSelected?.id === i.id || dataSelected?.id === i._id ? 'white' : '',
@@ -22,7 +22,7 @@
           style="margin: 0 auto"
         />
         <p v-if="props.isPetList">{{ i.name }}</p>
-        <p v-else>{{ i.name?.[locale] }}</p>
+        <p v-else>{{ i.name?.[locale as any] }}</p>
       </div>
     </Col>
   </Flex>
@@ -33,23 +33,23 @@
       @handleCancel="() => (dataSelected = null)"
       :width="'900px'"
       :hide-footer="true"
-      :title="props.isPetList ? dataSelected.name : dataSelected.name[locale]"
+      :title="props.isPetList ? dataSelected.name : dataSelected.name[locale as any]"
     >
       <template #content>
         <Flex wrap="wrap" gap="16">
-      
-
-          <Col
-            :lg="4"
-            :md="8"
-            :sm="12"
-            :xs="24"
-            class="card card_modal"
-            @click="() => goToSettingPrice()"
-          >
-            <Icon style="text-align: center" :height="'30px'" :icon="'grommet-icons:overview'" />
-            <p>Setting price</p>
-          </Col>
+          <template v-for="domain of menuExtras" :key="domain.key">
+            <Col
+              :lg="4"
+              :md="8"
+              :sm="12"
+              :xs="24"
+              class="card card_modal"
+              @click="() => goToSettingPrice(domain.key)"
+            >
+              <Icon style="text-align: center" :height="'30px'" :icon="domain.icon" />
+              <p>{{ $t(`pType.setting_price_set_${domain.key}`) }}</p>
+            </Col>
+          </template>
         </Flex>
       </template>
     </Modal>
@@ -59,9 +59,13 @@
 <script setup lang="ts">
 import PreviewIcon from '@/components/Icons/PreviewIcon.vue'
 import Modal from '@/components/Modal/Index.vue'
-import { PetServicerPriceParam, type IPetServiceDetail } from '@/types/pet-type'
-import { Col, Flex, Spin } from 'ant-design-vue'
-import { computed, ref } from 'vue'
+import {
+  PetServicerPriceParam,
+  SERVICE_PARAMS_MODE,
+  type IPetServiceDetail,
+} from '@/types/pet-type'
+import { Col, Flex } from 'ant-design-vue'
+import { computed, reactive, ref } from 'vue'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import { useRoute, useRouter } from 'vue-router'
 import { ROUTE_NAME } from '@/router/route'
@@ -90,16 +94,29 @@ const dataMap = computed(() => {
   } else return props.data
 })
 
-function goToSettingPrice() {
+const menuExtras = reactive([
+  {
+    key: SERVICE_PARAMS_MODE.PRICE,
+    icon: 'streamline-color:subscription-cashflow-flat',
+  },
+  {
+    key: SERVICE_PARAMS_MODE.DURATION,
+    icon: 'mingcute:time-duration-fill',
+  },
+])
+
+function goToSettingPrice(key: string) {
   if (dataSelected.value) {
     const q = props.isPetList
       ? {
           ...$route.query,
           [PetServicerPriceParam.pet_id]: dataSelected.value._id,
+          [PetServicerPriceParam.mode]: key,
         }
       : {
           ...$route.query,
           [PetServicerPriceParam.service_id]: dataSelected.value._id,
+          [PetServicerPriceParam.mode]: key,
         }
     $router.push({
       name: ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE,

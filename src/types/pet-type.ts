@@ -1,4 +1,4 @@
-import type { ICommon, IData, IPfIcon } from './common'
+import type { ICommon, IPfIcon } from './common'
 
 export type FieldMultiLang = {
   vi: string
@@ -50,11 +50,11 @@ export type IPetServiceForm = {
   price?: number
   duration?: number
   category_data?: Partial<TPetCategory>
-  pet_target_data?: Partial<TPetType>[] 
+  pet_target_data?: Partial<TPetType>[]
 }
 export type IPetService = IPetServiceForm & ICommon
 export type IPetServiceDetail = IPetService & {
-  pet_service_data?: unknown,
+  pet_service_data?: unknown
   pet_types_info?: Partial<TPetType>[]
 }
 export const IPetServiceParams = {
@@ -66,12 +66,18 @@ export const IPetServiceParams = {
   duration: 'duration',
 } as const satisfies Record<string, keyof IPetServiceForm>
 
+export const SERVICE_PARAMS_MODE = {
+  PRICE: 'price',
+  DURATION: 'duration',
+} as const
+
 // service-price
 export type IPetServicerPriceParam = {
   pet_id?: string
   service_id?: string
   isAllService?: boolean
   isAllPets?: boolean
+  mode?: (typeof SERVICE_PARAMS_MODE)[keyof typeof SERVICE_PARAMS_MODE]
 }
 export type IPetServicerPriceResponse = {
   pet_data?: TPetType
@@ -84,4 +90,5 @@ export const PetServicerPriceParam = {
   service_id: 'service_id',
   is_all_service: 'isAllService',
   is_all_pets: 'isAllPets',
+  mode: 'mode',
 } as const satisfies Record<string, keyof IPetServicerPriceParam>

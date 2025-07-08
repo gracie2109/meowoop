@@ -27,6 +27,8 @@
   "P2": "Cài đặt giá",
 
   "B1": "Danh sách boss",
-    "B2": "Danh sách user" 
- 
+  "B2": "Danh sách user",
+
+  "setting_price_set_duration": "Cài đặt thời gian",
+  "setting_price_set_price": "Cài đặt giá"
 }

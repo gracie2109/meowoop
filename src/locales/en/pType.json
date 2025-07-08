@@ -1,28 +1,34 @@
 {
-"T-01": "Add new pet type",
-"T-02": "Edit pet type",
-"T-03": "Delete pet type",
-"param1": "Pet type name",
-"T-04": "Are you sure you want to delete type {name}?",
+  "T-01": "Add new pet type",
+  "T-02": "Edit pet type",
+  "T-03": "Delete pet type",
+  "param1": "Pet type name",
+  "T-04": "Are you sure you want to delete type {name}?",
 
-"B-01": "Service name",
+  "B-01": "Service name",
 
-"C_add": "Add new service category",
-"C_edit": "Edit service category",
-"C-01": "Category name",
-"C-01-1": "Vietnamese category name",
-"C-01-2": "English category name",
-"C-02-1": "Vietnamese description",
-"C-02-2": "English description",
+  "C_add": "Add new service category",
+  "C_edit": "Edit service category",
+  "C-01": "Category name",
+  "C-01-1": "Vietnamese category name",
+  "C-01-2": "English category name",
+  "C-02-1": "Vietnamese description",
+  "C-02-2": "English description",
 
-"S1": "Add service",
-"S2": "Edit service",
-"S3": "Service Name",
-"S4": "Performance Time",
-"S5": "Category",
-"S6": "Applicable Subject",
-"S7": "Cost",
+  "S1": "Add service",
+  "S2": "Edit service",
+  "S3": "Service Name",
+  "S4": "Performance Time",
+  "S5": "Category",
+  "S6": "Applicable Subject",
+  "S7": "Cost",
 
-"P1": "Service Price",
-"P2": "Price Setting"
+  "P1": "Service Price",
+  "P2": "Price Setting",
+
+  "B1": "Boss List",
+  "B2": "User List",
+
+  "setting_price_set_duration": "Time Setting",
+  "setting_price_set_price": "Price Setting"
 }

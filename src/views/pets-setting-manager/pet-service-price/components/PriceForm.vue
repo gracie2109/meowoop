@@ -28,6 +28,7 @@
         <InputNumber
           style="width: 100%; margin: 0; padding: 0"
           :readonly="!editMode"
+          :disabled="isInputDisabled(column.dataIndex)"
           :value="getCellValue(record.key, column.dataIndex)"
           @update:value="updateCellValue(record.key, column.dataIndex, $event)"
         />
@@ -52,6 +53,7 @@ const props = defineProps<{
   data?: unknown
   loading: boolean
   petWeights: unknown[]
+  mode: string
 }>()
 
 const columns = [
@@ -97,7 +99,10 @@ const dataSource = computed(() => {
 const getCellValue = (key: string, dataIndex: string) => {
   return editableData[key]?.[dataIndex] ?? ''
 }
-
+const isInputDisabled = (dataIndex: string) => {
+  if (dataIndex === 'duration') return !props.mode?.includes('duration')
+  if (dataIndex === 'price') return !props.mode?.includes('price')
+}
 const updateCellValue = (key: string, dataIndex: string, value: any) => {
   if (!editableData[key]) {
     editableData[key] = {
