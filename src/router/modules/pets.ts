@@ -6,7 +6,6 @@ import PetCategory from '@/views/pets-setting-manager/pet-category/Index.vue'
 import PetServices from '@/views/pets-setting-manager/pet-services/Index.vue'
 import PetServicesPrice from '@/views/pets-setting-manager/pet-service-price/Index.vue'
 import PetServicesPriceOverview from '@/views/pets-setting-manager/pet-service-price/OverviewPetPrice.vue'
-
 const a = [
   {
     path: ROUTER_PATH.PET_SETTING_SERVICES,
@@ -42,7 +41,7 @@ const a = [
     path: ROUTER_PATH.PET_SERVICE_OVERVIEW,
     name: ROUTE_NAME.PET_SERVICE_OVERVIEW,
     component: PetServicesPriceOverview,
-  },
+  }
 ]
 
 const petsRoute = a.map((i) => ({

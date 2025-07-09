@@ -28,3 +28,12 @@ export function truncateText(text: string, maxLength: number) {
   const newText = text.slice(0, maxLength)
   return text.length > maxLength ? `${newText}...` : newText
 }
+
+
+export function getLocalizedName(
+  name: string | Record<string, string> | undefined,
+  locale: string
+): string {
+  if (!name) return ''
+  return typeof name === 'string' ? name : name[locale] ?? ''
+}

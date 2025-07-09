@@ -1,11 +1,11 @@
 <template>
   <div id="pet_types" ref="el" style="position: relative">
     <PageHeader>
-      <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
-      {{ $t('menu.menu_8') }}
+      <Icon icon="bx:user" width="20" />&nbsp; &gt;
+      {{ $t('customers.L1') }}
     </PageHeader>
     <Search
-      placeholder="Search data pet types"
+      :placeholder="$t('customers.L2')"
       :actionButton="actionButton"
       v-model="dataSearch"
       @onSearch="onSearch"

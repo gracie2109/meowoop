@@ -9,6 +9,10 @@ export const ROUTE_NAME = {
   PET_SERVICE_OVERVIEW: 'pets-setting/price-by-service/overview',
 
   DASHBOARD_LIST: 'dashboards',
+  DASHBOARD_VIEW: 'dashboard',
+  CUSTOMERS: 'customers',
+  BOSS: 'boss',
+
 }
 
 export const ROUTER_PATH = {
@@ -21,5 +25,8 @@ export const ROUTER_PATH = {
   PET_SETTING_PRICE_BY_SERVICE: `/admin/${ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE}`,
   PET_SERVICE_OVERVIEW: `/admin/${ROUTE_NAME.PET_SERVICE_OVERVIEW}`,
 
-  DASHBOARD_LIST: 'dashboards',
+  DASHBOARD_LIST: '/admin/dashboards',
+  DASHBOARD_VIEW: '/admin/dashboard',
+  CUSTOMERS: `/admin/${ROUTE_NAME.CUSTOMERS}`,
+  BOSS: `/admin/${ROUTE_NAME.BOSS}`,
 }

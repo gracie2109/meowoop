@@ -24,5 +24,14 @@
   "S7": "Chi phí",
 
   "P1": "Giá dịch vụ",
-  "P2": "Cài đặt giá"
+  "P2": "Cài đặt giá",
+
+  "B1": "Danh sách boss",
+  "B2": "Danh sách user",
+
+  "setting_price_set_duration": "Cài đặt thời gian",
+  "setting_price_set_price": "Cài đặt giá",
+  "modal_option_pet": "Loại thú",
+  "modal_option_service": "Loại dịch vụ"
+
 }

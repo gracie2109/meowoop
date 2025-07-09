@@ -17,6 +17,6 @@ export const CommonParam = {
 } as const satisfies Record<string, keyof ICommon>
 
 export interface IData extends ICommon {
-  name: string,
-  [key:string]: unknown
+  name: string | Record<string, string>
+  [key: string]: unknown
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="sss">
-    <Spin :spinning="loading || priceLoad ">
+    <Spin :spinning="loading || priceLoad">
       <div style="height: 100%; position: relative">
         <PageHeader>
           <Icon
@@ -18,7 +18,7 @@
             </div>
           </div>
           <div v-else-if="query.service_id && !query.pet_id">
-            &nbsp; &gt; &nbsp;{{ data?.name?.[locale] }}
+            &nbsp; &gt; &nbsp;{{ getLocalizedName(data?.name, locale) }}
           </div>
           <div v-else>&nbsp; &gt; &nbsp; {{ petTitle }}</div>
         </PageHeader>
@@ -56,6 +56,7 @@
               :pet_id="query.pet_id"
               :loading="loading || priceLoad"
               :petWeights="petWeights"
+              :mode="mode"
             />
           </div>
         </div>
@@ -73,7 +74,7 @@ import {
   type IPetServicerPriceParam,
 } from '@/types/pet-type'
 import { usePetServices, usePetServicePrice } from '@/stores'
-import { computed, onMounted, onUnmounted, ref, watch, watchEffect } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import ListOption from '@/views/pets-setting-manager/pet-service-price/components/ListOption.vue'
 
 import PageHeader from '@/components/PageHeader.vue'
@@ -84,6 +85,7 @@ import { useI18n } from 'vue-i18n'
 import { ROUTE_NAME } from '@/router/route'
 import { getListWeight } from '@/services/modules/pets-managerment/pet-weight.service'
 import { checkQueryNamePosition } from '@/utils/url'
+import { getLocalizedName } from '@/utils/stringUtil'
 
 const $router = useRouter()
 const $service = usePetServices()
@@ -93,6 +95,7 @@ const $route = useRoute()
 const { locale } = useI18n()
 const data = ref<IPetServiceDetail>()
 const query = $route.query as IPetServicerPriceParam
+const mode = ref(query[PetServicerPriceParam.mode])
 
 const { loading } = storeToRefs($service)
 const { loading: priceLoad } = storeToRefs($servicePrice)
@@ -109,10 +112,10 @@ function goOverview() {
   })
 }
 
-  const service_position = computed(() => {
-    const fullPath = $route.fullPath
-    return checkQueryNamePosition(fullPath, 'service_id')
-  })
+const service_position = computed(() => {
+  const fullPath = $route.fullPath
+  return checkQueryNamePosition(fullPath, 'service_id')
+})
 
 const priceHeader = computed(() => {
   const { service_id, pet_id } = $route.query
@@ -136,7 +139,7 @@ const priceHeader = computed(() => {
   return service_position.value && service_position.value === 0
     ? [selected.name[locale.value], petType.name]
     : [petType.name, selected.name[locale.value]]
-});
+})
 
 const petTitle = computed(() => {
   if ($route.query.pet_id && data.value && Array.isArray(data.value)) {
@@ -145,8 +148,6 @@ const petTitle = computed(() => {
   }
   return ''
 })
-
-
 
 onMounted(async () => {
   const getDataByService = async () => {
