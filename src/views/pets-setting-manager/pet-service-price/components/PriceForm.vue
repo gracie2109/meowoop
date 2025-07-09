@@ -20,7 +20,7 @@
     </Button>
   </Flex>
   <Table :columns="columns" :data-source="dataSource" bordered :pagination="false" size="middle">
-    <template #bodyCell="{ column, text, record }">
+    <template #bodyCell="{ column, record }">
       <template v-if="column.dataIndex === 'weight_id'">
         {{ record.weight_name }}
       </template>
@@ -53,7 +53,7 @@ const props = defineProps<{
   data?: unknown
   loading: boolean
   petWeights: unknown[]
-  mode: string
+  mode?: string
 }>()
 
 const columns = [
@@ -100,6 +100,7 @@ const getCellValue = (key: string, dataIndex: string) => {
   return editableData[key]?.[dataIndex] ?? ''
 }
 const isInputDisabled = (dataIndex: string) => {
+  if(!props.mode) return false;
   if (dataIndex === 'duration') return !props.mode?.includes('duration')
   if (dataIndex === 'price') return !props.mode?.includes('price')
 }

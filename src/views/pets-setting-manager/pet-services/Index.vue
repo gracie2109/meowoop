@@ -114,8 +114,8 @@ const columns = computed<TableColumnsType>(() => [
                   },
                   [
                     h(Icon, {
-                      icon: 'mage:money-exchange',
-                      height: '30px',
+                      icon: 'lucide:settings',
+                      height: '25px',
                       color: 'var(--vt-c-primary-slate)',
                       style: 'cursor: pointer',
                       onClick: () => {

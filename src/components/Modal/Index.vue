@@ -5,11 +5,18 @@
     destroyOnClose
     :width="width ?? '550px'"
     :closable="closable"
-    @onCancel="() => $emit('handleCancel')"
+    @cancel="$emit('handleCancel')"
     :mask="showMask"
     v-bind="attrs"
     class="modalCs"
     :bodyStyle="bodyStyle"
+    :closeIcon="
+      h(Icon, {
+        icon: 'material-symbols:cancel-outline',
+        width: '30px',
+        border: '1px solid red'
+      })
+    "
   >
     <div class="modal_content">
       <slot name="content" />
@@ -48,8 +55,9 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, useAttrs, withDefaults, type CSSProperties } from 'vue'
+import { defineProps, h, useAttrs, withDefaults, type CSSProperties } from 'vue'
 import { Modal, Button } from 'ant-design-vue'
+import { Icon } from '@iconify/vue/dist/iconify.js'
 
 defineOptions({
   name: 'CustomModal',
@@ -91,7 +99,7 @@ defineEmits(['handleCancel', 'handleOk', 'handle1stBtn', 'handle2ndBtn', 'handle
 
 <style scoped>
 .modal_title {
-  height: 50px !important;
+  height: var(--vt-modal-title-height) !important;
   width: 100%;
 }
 

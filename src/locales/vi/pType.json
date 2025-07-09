@@ -30,5 +30,8 @@
   "B2": "Danh sách user",
 
   "setting_price_set_duration": "Cài đặt thời gian",
-  "setting_price_set_price": "Cài đặt giá"
+  "setting_price_set_price": "Cài đặt giá",
+  "modal_option_pet": "Loại thú",
+  "modal_option_service": "Loại dịch vụ"
+
 }

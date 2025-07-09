@@ -33,7 +33,7 @@
       @handleCancel="() => (dataSelected = null)"
       :width="'900px'"
       :hide-footer="true"
-      :title="props.isPetList ? dataSelected.name : dataSelected.name[locale as any]"
+      :title="titleModal"
     >
       <template #content>
         <Flex wrap="wrap" gap="16">
@@ -71,6 +71,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { ROUTE_NAME } from '@/router/route'
 import type { IData } from '@/types/common'
 import { useI18n } from 'vue-i18n'
+import { getLocalizedName } from '@/utils/stringUtil'
 
 const props = withDefaults(
   defineProps<{
@@ -86,12 +87,24 @@ const props = withDefaults(
 
 const $router = useRouter()
 const $route = useRoute()
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const dataSelected = ref<IData | null>(null)
 const dataMap = computed(() => {
   if (props.isPetList) {
     return props.data?.pet_types_info
   } else return props.data
+})
+
+const titleModal = computed(() => {
+  const isService = 'service_id' in $route.query
+
+  const name = getLocalizedName(dataSelected.value?.name, locale.value)
+
+  const res = !isService
+    ? t('pType.modal_option_service')
+    : t('pType.modal_option_pet')
+
+  return `${res} : ${name}`
 })
 
 const menuExtras = reactive([

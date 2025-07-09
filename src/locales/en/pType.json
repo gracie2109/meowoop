@@ -30,5 +30,7 @@
   "B2": "User List",
 
   "setting_price_set_duration": "Time Setting",
-  "setting_price_set_price": "Price Setting"
+  "setting_price_set_price": "Price Setting",
+  "modal_option_pet": "Pet type",
+  "modal_option_service": "Service type"
 }

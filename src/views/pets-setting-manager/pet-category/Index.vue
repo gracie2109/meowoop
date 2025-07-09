@@ -40,7 +40,7 @@
         <template #content>
           {{
             $t('pType.T-04', {
-              name: deleteItem?.name?.[locale] || '',
+              name: getLocalizedName(deleteItem?.name, locale),
             })
           }}
         </template>
@@ -67,6 +67,7 @@ import type { TPetCategory } from '@/types/pet-type'
 import { CommonParam } from '@/types/common'
 import { formatFullTime } from '@/utils/time'
 import Modal from '@/components/Modal/Index.vue'
+import { getLocalizedName } from '@/utils/stringUtil'
 
 const $store = usePetCategoryStore()
 const { dataList, loading } = storeToRefs($store)

@@ -1,4 +1,3 @@
-/* color palette from <https://github.com/vuejs/theme> */
 :root {
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;
@@ -21,9 +20,9 @@
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
   --vt-c-primary: #e7a619;
   --vt-c-primary-slate: #f1c25b;
+  --vt-modal-title-height: 50px
 }
 
-/* semantic color variables for this project */
 :root {
   --color-background: var(--vt-c-white);
   --color-background-soft: var(--vt-c-white-soft);
@@ -92,20 +91,21 @@ body,
   padding: 20px;
 }
 
+.modalCs .ant-modal-close {
+  top: calc(var(--vt-modal-title-height) / 4)
+}
+
 .modalCs .ant-modal-footer {
-  /* padding: 0 20px 20px 0; */
 }
 
 
 .container {
-  width: 100%; /* Chiếm toàn bộ chiều rộng */
-  margin-left: auto; /* Căn giữa */
-  margin-right: auto; /* Căn giữa */
-  padding-left: 1rem; /* Padding trái */
-  padding-right: 1rem; /* Padding phải */
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
 }
 
-/* Responsive breakpoints */
+
 @media (min-width: 640px) {
   .container {
     max-width: 640px;
@@ -121,7 +121,7 @@ body,
 @media (min-width: 1024px) {
   .container {
     max-width: 1024px;
-    padding-left: 2rem; /* Tăng padding ở màn hình lớn */
+    padding-left: 2rem;
     padding-right: 2rem;
   }
 }
