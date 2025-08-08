@@ -8,9 +8,22 @@ export const MENU_ADMIN = (t: Composer['t']): MenuItem[] => [
     label: transformLabel(ROUTE_NAME.DASHBOARD_VIEW, t('dashboard.d1')),
     title: t('dashboard.d1'),
     key: ROUTE_NAME.DASHBOARD_VIEW,
-    icon: 'pixel:analytics'
+    icon: 'pixel:analytics',
   },
-
+  {
+    label: t('menu.menu_9'),
+    title: t('menu.menu_9'),
+    color: 'rgb(189, 16, 224)',
+    icon: 'humbleicons:users',
+    key: 'user-setting',
+    children: [
+      {
+        label: transformLabel(ROUTE_NAME.ROLE, t('menu.menu_10')),
+        title: t('menu.menu_10'),
+        key: ROUTE_NAME.ROLE,
+      },
+    ],
+  },
   {
     label: t('menu.menu_4'),
     title: t('menu.menu_4'),
@@ -36,16 +49,16 @@ export const MENU_ADMIN = (t: Composer['t']): MenuItem[] => [
       },
     ],
   },
-   {
+  {
     label: transformLabel(ROUTE_NAME.BOSS, t('pType.B1')),
     title: t('pType.B1'),
     key: ROUTE_NAME.BOSS,
-    icon: 'arcticons:pet-first-aid'
+    icon: 'arcticons:pet-first-aid',
   },
   {
     label: transformLabel(ROUTE_NAME.CUSTOMERS, t('pType.B2')),
     title: t('pType.B2'),
     key: ROUTE_NAME.CUSTOMERS,
-    icon: 'bx:user'
+    icon: 'bx:user',
   },
 ]

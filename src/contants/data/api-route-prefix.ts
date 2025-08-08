@@ -5,4 +5,8 @@ export const API_ROUTER_PREFIX = {
   DASHBOARD: 'dashboard',
   PET_WEIGHT: 'pet-weight',
   SERVICE_PRICE: 'service-price',
+  ROLES: 'roles',
+  RESOURCE: 'resource',
+  ASSET: 'assets',
+  CUSTOMERS: 'customer'
 }

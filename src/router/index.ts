@@ -9,6 +9,8 @@ import { ROUTE_NAME } from '@/router/route'
 import petModule from '@/router/modules/pets'
 import customerRoute from '@/router/modules/customers'
 import bossRoute from '@/router/modules/boss'
+import IAMRoute from '@/router/modules/IAM'
+import TestView from '@/views/Test.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,9 +23,18 @@ const router = createRouter({
         layout: LAYOUT_TYPE.CLIENT,
       },
     },
+    {
+      path: '/test',
+      name: ROUTE_NAME.HOME,
+      component: TestView,
+      meta: {
+        layout: LAYOUT_TYPE.CLIENT,
+      },
+    },
     ...petModule,
     ...customerRoute,
     ...bossRoute,
+    ...IAMRoute,
     {
       path: '/dashboard',
       name: ROUTE_NAME.DASHBOARD_VIEW,

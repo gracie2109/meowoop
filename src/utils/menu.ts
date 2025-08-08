@@ -15,5 +15,6 @@ export function transformMenu(items: MenuItem[]): TransformedMenuItem[] {
 }
 
 export function transformLabel(path: string, label: string) {
-  return h(RouterLink, { to: { name: path } }, label)
+  if(path) return h(RouterLink, { to: { name: path } }, label);
+  else return null
 }

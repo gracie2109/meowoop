@@ -1,3 +1,6 @@
 export * from '../global'
 export * from './pets-managerment'
 export * from './dashboard'
+export * from './customers'
+export * from './iam/roles'
+export * from './customers'

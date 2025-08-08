@@ -12,7 +12,7 @@ export const ROUTE_NAME = {
   DASHBOARD_VIEW: 'dashboard',
   CUSTOMERS: 'customers',
   BOSS: 'boss',
-
+  ROLE: 'role',
 }
 
 export const ROUTER_PATH = {
@@ -29,4 +29,5 @@ export const ROUTER_PATH = {
   DASHBOARD_VIEW: '/admin/dashboard',
   CUSTOMERS: `/admin/${ROUTE_NAME.CUSTOMERS}`,
   BOSS: `/admin/${ROUTE_NAME.BOSS}`,
+  ROLE: `/admin/${ROUTE_NAME.ROLE}`,
 }
