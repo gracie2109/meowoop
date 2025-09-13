@@ -20,10 +20,7 @@ export const PRESET_OPTION_2 = [
   { label: 'Last 90 Days', value: [dayjs().add(-90, 'd'), dayjs()] },
 ]
 
-export const ICON_PREFIX = {
-  pets: 'pets',
-  nature: 'nature',
-}
+
 
 export const COLOR_TYPE = {
   pure: 'pure',
@@ -34,6 +31,11 @@ export const COLOR_PREFIX = {
   LINEAR: 'linear-gradient',
   GRADIENT: 'gradient',
   RGB: 'rgb',
+}
+
+export const ICON_PREFIX = {
+  pets: 'pets',
+  nature: 'nature',
 }
 export const iconPets = Array.from({ length: 21 }, (_, i) => `${ICON_PREFIX.pets}_${i + 1}`)
 export const iconNature = Array.from({ length: 1 }, (_, i) => `${ICON_PREFIX.nature}_${i + 1}`)

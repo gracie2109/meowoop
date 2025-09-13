@@ -16,7 +16,7 @@ export interface RowAction {
   confirmMessage?: string
   color?: string
   size?: string
-  customRender?: () => VNode
+  customRender?: () => VNode | null
 }
 
 const DEFAULT_ICONS: Record<BaseActionType, string> = {
@@ -36,7 +36,7 @@ export const DEFAULT_ICON_COLOR: Record<BaseActionType, string> = {
   delete: 'var(--vt-c-primary)',
   view: 'var(--vt-c-primary)',
 }
-export function normalizeActions(actions: RowAction[]): Required<RowAction>[] {
+export function normalizeActions(actions: RowAction[]): RowAction[] {
   return actions
     .filter((a) => a.show !== false)
     .map((a) => {

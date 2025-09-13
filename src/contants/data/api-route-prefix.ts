@@ -8,5 +8,6 @@ export const API_ROUTER_PREFIX = {
   ROLES: 'roles',
   RESOURCE: 'resource',
   ASSET: 'assets',
-  CUSTOMERS: 'customer'
+  CUSTOMERS: 'customer',
+  ADDRESS: 'address'
 }

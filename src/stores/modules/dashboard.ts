@@ -18,18 +18,18 @@ export const useDashboardStore = defineStore('dashboard', () => {
     from_time: dayjs().subtract(1, 'day'),
     to_time: dayjs(),
   });
-  
+
   const currentDashboard = ref<string | null>(getLocal('COOKIE', 'current_dashboard') ?? null)
   const currentWidget = ref<unknown>([])
 
-  const dashboardList = ref<unknown>([])
+  const dashboardList = ref<TDashboard[]>([])
 
   function toggleEditMode(bool: boolean) {
     editMode.value = bool
   }
  function toggleshowDrawer() {
     showDrawer.value = !showDrawer.value;
-  
+
   }
   function setTimeFilter(from: TimeType, to: TimeType) {
     Object.assign(timeFilter.value, {

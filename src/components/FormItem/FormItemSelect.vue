@@ -11,10 +11,21 @@
         :disabled="disabled"
         allowClear
         style="width: 100%"
+        :filterOption="
+          !props.showFilter
+            ? false
+            : (input: string, option: any) => {
+                const searchTerm = input.toLowerCase()
+                return (
+                  option.label.toLowerCase().includes(searchTerm) ||
+                  option.value.toString().toLowerCase().includes(searchTerm)
+                )
+              }
+        "
       />
       <label class="form_label" :class="['floating-label', { isRequired, error: hasError }]">
         {{ label }}
-      </label>
+      </label>   
     </FormItem>
   </div>
 </template>
@@ -27,9 +38,12 @@ import type { AntdComponentProps, InjectedFormContext } from '@/types/lib'
 type SelectProps = {
   options: { label: string; value: string | number; disabled?: boolean }[]
   disabled?: boolean
+  showFilter?: boolean
 }
 
-const props = defineProps<AntdComponentProps & SelectProps>()
+const props = withDefaults(defineProps<AntdComponentProps & SelectProps>(), {
+  showFilter: true,
+})
 const attrs = useAttrs()
 
 defineEmits(['update:modelValue'])

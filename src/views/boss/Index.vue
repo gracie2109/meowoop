@@ -22,7 +22,7 @@
 import { ref } from 'vue'
 import { InboxOutlined } from '@ant-design/icons-vue'
 import { message, UploadDragger } from 'ant-design-vue'
-import type { UploadChangeParam, UploadRequestOption } from 'ant-design-vue'
+import type { UploadChangeParam } from 'ant-design-vue'
 import axios from 'axios'
 import { API_ROUTER_PREFIX } from '@/contants/data/api-route-prefix'
 import { API_BASE_URL } from '@/config'
