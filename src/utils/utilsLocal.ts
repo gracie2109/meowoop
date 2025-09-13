@@ -13,7 +13,7 @@ export function setLocal(
 
   try {
     const raw = checkDataIsString(data) ? data : JSON.stringify(data)
-    value = encode ? btoa(unescape(encodeURIComponent(raw))) : raw
+    value = encode ? btoa(unescape(encodeURIComponent(raw as string))) : raw as string
   } catch {
     console.error('Error encoding value for storage')
     return

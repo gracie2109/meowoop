@@ -1,7 +1,7 @@
 <template>
   <div id="pet_types" ref="el" style="position: relative">
     <PageHeader>
-      <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
+      <FunctionalButton icon="lucide:paw-print" width="20" />&nbsp; &gt;
       {{ $t('menu.menu_8') }}
     </PageHeader>
     <Search
@@ -36,12 +36,12 @@
 <script setup lang="ts">
 import PageHeader from '@/components/PageHeader.vue'
 import { useDynamicTitle } from '@/composables'
-import { Icon } from '@iconify/vue/dist/iconify.js'
+// import { Icon } from '@iconify/vue/dist/iconify.js'
 import Search from '@/views/pets-setting-manager/pet-types/Search.vue'
 import { computed, h, markRaw, onMounted, reactive, ref, toRaw } from 'vue'
 import FormCs from './Form.vue'
 import Table from '@/components/Table/Index.vue'
-import { Tooltip, type TableColumnsType } from 'ant-design-vue'
+import { type TableColumnsType } from 'ant-design-vue'
 import RowActions from '@/components/Table/FunctionTable.vue'
 import { useI18n } from 'vue-i18n'
 import type { TSearch } from '@/types/lib'
@@ -50,6 +50,7 @@ import { storeToRefs } from 'pinia'
 import { PetServicerPriceParam, type TPetType } from '@/types/pet-type'
 import { useRouter } from 'vue-router'
 import { ROUTE_NAME } from '@/router/route'
+import FunctionalButton from '@/components/Table/FunctionalButton.vue'
 
 const $store = usePetServices()
 const $petType = usePetTypesStore()
@@ -106,30 +107,18 @@ const columns = computed<TableColumnsType>(() => [
             type: 'custom',
             payload: record,
             customRender: () =>
-              markRaw(
-                h(
-                  Tooltip,
-                  {
-                    title: t('pType.P2'),
-                  },
-                  [
-                    h(Icon, {
-                      icon: 'lucide:settings',
-                      height: '25px',
-                      color: 'var(--vt-c-primary-slate)',
-                      style: 'cursor: pointer',
-                      onClick: () => {
-                        router.push({
-                          name: ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE,
-                          query: {
-                            [PetServicerPriceParam.service_id]: record.id,
-                          },
-                        })
-                      },
-                    }),
-                  ],
-                ),
-              ),
+              h(FunctionalButton, {
+                icon: 'lucide:settings',
+                title: t('pType.P2'),
+                onClick: () => {
+                  router.push({
+                    name: ROUTE_NAME.PET_SETTING_PRICE_BY_SERVICE,
+                    query: {
+                      [PetServicerPriceParam.service_id]: record.id,
+                    },
+                  })
+                },
+              }),
           },
         ],
         onEdit: (data) => {

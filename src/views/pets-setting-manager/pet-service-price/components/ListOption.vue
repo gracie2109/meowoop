@@ -19,7 +19,7 @@
           v-if="i.icon"
           :svg-id="i.icon.icon"
           :color="i.icon.color"
-          style="margin: 0 auto"
+          style="margin: 0 auto" 
         />
         <p v-if="props.isPetList">{{ i.name }}</p>
         <p v-else>{{ i.name?.[locale as any] }}</p>

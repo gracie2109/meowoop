@@ -31,5 +31,16 @@
   "delete": "Xóa",
   "deleteConfirm": "Bạn có chắc chắn muốn xóa {name} này không?",
   "deleteSuccess": "{name} đã được xóa thành công.",
-  "deleteFail": "{name} không thể xóa."
+  "deleteFail": "{name} không thể xóa.",
+  "address_city": "Tỉnh/thành phố",
+  "address_district": "Quận/huyện",
+  "address_ward": "Xã/phường",
+  "choose": "Chọn",
+  "address_content": "Địa chỉ",
+  "reload": "Làm mới",
+  "index": "STT",
+  "update": "Cập nhật",
+  "default": "Mặc định",
+  "displayName": "Tên hiển thị"
+
 }

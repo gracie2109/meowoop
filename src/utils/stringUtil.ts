@@ -29,11 +29,15 @@ export function truncateText(text: string, maxLength: number) {
   return text.length > maxLength ? `${newText}...` : newText
 }
 
-
 export function getLocalizedName(
   name: string | Record<string, string> | undefined,
-  locale: string
+  locale: string,
 ): string {
   if (!name) return ''
-  return typeof name === 'string' ? name : name[locale] ?? ''
+  return typeof name === 'string' ? name : (name[locale] ?? '')
+}
+
+export function mergeString(stringArray: string[], separator: string = ', ') {
+  if (!Array.isArray(stringArray) || stringArray.length === 0) return ''
+  return stringArray.filter((part) => part && part.trim()).join(separator)
 }

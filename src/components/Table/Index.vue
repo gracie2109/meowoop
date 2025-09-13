@@ -25,7 +25,11 @@
           style="height: 100%; width: 100%; border: none; min-height: 72.6vh; position: relative"
         >
           <div style="height: 100%; width: 100%; margin: auto; position: absolute; top: 35%">
-            <img :src="iconEmpty" style="width: 120px; height: 120px; object-fit: contain" loading="lazy" />
+            <img
+              :src="iconEmpty"
+              style="width: 120px; height: 120px; object-fit: contain"
+              loading="lazy"
+            />
             <p style="margin-top: 12px">{{ $t('common.noData') }}</p>
           </div>
         </div>
@@ -61,11 +65,11 @@ defineOptions({
 
 const { t } = useI18n()
 const el = useTemplateRef('el')
-const { height } = useElementSize(el)
+const { height } = useElementSize(el);
 
-const props = defineProps<{
+export type TableProps<T = unknown> = {
   columns: TableColumnsType
-  data: Record<string, unknown>[]
+  data: T[]
   scroll?: {
     x?: number
     y?: number
@@ -81,7 +85,12 @@ const props = defineProps<{
   size?: AntdTableSize
   style?: object
   minHeight?: string
-}>()
+}
+
+const props = withDefaults(defineProps<TableProps>(), {
+  data: () => [] as unknown[],
+  minHeight: '75.6vh',
+})
 
 const scrollComputed = computed(() => {
   return {

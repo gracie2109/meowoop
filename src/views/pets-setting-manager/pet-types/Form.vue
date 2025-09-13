@@ -5,6 +5,7 @@
     :width="'900px'"
     @handle-ok="handleOk"
     hide-footer
+    @handle-cancel="() => $emit('onCancel')"
   >
     <template #content>
       <Form :model="formRef" @finish="handleOk">

@@ -7,5 +7,17 @@
   "P1": "Tên hiển thị",
   "P2": "Số điện thoại",
   "P3": "Email",
-  "P4": "Họ và tên"
+  "P4": "Họ và tên",
+  "P5": "Ngày sinh",
+  "P6": "Mật khẩu",
+  "addressTitle": "Địa chỉ",
+  "gender_male": "Nam",
+  "gender_female": "Nữ",
+  "gender_other": "Khác",
+  "genderTitle": "Giới tính",
+  "addressBook": "Sổ địa chỉ",
+  "addAddress": "Thêm địa chỉ",
+  "setIsPrimaryAddress":"Thiết lập mặc định",
+  "deleteAddressTitle": "Xóa địa chỉ",
+  "updateAddress": "Cập nhật địa chỉ"
 }

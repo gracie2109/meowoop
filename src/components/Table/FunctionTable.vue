@@ -9,6 +9,7 @@
           :style="getIconStyle(action)"
           :class="{ 'opacity-50 pointer-events-none': action.disabled }"
           @click="() => !action.disabled && handleClick(action)"
+          class="cursor-pointer"
         />
       </Tooltip>
     </template>

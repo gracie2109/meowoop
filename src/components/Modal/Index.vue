@@ -5,7 +5,7 @@
     destroyOnClose
     :width="width ?? '550px'"
     :closable="closable"
-    @cancel="$emit('handleCancel')"
+    @cancel="syncBtn ? $emit('handleCancel') : $emit('handle1stBtn')"
     :mask="showMask"
     v-bind="attrs"
     class="modalCs"
@@ -14,7 +14,7 @@
       h(Icon, {
         icon: 'material-symbols:cancel-outline',
         width: '30px',
-        border: '1px solid red'
+        border: '1px solid red',
       })
     "
   >
@@ -104,6 +104,7 @@ defineEmits(['handleCancel', 'handleOk', 'handle1stBtn', 'handle2ndBtn', 'handle
 }
 
 .modal_content {
-  min-height: 100px;
+  min-height: 10px;
+  position: relative;
 }
 </style>

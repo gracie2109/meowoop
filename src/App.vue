@@ -23,7 +23,6 @@ import { LAYOUT_TYPE } from './contants/app'
 import ErrorPage from './views/ErrorPage.vue'
 
 const isOnline = useOnline()
-
 const route = useRoute()
 const layouts = new Map<string, unknown>()
 

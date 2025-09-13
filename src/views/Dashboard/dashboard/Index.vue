@@ -24,8 +24,8 @@
       :loading="loading"
       :columns="columns"
       :data="dashboardList"
-      min-height="75.6vh"
-      style="margin-top: 0.5rem"
+      :min-height="'75.6vh'"
+      :style="{ marginTop: '0.5rem' }"
     />
 
     <Modal
@@ -108,7 +108,7 @@ const columns = computed<TableColumnsType>(() => [
     key: CommonParam.updatedAt,
     customRender: ({ record }: { record: Partial<TPetType> }) => {
       const data = toRaw(record.updatedAt)
-      return h('p', formatFullTime(data, locale.value))
+      return h('p', formatFullTime(data, locale.value, 'DD/MM/YYYY HH:mm:ss'))
     },
   },
   {
