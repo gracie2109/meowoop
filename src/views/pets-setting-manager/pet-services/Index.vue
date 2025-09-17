@@ -51,6 +51,7 @@ import { PetServicerPriceParam, type TPetType } from '@/types/pet-type'
 import { useRouter } from 'vue-router'
 import { ROUTE_NAME } from '@/router/route'
 import FunctionalButton from '@/components/Table/FunctionalButton.vue'
+import { Icon } from '@iconify/vue/dist/iconify.js'
 
 const $store = usePetServices()
 const $petType = usePetTypesStore()

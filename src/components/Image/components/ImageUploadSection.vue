@@ -4,6 +4,7 @@ import { Icon } from '@iconify/vue'
 
 interface Props {
   isLoading: boolean
+  max?: number
 }
 
 interface Emits {
@@ -11,7 +12,9 @@ interface Emits {
   (e: 'upload-error', message: string): void
 }
 
-defineProps<Props>()
+withDefaults(defineProps<Props>(), {
+  max: undefined,
+})
 const emit = defineEmits<Emits>()
 
 // Constants
@@ -24,7 +27,10 @@ const fileInput = ref<HTMLInputElement | null>(null)
 // Utility functions
 const validateFile = (file: File): boolean => {
   if (!SUPPORTED_FORMATS.includes(file.type)) {
-    emit('upload-error', 'Định dạng file không được hỗ trợ. Vui lòng chọn file JPG, PNG, WebP hoặc GIF.')
+    emit(
+      'upload-error',
+      'Định dạng file không được hỗ trợ. Vui lòng chọn file JPG, PNG, WebP hoặc GIF.',
+    )
     return false
   }
 
@@ -79,7 +85,6 @@ const triggerFileInput = (): void => {
 
 <template>
   <div class="upload-section">
-
     <input
       ref="fileInput"
       type="file"
@@ -131,9 +136,8 @@ const triggerFileInput = (): void => {
   background: #fafafa;
   display: grid;
   place-content: center;
-width: 100px;
+  width: 100px;
   height: 100px;
-
 }
 
 .drop-zone:hover:not(.is-loading) {

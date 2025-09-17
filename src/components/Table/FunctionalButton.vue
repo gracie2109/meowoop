@@ -3,7 +3,7 @@
     <Icon
       v-if="icon"
       :icon="icon"
-      :height="iconStyle?.height ?? '25px'"
+      :height="height ?? iconStyle?.height ?? '25px'"
       :color="iconStyle?.color ?? 'var(--vt-c-primary-slate)'"
       :style="{
         cursor: 'pointer',
@@ -28,6 +28,7 @@ defineProps<{
   title?: string
   icon?: string
   iconStyle?: CSSProperties
+  height?: string
 }>()
 defineEmits(['onClick'])
 

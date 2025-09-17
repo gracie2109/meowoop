@@ -1,5 +1,6 @@
 
-export interface ICustomers {
+import type { ICommon } from "./common"
+export interface ICustomers extends ICommon  {
   name: string
   fullName: string
   email: string

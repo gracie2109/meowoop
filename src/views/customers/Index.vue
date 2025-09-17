@@ -34,7 +34,7 @@ import Search from '@/views/pets-setting-manager/pet-types/Search.vue'
 import { computed, h, markRaw, onMounted, reactive, ref } from 'vue'
 import FormCs from './Form.vue'
 import Table from '@/components/Table/Index.vue'
-import { type TableColumnsType } from 'ant-design-vue'
+import { Flex, type TableColumnsType } from 'ant-design-vue'
 import RowActions from '@/components/Table/FunctionTable.vue'
 import { useI18n } from 'vue-i18n'
 import type { TSearch } from '@/types/lib'
@@ -99,16 +99,28 @@ const columns = computed<TableColumnsType>(() => [
             type: 'custom',
             payload: record,
             customRender: () =>
-              h(FunctionalButton, {
-                icon: 'system-uicons:contacts',
-                title: t('customers.addressBook'),
-                onClick: () => {
-                  router.push({
-                    name: ROUTE_NAME.CUSTOMER_ADDRESS_BOOK,
-                    params: { user_id: record._id },
-                  })
-                },
-              }),
+              h(Flex, { gap: 6 }, [
+                h(FunctionalButton, {
+                  icon: 'system-uicons:contacts',
+                  title: t('customers.addressBook'),
+                  onClick: () => {
+                    router.push({
+                      name: ROUTE_NAME.CUSTOMER_ADDRESS_BOOK,
+                      params: { user_id: record._id },
+                    })
+                  },
+                }),
+                h(FunctionalButton, {
+                  icon: 'lucide:paw-print',
+                  title: t('customers.bossList'),
+                  onClick: () => {
+                    router.push({
+                      name: ROUTE_NAME.CUSTOMER_PET_BOSS,
+                      params: { user_id: record._id },
+                    })
+                  },
+                }),
+              ]),
           },
         ],
         onEdit: (data) => {

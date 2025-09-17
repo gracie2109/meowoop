@@ -1,139 +1,268 @@
 <template>
-  <UploadDragger
-    v-model:fileList="fileList"
-    name="file"
-    :multiple="true"
-    :customRequest="customUpload"
-    @change="handleChange"
-    @drop="handleDrop"
-  >
-    <p class="ant-upload-drag-icon">
-      <inbox-outlined></inbox-outlined>
-    </p>
-    <p class="ant-upload-text">Click or drag file to this area to upload</p>
-    <p class="ant-upload-hint">
-      Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-      band files
-    </p>
-  </UploadDragger>
+  <div id="pet_types" ref="el" style="position: relative">
+    <PageHeader v-if="!props.hiddenHead">
+      <FunctionalButton icon="bx:user" width="20" />&nbsp; &gt;
+      {{ $t('customers.bossList') }}
+    </PageHeader>
+    <Search
+      v-model="dataSearch"
+      :actionButton="actionButton"
+      :placeholder="t('customers.bossSearchPlh')"
+      @onSearch="onSearch"
+      @onEraser="onEraser"
+      @onSearchDf="(vl) => handleSearch(vl)"
+    />
+    <Table :loading="loading" :columns="columns" :data="listBoss" style="margin-top: 0.5rem" />
+
+    <FormCs
+      :data-item="dataItem"
+      :showForm="showForm"
+      :dataSearch="{ ...dataSearch, ...dataPage }"
+      @onCancel="
+        () => {
+          onFinish(false)
+        }
+      "
+      @onFinish="
+        () => {
+          onFinish(true)
+        }
+      "
+    />
+    <Modal
+      :open="!!deleteItem"
+      :title="$t('customers.addAddress')"
+      @handle-cancel="deleteItem = null"
+      @handle-ok="onDelete"
+      :loading="loading"
+    >
+      <template #content> deete </template>
+    </Modal>
+  </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { InboxOutlined } from '@ant-design/icons-vue'
-import { message, UploadDragger } from 'ant-design-vue'
-import type { UploadChangeParam } from 'ant-design-vue'
-import axios from 'axios'
-import { API_ROUTER_PREFIX } from '@/contants/data/api-route-prefix'
-import { API_BASE_URL } from '@/config'
+<script setup lang="ts">
+import PageHeader from '@/components/PageHeader.vue'
+import FunctionalButton from '@/components/Table/FunctionalButton.vue'
+import { usePetBoss, usePetTypesStore, useCustomer } from '@/stores'
+import type { TSearch } from '@/types/lib'
+import { Flex, type TableColumnsType } from 'ant-design-vue'
+import { storeToRefs } from 'pinia'
+import { computed, h, markRaw, onMounted, reactive, ref, toRaw } from 'vue'
+import { useI18n } from 'vue-i18n'
+import RowActions from '@/components/Table/FunctionTable.vue'
+import Table from '@/components/Table/Index.vue'
+import { getIndex } from '@/utils/helpers'
+import { MEDICAL_PARAMS, PET_BOSS_PARAMS, type IPetBoss } from '@/types/pet-boss'
+import { useRouter } from 'vue-router'
+import { ROUTE_NAME } from '@/router/route'
+import { mergeString } from '@/utils/stringUtil'
+import { PET_GENDER_ARRAYS } from '../customers/contants'
+import Search from '@/views/boss/components/Search.vue'
+import FormCs from '@/views/boss/components/Form.vue'
+import Modal from '@/components/Modal/Index.vue'
 
-// Props để cấu hình component
-interface Props {
-  folderName?: string
-  apiEndpoint?: string
+const $store = usePetBoss()
+const $storePetType = usePetTypesStore()
+const $customers = useCustomer()
+
+const { t } = useI18n()
+const { dataList, loading } = storeToRefs($store)
+
+const showForm = ref(false)
+const dataItem = ref(null)
+const deleteItem = ref()
+const dataPage = ref({
+  page: 1,
+  page_size: 25,
+})
+const router = useRouter()
+const props = withDefaults(
+  defineProps<{
+    hiddenHead?: boolean
+    ownerId?: string
+  }>(),
+  {
+    hiddenHead: false,
+  },
+)
+
+const dataSearch = ref<TSearch>({
+  search_text: '',
+  owner_id: props.ownerId || null,
+})
+const columns = computed<TableColumnsType>(() => [
+  {
+    title: t('common.index'),
+    dataIndex: 'index',
+    key: 'index',
+    width: 60,
+    align: 'center',
+  },
+  {
+    title: t('common.name'),
+    dataIndex: PET_BOSS_PARAMS.name,
+    key: PET_BOSS_PARAMS.name,
+  },
+  {
+    title: t('customers.owner_name'),
+    dataIndex: PET_BOSS_PARAMS.owner_id,
+    key: PET_BOSS_PARAMS.owner_id,
+    customRender: ({ record }: { record: IPetBoss }) => h('span', String(record?.owner_info?.name)),
+  },
+  {
+    title: t('customers.bossBread'),
+    dataIndex: 'breed',
+    key: 'breed',
+    customRender: ({ record }: { record: IPetBoss }) =>
+      h(
+        'span',
+        mergeString([String(record?.animal_type_info?.name), record?.profile_data.breed], ' '),
+      ),
+  },
+  {
+    title: t('customers.genderTitle'),
+    dataIndex: 'gender',
+    key: 'gender',
+    customRender: ({ record }: { record: IPetBoss }) =>
+      h('span', PET_GENDER_ARRAYS(t)[Number(record.profile_data.gender) || 0]?.label),
+  },
+  {
+    title: 'function',
+    dataIndex: 'function',
+    key: 'function',
+    customRender: ({ record }: { record: IPetBoss }) =>
+      h(RowActions, {
+        actions: [
+          { type: 'edit', payload: record },
+          { type: 'delete', payload: record },
+          {
+            type: 'custom',
+            payload: record,
+            customRender: () =>
+              h(Flex, { gap: 6 }, [
+                h(FunctionalButton, {
+                  icon: 'fluent-mdl2:medical',
+                  title: t('customers.medicalBooks'),
+                  height: '18px',
+                  onClick: () => {
+                    if (props.ownerId) {
+                      router.push({
+                        name: ROUTE_NAME.MEDICAL_BOOKS_BY_OWNER,
+                        params: { [MEDICAL_PARAMS.owner_id]: props.ownerId },
+                        state: {
+                          dataa: props.ownerId,
+                        },
+                      })
+                    }
+                    router.push({
+                      name: ROUTE_NAME.MEDICAL_BOOKS_BY_PET,
+                      params: { [MEDICAL_PARAMS.pet_id]: record._id },
+                    })
+                  },
+                }),
+              ]),
+          },
+        ],
+        onEdit: (data) => {
+          dataItem.value = data
+          showForm.value = true
+        },
+        onDelete: (data) => {
+          deleteItem.value = data
+        },
+      }),
+    width: 100,
+    fixed: 'right',
+  },
+])
+
+const actionButton = reactive([
+  {
+    isShow: true,
+    component: markRaw(
+      h(FunctionalButton, {
+        title: t('common.create'),
+        icon: 'eva:plus-fill',
+        onClick: () => {
+          showForm.value = true
+        },
+      }),
+    ),
+  },
+  {
+    isShow: true,
+    component: markRaw(
+      h(FunctionalButton, {
+        title: t('common.reload'),
+        icon: 'tabler:reload',
+        onClick: () => {
+          $store.searchBossList({ ...dataPage.value, ...dataSearch.value })
+        },
+      }),
+    ),
+  },
+])
+
+const onSearch = () => {
+  dataPage.value = {
+    page: 1,
+    page_size: 25,
+  }
+  $store.searchBossList({ ...dataPage.value, ...dataSearch.value, page: 1 })
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  folderName: 'test',
-  apiEndpoint: `${API_BASE_URL}/${API_ROUTER_PREFIX.ASSET}/upload`,
-  // Thay đổi theo route API của bạn
+const handleSearch = (vl: never) => {
+  dataSearch.value = {
+    ...dataSearch.value,
+    ...toRaw(vl),
+  }
+  const payload = {
+    ...dataSearch.value,
+    ...toRaw(vl),
+    ...dataPage.value,
+    page: 0,
+  }
+  $store.searchBossList(payload)
+}
+const onEraser = () => {
+  dataSearch.value = {
+    search_text: '',
+  }
+  dataPage.value = {
+    page: 1,
+    page_size: 25,
+  }
+  $store.searchBossList({ ...dataPage.value, ...dataSearch.value })
+}
+
+const listBoss = computed(() => {
+  if (dataList && dataList?.value.length > 0) {
+    return dataList.value.map((i: any, j) => ({
+      ...i,
+      index: getIndex(dataPage.value, j),
+    }))
+  }
+  return []
 })
 
-const fileList = ref([])
-
-// Emit events để parent component có thể lắng nghe
-const emit = defineEmits<{
-  uploadSuccess: [data: any, file: any]
-  uploadError: [error: Error, file: any]
-}>()
-
-// Custom upload function
-const customUpload = async (options: UploadRequestOption) => {
-  const { onSuccess, onError, file, onProgress } = options
-
-  // Validate file type (chỉ cho phép image và video)
-  const allowedTypes = [
-    // Images
-    'image/jpeg',
-    'image/jpg',
-    'image/png',
-    'image/gif',
-    'image/webp',
-    // Videos
-    'video/mp4',
-    'video/avi',
-    'video/mov',
-    'video/webm',
-  ]
-
-  if (!allowedTypes.includes(file.type!)) {
-    message.error('Only image and video files are allowed')
-    onError?.(new Error('Invalid file type'))
-    return
-  }
-
-  // Validate file size (max 50MB)
-  const maxSize = 50 * 1024 * 1024 // 50MB
-  if (file.size && file.size > maxSize) {
-    message.error('File size must be less than 50MB')
-    onError?.(new Error('File too large'))
-    return
-  }
-
-  // Tạo FormData
-  const formData = new FormData()
-  formData.append('files', [field])
-  formData.append('folderName', props.folderName)
-
-  try {
-    const response = await axios.post(props.apiEndpoint, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        // Thêm authorization header nếu cần
-        // 'Authorization': `Bearer ${your-token}`
-      },
-      onUploadProgress: (progressEvent) => {
-        if (progressEvent.total) {
-          const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-          onProgress?.({ percent })
-        }
-      },
-    })
-
-    // Response từ backend sẽ có format:
-    // {
-    //   public_id: string,
-    //   url: string,
-    //   resource_type: string,
-    //   folder: string,
-    //   original_name: string
-    // }
-    onSuccess?.(response.data, file)
-    emit('uploadSuccess', response.data, file)
-  } catch (error) {
-    console.error('Upload failed:', error)
-    onError?.(error as Error)
-    emit('uploadError', error as Error, file)
-  }
+const onFinish = (bool: boolean) => {
+  showForm.value = false
+  dataItem.value = null
+  if (bool) $store.searchBossList({ ...dataPage.value, ...dataSearch.value })
 }
 
-const handleChange = (info: UploadChangeParam) => {
-  const status = info.file.status
-  if (status !== 'uploading') {
-    console.log(info.file, info.fileList)
-  }
-  if (status === 'done') {
-    message.success(`${info.file.name} uploaded successfully.`)
-    console.log('Upload response:', info.file.response)
-    // Response sẽ chứa: public_id, url, resource_type, folder, original_name
-  } else if (status === 'error') {
-    message.error(`${info.file.name} upload failed.`)
-  }
+const onDelete = () => {
+  
 }
+onMounted(() => {
+  const payload = { ...dataPage.value, ...dataSearch.value }
+  $store.searchBossList(payload)
+  $storePetType.searchList({})
+  $customers.searchCustomers({ page: 1, page_size: 500 }, false)
+})
 
-function handleDrop(e: DragEvent) {
-  console.log(e)
-}
-
-defineOptions({ name: 'upload-asset' })
+defineOptions({ name: 'list_boss' })
 </script>
+
+<style scoped></style>

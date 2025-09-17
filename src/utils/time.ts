@@ -24,7 +24,6 @@ export function formatFullTime(
 
 export function formatTime(time?: string | Date, format?: string, tz: string = 'Asia/Ho_Chi_Minh') {
   if (!time) return
-
   const d = dayjs.utc(time).tz(tz)
   return format ? d.format(format) : d
 }

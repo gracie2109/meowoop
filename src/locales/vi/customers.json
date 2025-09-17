@@ -19,5 +19,10 @@
   "addAddress": "Thêm địa chỉ",
   "setIsPrimaryAddress":"Thiết lập mặc định",
   "deleteAddressTitle": "Xóa địa chỉ",
-  "updateAddress": "Cập nhật địa chỉ"
+  "updateAddress": "Cập nhật địa chỉ",
+  "bossList": "Danh sách thú cưng",
+  "owner_name": "Người sở hữu",
+  "bossBread": "Giống",
+  "bossSearchPlh": "Tìm theo id, tên, chủ sở hữu",
+  "medicalBooks": "Sổ sức khỏe"
 }

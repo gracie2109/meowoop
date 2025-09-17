@@ -29,6 +29,9 @@
         placement="bottom"
         v-if="showFilter"
         :get-popup-container="() => container"
+        @open-change="() => {
+          emits('onFilterContentChange')
+        }"
       >
         <template #content>
           <div style="width: auto; min-width: 450px">
@@ -75,7 +78,7 @@ const props = withDefaults(
 defineOptions({
   name: 'CustomSearchView',
 })
-const emits = defineEmits(['onSearch', 'onEraser'])
+const emits = defineEmits(['onSearch', 'onEraser','onFilterContentChange'])
 
 const excludeKeys = ['search_text', 'from_time', 'to_time']
 const container = (window && window.document.getElementById('filter_search')) || document.body

@@ -4,3 +4,4 @@ export * from './dashboard'
 export * from './customers'
 export * from './iam/roles'
 export * from './customers'
+export * from "./pets-boss"

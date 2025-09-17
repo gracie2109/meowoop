@@ -8,9 +8,10 @@ import {
   updateUserAddress,
 } from '@/services/modules/customers.service'
 import { deleteAddress } from '@/services/address.service'
+import type { ICustomers } from '@/types/customers'
 
 export const useCustomer = defineStore('customer', () => {
-  const dataList = ref<unknown[]>([])
+  const dataList = ref<ICustomers[]>([])
   const loading = ref(false)
   const totalRecord = ref(0)
 
@@ -41,12 +42,6 @@ export const useCustomer = defineStore('customer', () => {
     try {
       loading.value = true
       await searchListData({ ...payload, isShowAddress: isShowAddress ?? true }).then((data) => {
-        // dataList.value = data?.data.map(i => ({
-        //   ...i,
-        //   ...i?.address,
-        //   address: i?.address?.[0],
-
-        // }))
         dataList.value = data?.data
         totalRecord.value = data?.totalRecord
       })
@@ -92,7 +87,7 @@ export const useCustomer = defineStore('customer', () => {
     }
   }
 
-async function createUserAddress(payload: any) {
+  async function createUserAddress(payload: any) {
     try {
       loading.value = true
       return await createAddress(payload)
@@ -113,6 +108,6 @@ async function createUserAddress(payload: any) {
     getUserAddress,
     deleteUserAddress,
     updateAddress,
-    createUserAddress
+    createUserAddress,
   }
 })

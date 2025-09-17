@@ -91,9 +91,15 @@ const handleDeleteImage = (imageId: string): void => {
 }
 
 .image-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1.5rem;
+  justify-content: center;
+}
+
+.image-grid .image-card {
+  width: 100px;
+  height: 100px;
 }
 
 .image-card {
@@ -103,8 +109,6 @@ const handleDeleteImage = (imageId: string): void => {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   border: 1px solid #dcdcdc;
-  width: 100%;
-  height: 100%;
 }
 
 .image-card:hover {
@@ -221,14 +225,19 @@ const handleDeleteImage = (imageId: string): void => {
 
 @media (max-width: 768px) {
   .image-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 1rem;
+  }
+
+  .image-grid .image-card {
+    width: 80px;
+    height: 80px;
   }
 }
 
 @media (max-width: 480px) {
-  .image-grid {
-    grid-template-columns: 1fr;
+  .image-grid .image-card {
+    width: 70px;
+    height: 70px;
   }
 }
 </style>

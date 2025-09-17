@@ -3,6 +3,7 @@ export interface ICommon {
   _id?: string
   createdAt: Date | string
   updatedAt: Date | string
+  [key: string]: unknown
 }
 
 export type IPfIcon = {

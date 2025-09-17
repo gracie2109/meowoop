@@ -28,7 +28,7 @@ const props = withDefaults(
     showButton?: boolean
   }>(),
   {
-    max: 1,
+    max: undefined, // Không giới hạn nếu không truyền max
     showButton: false,
   },
 )
@@ -64,7 +64,22 @@ const formatFileSize = (bytes: number): string => {
 const handleImagesUploaded = (files: File[]): void => {
   isLoading.value = true
 
-  files.forEach((file) => {
+  // Tính số lượng ảnh có thể thêm dựa trên max limit
+  let filesToProcess: File[]
+
+  if (props.max === undefined) {
+    // Không giới hạn - xử lý tất cả files
+    filesToProcess = files
+  } else {
+    // Có giới hạn - chỉ lấy số lượng cho phép
+    const availableSlots = props.max - uploadedImages.value.length
+    filesToProcess = files.slice(0, availableSlots)
+  }
+
+  let processedCount = 0
+  const totalFiles = filesToProcess.length
+
+  filesToProcess.forEach((file) => {
     const reader = new FileReader()
 
     reader.onload = (e) => {
@@ -82,17 +97,30 @@ const handleImagesUploaded = (files: File[]): void => {
 
         uploadedImages.value.unshift(newImage)
       }
+
+      processedCount++
+      if (processedCount === totalFiles) {
+        isLoading.value = false
+        emit('images-changed', uploadedImages.value)
+      }
     }
 
     reader.onerror = () => {
       showError('Không thể đọc file. Vui lòng thử lại.')
+      processedCount++
+      if (processedCount === totalFiles) {
+        isLoading.value = false
+        emit('images-changed', uploadedImages.value)
+      }
     }
 
     reader.readAsDataURL(file)
   })
 
-  isLoading.value = false
-  emit('images-changed', uploadedImages.value)
+  // Nếu không có file nào để xử lý
+  if (totalFiles === 0) {
+    isLoading.value = false
+  }
 }
 const handleUploadError = (message: string): void => {
   showError(message)
@@ -149,19 +177,22 @@ defineOptions({ name: 'ImageSection' })
 
 <template>
   <ExampleWrapper class="image-gallery-container">
-    <div style="display: flex; gap: 1rem">
-      <div v-if="uploadedImages.length < props.max">
+    <div style="display: flex; gap: 1rem; align-items: flex-start">
+      <div v-if="props.max === undefined || uploadedImages.length < props.max">
         <ImageUploadSection
           :is-loading="isLoading"
           @images-uploaded="handleImagesUploaded"
           @upload-error="handleUploadError"
+           :max="props.max"
         />
       </div>
-      <ImageGallery
-        :images="uploadedImages"
-        @edit-image="handleEditImage"
-        @delete-image="handleDeleteImage"
-      />
+      <div v-if="uploadedImages.length > 0">
+        <ImageGallery
+          :images="uploadedImages"
+          @edit-image="handleEditImage"
+          @delete-image="handleDeleteImage"
+        />
+      </div>
     </div>
 
     <!-- Upload to Server Button -->

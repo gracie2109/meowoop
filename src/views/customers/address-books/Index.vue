@@ -21,8 +21,8 @@
           <Flex align="center"><Icon icon="eva:plus-fill" /> {{ $t('customers.addAddress') }}</Flex>
         </Button>
       </Flex>
-      <div style="margin-top: 1rem; background: white; height: 450px">
-        <div style="width: 80%; margin: 0 auto">
+      <div style="margin-top: 1rem; background: white; height: 80dvh; overflow-y: auto">
+        <div style="width: 80%; margin: 0 auto; margin-top: 1rem">
           <template v-if="address.length > 0">
             <AddressItem
               :data="data"

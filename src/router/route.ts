@@ -13,8 +13,13 @@ export const ROUTE_NAME = {
 
   CUSTOMERS: 'customers',
   CUSTOMER_ADDRESS_BOOK: `customer/address-book`,
+  CUSTOMER_PET_BOSS: `customer/pet-boss`,
 
   BOSS: 'boss',
+  MEDICAL_BOOKS_BY_PET: 'medical-books-by-petId',
+  MEDICAL_BOOKS_BY_OWNER: 'medical-books-by-owner',
+  MEDICAL_BOOKS_LOGS: 'logs-medical-books',
+  MEDICAL_BOOKS: 'medical-books',
   ROLE: 'role',
 }
 
@@ -33,7 +38,11 @@ export const ROUTER_PATH = {
 
   CUSTOMERS: `/admin/${ROUTE_NAME.CUSTOMERS}`,
   CUSTOMER_ADDRESS_BOOK: `/admin/${ROUTE_NAME.CUSTOMERS}/:user_id/address`,
+  CUSTOMER_PET_BOSS: `/admin/${ROUTE_NAME.CUSTOMERS}/:user_id/boss`,
 
   BOSS: `/admin/${ROUTE_NAME.BOSS}`,
+  MEDICAL_BOOKS_BY_PET: `/admin/${ROUTE_NAME.MEDICAL_BOOKS_BY_PET}/:pet_id`,
+  MEDICAL_BOOKS_BY_OWNER: `/admin/${ROUTE_NAME.MEDICAL_BOOKS_BY_PET}/:owner_id`,
+  MEDICAL_BOOKS: `/admin/${ROUTE_NAME.MEDICAL_BOOKS}/:owner_id/:pet_id`,
   ROLE: `/admin/${ROUTE_NAME.ROLE}`,
 }
