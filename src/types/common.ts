@@ -21,3 +21,9 @@ export interface IData extends ICommon {
   name: string | Record<string, string>
   [key: string]: unknown
 }
+
+
+export interface CommonSearchKey {
+  search_text : string,
+ [key: string]: unknown
+}

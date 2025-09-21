@@ -12,7 +12,7 @@ dayjs.extend(timezone)
 export function formatFullTime(
   timestamp?: string | Date,
   locale?: string,
-  format = "'DD/MM/YYYY HH:mm:ss'",
+  format = "DD/MM/YYYY HH:mm:ss",
 ) {
   if (!timestamp) return
   dayjs.locale(locale)

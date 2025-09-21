@@ -18,11 +18,13 @@
     </PageHeader>
     <div class="content">
       <Flex justify="flex-end" id="btn_add_address">
-      <Button type="primary" size="large">
-        <Flex align="center"> <Icon icon="eva:plus-fill" /> {{ $t('customers.addAddress') }} </Flex>
-      </Button>
-    </Flex>
-    <p>Sổ khám bệnh của thú cưng</p>
+        <Button type="primary" size="large">
+          <Flex align="center">
+            <Icon icon="eva:plus-fill" /> {{ $t('customers.addAddress') }}
+          </Flex>
+        </Button>
+      </Flex>
+      <p>Sổ khám bệnh của thú cưng</p>
     </div>
   </div>
 </template>
@@ -38,8 +40,8 @@ import { computed, toRaw } from 'vue'
 import { useRoute } from 'vue-router'
 import { ROUTE_NAME } from '@/router/route'
 
-const route = useRoute();
-console.log('medical-books', toRaw(route));
+const route = useRoute()
+console.log('medical-books', toRaw(route))
 
 const params = computed((): IMedicalParams => route.params as IMedicalParams)
 

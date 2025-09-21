@@ -10,6 +10,7 @@
       v-model="dataSearch"
       @onSearch="onSearch"
       @on-eraser="onEraser"
+      @onReload="onSearch"
     />
 
     <FormCs
@@ -152,18 +153,6 @@ const actionButton = reactive([
         icon: 'eva:plus-fill',
         onClick: () => {
           showForm.value = true
-        },
-      }),
-    ),
-  },
-  {
-    isShow: true,
-    component: markRaw(
-      h(FunctionalButton, {
-        title: t('common.reload'),
-        icon: 'tabler:reload',
-        onClick: () => {
-          $store.searchCustomers({ ...dataPage.value, ...dataSearch.value })
         },
       }),
     ),

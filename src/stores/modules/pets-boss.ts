@@ -1,4 +1,5 @@
 import { createNewBoss, searchListData } from '@/services/modules/pets.service'
+import type { CommonSearchKey } from '@/types/common'
 import type { IPetBoss } from '@/types/pet-boss'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -8,7 +9,7 @@ export const usePetBoss = defineStore('PetBoss', () => {
   const loading = ref(false)
   const totalRecord = ref(0)
 
-  async function searchBossList(payload: any) {
+  async function searchBossList(payload: CommonSearchKey) {
     try {
       loading.value = true
       await searchListData(payload).then((data) => {

@@ -10,6 +10,7 @@
       v-model="dataSearch"
       @onSearch="onSearch"
       @on-eraser="onEraser"
+      @onReload="onSearch"
     />
 
     <FormCs
@@ -36,7 +37,6 @@
 <script setup lang="ts">
 import PageHeader from '@/components/PageHeader.vue'
 import { useDynamicTitle } from '@/composables'
-// import { Icon } from '@iconify/vue/dist/iconify.js'
 import Search from '@/views/pets-setting-manager/pet-types/Search.vue'
 import { computed, h, markRaw, onMounted, reactive, ref, toRaw } from 'vue'
 import FormCs from './Form.vue'
@@ -51,7 +51,6 @@ import { PetServicerPriceParam, type TPetType } from '@/types/pet-type'
 import { useRouter } from 'vue-router'
 import { ROUTE_NAME } from '@/router/route'
 import FunctionalButton from '@/components/Table/FunctionalButton.vue'
-import { Icon } from '@iconify/vue/dist/iconify.js'
 
 const $store = usePetServices()
 const $petType = usePetTypesStore()
@@ -146,27 +145,10 @@ const actionButton = reactive([
   {
     isShow: true,
     component: markRaw(
-      h(Icon, {
+      h(FunctionalButton, {
         icon: 'eva:plus-fill',
-        height: '30px',
-        color: 'var(--vt-c-primary-slate)',
-        style: 'cursor: pointer',
         onClick: () => {
           showForm.value = true
-        },
-      }),
-    ),
-  },
-  {
-    isShow: true,
-    component: markRaw(
-      h(Icon, {
-        icon: 'tabler:reload',
-        height: '30px',
-        color: 'var(--vt-c-primary-slate)',
-        style: 'cursor: pointer',
-        onClick: () => {
-          $store.searchList({ ...dataPage.value, ...dataSearch.value })
         },
       }),
     ),

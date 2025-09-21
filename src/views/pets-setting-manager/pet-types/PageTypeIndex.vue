@@ -1,7 +1,7 @@
 <template>
   <div id="pet_types" ref="el" style="position: relative">
     <PageHeader>
-      <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
+      <FunctionalButton icon="lucide:paw-print" width="20" />&nbsp; &gt;
       {{ $t('menu.menu_6') }}
     </PageHeader>
     <Search
@@ -10,6 +10,7 @@
       v-model="dataSearch"
       @onSearch="onSearch"
       @on-eraser="onEraser"
+      @onReload="onSearch"
     />
 
     <FormCs
@@ -52,7 +53,6 @@
 <script setup lang="ts">
 import PageHeader from '@/components/PageHeader.vue'
 import { useDynamicTitle } from '@/composables'
-import { Icon } from '@iconify/vue/dist/iconify.js'
 import Search from '@/views/pets-setting-manager/pet-types/Search.vue'
 import { computed, h, markRaw, onMounted, reactive, ref, toRaw } from 'vue'
 import FormCs from './Form.vue'
@@ -122,7 +122,7 @@ const columns = computed<TableColumnsType>(() => [
     key: CommonParam.createdAt,
     customRender: ({ record }: { record: Partial<TPetType> }) => {
       const data = toRaw(record.createdAt)
-      return h('p', formatFullTime(data, locale.value,))
+      return h('p', formatFullTime(data, locale.value))
     },
   },
   {
@@ -192,31 +192,14 @@ const actionButton = reactive([
   {
     isShow: true,
     component: markRaw(
-      h(Icon, {
+      h(FunctionalButton, {
         icon: 'eva:plus-fill',
-        height: '30px',
-        color: 'var(--vt-c-primary-slate)',
-        style: 'cursor: pointer',
         onClick: () => {
           showForm.value = true
         },
       }),
     ),
-  },
-  {
-    isShow: true,
-    component: markRaw(
-      h(Icon, {
-        icon: 'tabler:reload',
-        height: '30px',
-        color: 'var(--vt-c-primary-slate)',
-        style: 'cursor: pointer',
-        onClick: () => {
-          $store.searchList({ ...dataPage.value, ...dataSearch.value })
-        },
-      }),
-    ),
-  },
+  }
 ])
 
 onMounted(() => {

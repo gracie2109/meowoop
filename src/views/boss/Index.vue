@@ -10,7 +10,10 @@
       :placeholder="t('customers.bossSearchPlh')"
       @onSearch="onSearch"
       @onEraser="onEraser"
-      @onSearchDf="(vl) => handleSearch(vl)"
+      @onSearchDf="(vl: CommonSearchKey) => handleSearch(vl)"
+      ref="searchRef"
+      @onReload="onReload"
+      :ownerId="props.ownerId"
     />
     <Table :loading="loading" :columns="columns" :data="listBoss" style="margin-top: 0.5rem" />
 
@@ -48,7 +51,7 @@ import { usePetBoss, usePetTypesStore, useCustomer } from '@/stores'
 import type { TSearch } from '@/types/lib'
 import { Flex, type TableColumnsType } from 'ant-design-vue'
 import { storeToRefs } from 'pinia'
-import { computed, h, markRaw, onMounted, reactive, ref, toRaw } from 'vue'
+import { computed, h, markRaw, onMounted, reactive, ref, toRaw, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import RowActions from '@/components/Table/FunctionTable.vue'
 import Table from '@/components/Table/Index.vue'
@@ -61,11 +64,12 @@ import { PET_GENDER_ARRAYS } from '../customers/contants'
 import Search from '@/views/boss/components/Search.vue'
 import FormCs from '@/views/boss/components/Form.vue'
 import Modal from '@/components/Modal/Index.vue'
+import type { CommonSearchKey } from '@/types/common'
 
 const $store = usePetBoss()
 const $storePetType = usePetTypesStore()
 const $customers = useCustomer()
-
+const searchRef = useTemplateRef('searchRef')
 const { t } = useI18n()
 const { dataList, loading } = storeToRefs($store)
 
@@ -190,18 +194,6 @@ const actionButton = reactive([
       }),
     ),
   },
-  {
-    isShow: true,
-    component: markRaw(
-      h(FunctionalButton, {
-        title: t('common.reload'),
-        icon: 'tabler:reload',
-        onClick: () => {
-          $store.searchBossList({ ...dataPage.value, ...dataSearch.value })
-        },
-      }),
-    ),
-  },
 ])
 
 const onSearch = () => {
@@ -212,7 +204,7 @@ const onSearch = () => {
   $store.searchBossList({ ...dataPage.value, ...dataSearch.value, page: 1 })
 }
 
-const handleSearch = (vl: never) => {
+const handleSearch = (vl: CommonSearchKey) => {
   dataSearch.value = {
     ...dataSearch.value,
     ...toRaw(vl),
@@ -228,17 +220,24 @@ const handleSearch = (vl: never) => {
 const onEraser = () => {
   dataSearch.value = {
     search_text: '',
+    owner_id: props.ownerId || null,
   }
   dataPage.value = {
     page: 1,
     page_size: 25,
   }
+  $store.searchBossList({
+    ...dataPage.value,
+    ...dataSearch.value,
+  })
+  searchRef.value?.onClear()
+}
+const onReload = () => {
   $store.searchBossList({ ...dataPage.value, ...dataSearch.value })
 }
-
 const listBoss = computed(() => {
   if (dataList && dataList?.value.length > 0) {
-    return dataList.value.map((i: any, j) => ({
+    return dataList.value.map((i: IPetBoss, j) => ({
       ...i,
       index: getIndex(dataPage.value, j),
     }))
@@ -252,9 +251,7 @@ const onFinish = (bool: boolean) => {
   if (bool) $store.searchBossList({ ...dataPage.value, ...dataSearch.value })
 }
 
-const onDelete = () => {
-  
-}
+const onDelete = () => {}
 onMounted(() => {
   const payload = { ...dataPage.value, ...dataSearch.value }
   $store.searchBossList(payload)

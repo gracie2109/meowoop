@@ -1,7 +1,7 @@
 <template>
   <div style="position: relative">
     <PageHeader>
-      <Icon icon="lucide:paw-print" width="20" />&nbsp; &gt;
+      <FunctionalButton icon="lucide:paw-print" width="20" />&nbsp; &gt;
       {{ $t('menu.menu_10') }}
     </PageHeader>
     <Search
@@ -10,6 +10,7 @@
       v-model="dataSearch"
       @onSearch="onSearch"
       @on-eraser="onEraser"
+      @onReload="onSearch"
     />
 
     <Table
@@ -58,12 +59,11 @@
 
 <script setup lang="ts">
 import { useRoles } from '@/stores'
-import { Tooltip, type TableColumnsType } from 'ant-design-vue'
+import {  type TableColumnsType } from 'ant-design-vue'
 import { storeToRefs } from 'pinia'
-import { computed, h, markRaw, onMounted, reactive, ref, toRaw } from 'vue'
+import { computed, h, markRaw, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import RowActions from '@/components/Table/FunctionTable.vue'
-import { Icon } from '@iconify/vue/dist/iconify.js'
 import Table from '@/components/Table/Index.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import { useDynamicTitle } from '@/composables'
@@ -71,8 +71,9 @@ import type { TSearch } from '@/types/lib'
 import Search from './Search.vue'
 import FormCs from './Form.vue'
 import Modal from '@/components/Modal/Index.vue'
+import FunctionalButton from '@/components/Table/FunctionalButton.vue'
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 const $store = useRoles()
 const { loading, dataList } = storeToRefs($store)
 const showForm = ref(false)
@@ -106,27 +107,10 @@ const actionButton = reactive([
   {
     isShow: true,
     component: markRaw(
-      h(Icon, {
+      h(FunctionalButton, {
         icon: 'eva:plus-fill',
-        height: '30px',
-        color: 'var(--vt-c-primary-slate)',
-        style: 'cursor: pointer',
         onClick: () => {
           showForm.value = true
-        },
-      }),
-    ),
-  },
-  {
-    isShow: true,
-    component: markRaw(
-      h(Icon, {
-        icon: 'tabler:reload',
-        height: '30px',
-        color: 'var(--vt-c-primary-slate)',
-        style: 'cursor: pointer',
-        onClick: () => {
-          $store.searchList({ ...dataPage.value, ...dataSearch.value })
         },
       }),
     ),

@@ -10,6 +10,7 @@
       v-model="dataSearch"
       @onSearch="onSearch"
       @on-eraser="onEraser"
+      @onReload="onSearch"
     />
 
     <FormCs
@@ -165,21 +166,11 @@ const actionButton = reactive([
       }),
     ),
   },
-  {
-    isShow: true,
-    component: markRaw(
-      h(FunctionalButton, {
-        icon: 'tabler:reload',
-        onClick: () => {
-          $store.searchList({ ...dataPage.value, ...dataSearch.value })
-        },
-      }),
-    ),
-  },
 ])
 onMounted(() => {
   $store.searchList({ ...dataPage.value, ...dataSearch.value })
 })
+
 useDynamicTitle('menu.menu_7')
 defineOptions({ name: 'petCategpries' })
 </script>

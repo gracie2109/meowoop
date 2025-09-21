@@ -7,6 +7,7 @@
     :showFilter="false"
     @onSearch="$emit('onSearch')"
     @onEraser="$emit('onEraser')"
+    @onReload="$emit('onReload')"
   />
 </template>
 
@@ -27,7 +28,7 @@ const props = defineProps<{
 }>()
 
 const model = defineModel<TSearch>()
-defineEmits(['onSearch', 'onEraser'])
+defineEmits(['onSearch', 'onEraser', 'onReload'])
 defineOptions({
   name: 'CustomSearchView',
 })
