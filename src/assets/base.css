@@ -23,7 +23,10 @@
   --vt-modal-title-height: 50px;
 
   --vt-c-link: #08f;
-  --border-line:rgba(0, 0, 0, 0.09)
+  --border-line:rgba(0, 0, 0, 0.09);
+
+  --color-button:  #f0f3bd;
+  --color-modal-title: var(--vt-c-white)
 }
 
 :root {
@@ -39,6 +42,7 @@
 
   --section-gap: 160px;
   --input-height: 45px;
+  --color-primary: var(--vt-c-primary)
 }
 
 @media (prefers-color-scheme: dark) {
@@ -139,4 +143,9 @@ body,
   .container {
     max-width: 1536px;
   }
+}
+
+
+:deep(.ant-select-arrow){
+  border: 1px solid red !important;
 }

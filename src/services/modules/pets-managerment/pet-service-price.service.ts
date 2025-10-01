@@ -1,4 +1,4 @@
-import { API_ROUTER_PREFIX } from '@/contants/data/api-route-prefix'
+import { API_ROUTER_PREFIX } from '@/contants/api-route-prefix'
 import { axiosPost } from '@/utils/axios'
 
 export const getServicePriceSlip = async (body: unknown) => {

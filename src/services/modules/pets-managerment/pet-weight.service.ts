@@ -1,4 +1,4 @@
-import { API_ROUTER_PREFIX } from '@/contants/data/api-route-prefix'
+import { API_ROUTER_PREFIX } from '@/contants/api-route-prefix'
 import { axiosGet } from '@/utils/axios'
 
 export const getPetWeights = async () => {

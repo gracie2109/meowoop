@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '@/views/Dashboard/Index.vue'
 import DashboardListView from '@/views/Dashboard/dashboard/Index.vue'
 import HomeView from '@/views/Home.vue'
+import TestView from '@/views/Test.vue'
 
 import ErrorPage from '@/views/ErrorPage.vue'
 import { LAYOUT_TYPE } from '@/contants/app'
@@ -10,6 +11,7 @@ import petModule from '@/router/modules/pets'
 import customerRoute from '@/router/modules/customers'
 import bossRoute from '@/router/modules/boss'
 import IAMRoute from '@/router/modules/IAM'
+import settingRoute from '@/router/modules/settings'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,10 +24,19 @@ const router = createRouter({
         layout: LAYOUT_TYPE.CLIENT,
       },
     },
+    {
+      path: '/test',
+      name: ROUTE_NAME.TEST,
+      component: TestView,
+      meta: {
+        layout: LAYOUT_TYPE.CLIENT,
+      },
+    },
     ...petModule,
     ...customerRoute,
     ...bossRoute,
     ...IAMRoute,
+    ...settingRoute,
     {
       path: '/dashboard',
       name: ROUTE_NAME.DASHBOARD_VIEW,

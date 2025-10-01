@@ -1,7 +1,8 @@
 import { Dayjs } from 'dayjs'
-import type { TABLE_SIZE, COLOR_TYPE, ICON_PREFIX } from '@/contants/lib'
+import type { TABLE_SIZE, COLOR_TYPE } from '@/contants/lib'
 import type { NamePath, RuleObject } from 'ant-design-vue/es/form/interface'
 import type { ValidateErrorEntity } from 'ant-design-vue/es/form/interface'
+import type { ICON_PREFIX } from '@/components/Icons/utils'
 
 export type AntdTableSize = (typeof TABLE_SIZE)[number]
 
@@ -56,3 +57,10 @@ export type TSearch = {
 }
 
 export type TimeType = string | Dayjs
+
+export interface IPined {
+  showPin?:boolean
+  pined?:boolean,
+  pinedData?:string[]
+}
+

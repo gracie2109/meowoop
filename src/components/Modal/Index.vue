@@ -11,10 +11,11 @@
     class="modalCs"
     :bodyStyle="bodyStyle"
     :closeIcon="
-      h(Icon, {
+      h(FunctionalButton, {
         icon: 'material-symbols:cancel-outline',
-        width: '30px',
-        border: '1px solid red',
+        iconStyle: {
+          color: 'var(--color-modal-title)',
+        },
       })
     "
   >
@@ -23,7 +24,7 @@
     </div>
     <template #title v-if="!hideHeader">
       <div ref="modalTitleRef" class="modal_title">
-        <p>{{ title || '' }}</p>
+        <p style="color: var(--color-modal-title)">{{ title || '' }}</p>
       </div>
     </template>
 
@@ -57,7 +58,7 @@
 <script lang="ts" setup>
 import { defineProps, h, useAttrs, withDefaults, type CSSProperties } from 'vue'
 import { Modal, Button } from 'ant-design-vue'
-import { Icon } from '@iconify/vue/dist/iconify.js'
+import FunctionalButton from '../Table/FunctionalButton.vue'
 
 defineOptions({
   name: 'CustomModal',

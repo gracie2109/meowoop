@@ -26,10 +26,12 @@ const props = withDefaults(
   defineProps<{
     max?: number
     showButton?: boolean
+    disabled?:boolean
   }>(),
   {
     max: undefined, // Không giới hạn nếu không truyền max
     showButton: false,
+    disabled: false
   },
 )
 const emit = defineEmits<Emits>()
@@ -184,6 +186,7 @@ defineOptions({ name: 'ImageSection' })
           @images-uploaded="handleImagesUploaded"
           @upload-error="handleUploadError"
            :max="props.max"
+           :disabled="props.disabled"
         />
       </div>
       <div v-if="uploadedImages.length > 0">

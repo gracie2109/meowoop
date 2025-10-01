@@ -5,6 +5,7 @@ import { Icon } from '@iconify/vue'
 interface Props {
   isLoading: boolean
   max?: number
+  disabled?: boolean
 }
 
 interface Emits {
@@ -14,6 +15,7 @@ interface Emits {
 
 withDefaults(defineProps<Props>(), {
   max: undefined,
+  disabled: false,
 })
 const emit = defineEmits<Emits>()
 
@@ -92,7 +94,8 @@ const triggerFileInput = (): void => {
       multiple
       @change="handleFileInput"
       class="file-input-hidden"
-      :disabled="isLoading"
+      :disabled="isLoading || disabled"
+
     />
 
     <div

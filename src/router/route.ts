@@ -21,10 +21,16 @@ export const ROUTE_NAME = {
   MEDICAL_BOOKS_LOGS: 'logs-medical-books',
   MEDICAL_BOOKS: 'medical-books',
   ROLE: 'role',
+  SETTING_INTERFACE: 'setting-web-interface',
+  SETTING_BANNER: 'setting-banner',
+  SETTING_BANNER_CREATE: 'setting-banner/create',
+  SETTING_BANNER_EDIT: 'setting-banner/edit',
+  TEST: 'test',
 }
 
 export const ROUTER_PATH = {
   HOME: '/',
+  TEST: '/test',
   PET_SETTING_PET_TYPE: `/admin/${ROUTE_NAME.PET_SETTING_PET_TYPE}`,
   PET_SETTING_SERVICES: `/admin/${ROUTE_NAME.PET_SETTING_SERVICES}`,
   PET_CATEGORY: `/admin/${ROUTE_NAME.PET_CATEGORY}`,
@@ -45,4 +51,8 @@ export const ROUTER_PATH = {
   MEDICAL_BOOKS_BY_OWNER: `/admin/${ROUTE_NAME.MEDICAL_BOOKS_BY_PET}/:owner_id`,
   MEDICAL_BOOKS: `/admin/${ROUTE_NAME.MEDICAL_BOOKS}/:owner_id/:pet_id`,
   ROLE: `/admin/${ROUTE_NAME.ROLE}`,
+  SETTING_INTERFACE: `/admin/${ROUTE_NAME.SETTING_INTERFACE}`,
+  SETTING_BANNER: `/admin/${ROUTE_NAME.SETTING_BANNER}`,
+  SETTING_BANNER_CREATE: `/admin/${ROUTE_NAME.SETTING_BANNER_CREATE}`,
+  SETTING_BANNER_EDIT: `/admin/${ROUTE_NAME.SETTING_BANNER_EDIT}/:banner_id`,
 }

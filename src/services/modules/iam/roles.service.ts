@@ -1,4 +1,4 @@
-import { API_ROUTER_PREFIX } from '@/contants/data/api-route-prefix'
+import { API_ROUTER_PREFIX } from '@/contants/api-route-prefix'
 import { axiosPost, axiosPatch, axiosDelete, axiosGet } from '@/utils/axios';
 
 

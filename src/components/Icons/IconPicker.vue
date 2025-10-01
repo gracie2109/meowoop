@@ -18,7 +18,7 @@
             <div class="control_wrap">
               <div
                 class="picker_controls"
-                @click.stop="handlePrevTab(category.key)"
+                @click.stop="handlePrevTab(String(category.key))"
                 v-if="filteredCategories.length > 1"
               >
                 <IconPrev />
@@ -29,11 +29,11 @@
                     v-for="icon in filteredIcons(category.key)"
                     :key="icon"
                     class="icon-item"
-                    :class="{ selected: isSelected(category.key, icon) }"
-                    @click.stop="handleSelectIcon(category.key, icon)"
+                    :class="{ selected: isSelected(String(category.key), icon) }"
+                    @click.stop="handleSelectIcon(String(category.key), icon)"
                   >
                     <svg class="icon">
-                      <use :xlink:href="`#${category.key}-${icon}`" />
+                      <use :xlink:href="`#${String(category.key)}-${icon}`" />
                     </svg>
                   </div>
                 </div>
@@ -41,7 +41,7 @@
               </div>
               <div
                 class="picker_controls"
-                @click.stop="handleNextTab(category.key)"
+                @click.stop="handleNextTab(String(category.key))"
                 v-if="filteredCategories.length > 1"
               >
                 <IconNext />
@@ -84,7 +84,7 @@
 import { ref, computed, watch } from 'vue'
 import { Popover, Tabs, Button, Empty, Row, Flex } from 'ant-design-vue'
 import ColorPicker from '@/components/ColorPicker/Index.vue'
-import { iconPets, iconNature, ICON_SOURCES } from '@/contants/lib'
+import { ICON_SOURCES, ICON_DATA_LIST_TYPED, type IconDataList } from './utils'
 import IconPrev from '@/assets/icons/common/circle-arrow-left.svg'
 import IconNext from '@/assets/icons/common/circle-arrow-right.svg'
 import { useI18n } from 'vue-i18n'
@@ -121,7 +121,7 @@ const categoriesRaw = computed(() => ICON_SOURCES(t))
 const categories = computed(() =>
   props.isAll ? categoriesRaw.value : categoriesRaw.value.filter((i) => i?.key === props.category),
 )
-const iconsData = ref({ pets: iconPets, nature: iconNature })
+const iconsData = ref<IconDataList>(ICON_DATA_LIST_TYPED)
 const getPopupContainer = () => props.container || document.body
 
 const currentIconPath = computed(() => `#${props.modelValue.icon.replace('/', '-')}`)
@@ -136,7 +136,7 @@ const filteredCategories = computed(() => {
 })
 
 const filteredIcons = (category: IconSourceType) => {
-  const icons = iconsData.value?.[category] || []
+  const icons = iconsData.value?.[category as keyof IconDataList] || []
   return searchText.value
     ? icons.filter((icon) => icon.toLowerCase().includes(searchText.value.toLowerCase()))
     : icons
@@ -157,13 +157,13 @@ const handleColorChange = (val: string) => {
 const handlePrevTab = (category: string) => {
   const index = categories.value.findIndex((i) => i.key === category)
   const prevIndex = (index - 1 + categories.value.length) % categories.value.length
-  activeCategory.value = categories.value[prevIndex]?.key
+  activeCategory.value = categories.value[prevIndex]?.key as string
 }
 
 const handleNextTab = (category: string) => {
   const index = categories.value.findIndex((i) => i.key === category)
   const nextIndex = (index + 1) % categories.value.length
-  activeCategory.value = categories.value[nextIndex]?.key
+  activeCategory.value = categories.value[nextIndex]?.key as string
 }
 
 const handleSave = () => {

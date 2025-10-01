@@ -10,6 +10,7 @@
   "cancelTitle": "Hủy bỏ",
   "ic_source_1": "Thú cưng",
   "ic_source_2": "Thời tiết",
+  "ic_source_3": "Mạng xã hội",
   "placeholderInput": "Nhập",
   "placeholderSelect": "Chọn",
   "required": "{name} không được để trống.",
@@ -41,6 +42,6 @@
   "index": "STT",
   "update": "Cập nhật",
   "default": "Mặc định",
-  "displayName": "Tên hiển thị"
-
+  "displayName": "Tên hiển thị",
+  "pin": "Ghim"
 }

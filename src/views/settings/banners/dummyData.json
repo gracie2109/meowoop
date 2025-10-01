@@ -1,0 +1,320 @@
+{
+    "bannerInfo": [
+        {
+            "id": "banner-1",
+            "title": "Welcome Banner",
+            "status": "active",
+            "position": "left",
+            "backgroundImage": "https://static.nutscdn.com/vimg/1920-0/0ad186e9bbf32f86a48e84a6fbaa94a3.jpg",
+            "content": [
+                {
+                    "type": "h1",
+                    "text": "Welcome to Our Store",
+                    "styles": {
+                        "fontSize": 32,
+                        "fontWeight": "bold",
+                        "color": "#ffffff",
+                        "textAlign": "left",
+                        "marginBottom": 16
+                    }
+                },
+                {
+                    "type": "h2", 
+                    "text": "Special Offers Available",
+                    "styles": {
+                        "fontSize": 20,
+                        "fontWeight": "normal",
+                        "color": "#ffff00",
+                        "textAlign": "left",
+                        "marginBottom": 12
+                    }
+                },
+                {
+                    "type": "p",
+                    "text": "Discover amazing deals on our premium products. Limited time only!",
+                    "styles": {
+                        "fontSize": 14,
+                        "fontWeight": "normal", 
+                        "color": "#cccccc",
+                        "textAlign": "left",
+                        "marginBottom": 20,
+                        "lineHeight": 1.5
+                    }
+                },
+                {
+                    "type": "button",
+                    "text": "Shop Now",
+                    "styles": {
+                        "fontSize": 16,
+                        "fontWeight": "bold",
+                        "color": "#ffffff",
+                        "backgroundColor": "#ff6b35",
+                        "padding": "12px 24px",
+                        "borderRadius": 8,
+                        "border": "none"
+                    },
+                    "action": {
+                        "type": "link",
+                        "url": "/products"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "banner-2", 
+            "title": "Team Introduction",
+            "status": "active",
+            "position": "center",
+            "backgroundImage": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&h=600&fit=crop",
+            "content": [
+                {
+                    "type": "img",
+                    "src": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face",
+                    "alt": "Team Leader",
+                    "styles": {
+                        "width": 120,
+                        "height": 120,
+                        "borderRadius": "50%",
+                        "border": "4px solid #ffffff",
+                        "marginBottom": 16
+                    }
+                },
+                {
+                    "type": "h1",
+                    "text": "Meet Our Team",
+                    "styles": {
+                        "fontSize": 28,
+                        "fontWeight": "bold", 
+                        "color": "#ffffff",
+                        "textAlign": "center",
+                        "marginBottom": 12
+                    }
+                },
+                {
+                    "type": "p",
+                    "text": "Professional developers with 7+ years experience",
+                    "styles": {
+                        "fontSize": 16,
+                        "fontWeight": "normal",
+                        "color": "#ffffff",
+                        "textAlign": "center", 
+                        "opacity": 0.9
+                    }
+                }
+            ]
+        },
+        {
+            "id": "banner-3",
+            "title": "Product Showcase", 
+            "status": "active",
+            "position": "right",
+            "backgroundImage": "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=1920&h=600&fit=crop",
+            "content": [
+                {
+                    "type": "h2",
+                    "text": "New Products",
+                    "styles": {
+                        "fontSize": 24,
+                        "fontWeight": "bold",
+                        "color": "#333333",
+                        "textAlign": "right",
+                        "marginBottom": 16
+                    }
+                },
+                {
+                    "type": "ul",
+                    "items": [
+                        "Premium Quality Materials",
+                        "Modern Design",
+                        "Affordable Prices",
+                        "Fast Delivery"
+                    ],
+                    "styles": {
+                        "fontSize": 14,
+                        "color": "#555555",
+                        "lineHeight": 1.6,
+                        "listStyle": "bullet"
+                    }
+                },
+                {
+                    "type": "link",
+                    "text": "View Details →",
+                    "styles": {
+                        "fontSize": 14,
+                        "color": "#007bff",
+                        "textDecoration": "none",
+                        "fontWeight": "500"
+                    },
+                    "action": {
+                        "type": "link",
+                        "url": "/products/details"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "banner-4",
+            "title": "Call to Action",
+            "status": "draft",
+            "position": "left", 
+            "backgroundImage": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1920&h=600&fit=crop",
+            "content": [
+                {
+                    "type": "h1",
+                    "text": "Ready to Get Started?",
+                    "styles": {
+                        "fontSize": 36,
+                        "fontWeight": "bold",
+                        "color": "#ffffff",
+                        "textAlign": "center",
+                        "textShadow": "2px 2px 4px rgba(0,0,0,0.5)"
+                    }
+                },
+                {
+                    "type": "p",
+                    "text": "Join thousands of satisfied customers",
+                    "styles": {
+                        "fontSize": 18,
+                        "color": "#ffffff",
+                        "textAlign": "center",
+                        "opacity": 0.9,
+                        "marginBottom": 30
+                    }
+                },
+                {
+                    "type": "div",
+                    "className": "button-group",
+                    "children": [
+                        {
+                            "type": "button",
+                            "text": "Get Started",
+                            "styles": {
+                                "fontSize": 16,
+                                "fontWeight": "bold",
+                                "color": "#ffffff",
+                                "backgroundColor": "#28a745",
+                                "padding": "14px 28px",
+                                "borderRadius": 6,
+                                "marginRight": 16,
+                                "border": "none"
+                            },
+                            "action": {
+                                "type": "link", 
+                                "url": "/signup"
+                            }
+                        },
+                        {
+                            "type": "button",
+                            "text": "Learn More",
+                            "styles": {
+                                "fontSize": 16,
+                                "fontWeight": "normal",
+                                "color": "#ffffff",
+                                "backgroundColor": "transparent",
+                                "padding": "14px 28px", 
+                                "borderRadius": 6,
+                                "border": "2px solid #ffffff"
+                            },
+                            "action": {
+                                "type": "link",
+                                "url": "/about"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "banner-5",
+            "title": "Statistics Banner",
+            "status": "active",
+            "position": "center",
+            "backgroundImage": "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1920&h=600&fit=crop",
+            "content": [
+                {
+                    "type": "h2",
+                    "text": "Our Achievements",
+                    "styles": {
+                        "fontSize": 28,
+                        "fontWeight": "bold",
+                        "color": "#ffffff", 
+                        "textAlign": "center",
+                        "marginBottom": 30
+                    }
+                },
+                {
+                    "type": "div",
+                    "className": "stats-grid",
+                    "styles": {
+                        "display": "flex",
+                        "justifyContent": "space-around",
+                        "alignItems": "center"
+                    },
+                    "children": [
+                        {
+                            "type": "div",
+                            "className": "stat-item",
+                            "children": [
+                                {
+                                    "type": "h3",
+                                    "text": "1000+",
+                                    "styles": {
+                                        "fontSize": 36,
+                                        "fontWeight": "bold",
+                                        "color": "#ffd700",
+                                        "textAlign": "center",
+                                        "marginBottom": 8
+                                    }
+                                },
+                                {
+                                    "type": "p",
+                                    "text": "Happy Customers",
+                                    "styles": {
+                                        "fontSize": 14,
+                                        "color": "#ffffff",
+                                        "textAlign": "center"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "div", 
+                            "className": "stat-item",
+                            "children": [
+                                {
+                                    "type": "h3",
+                                    "text": "500+",
+                                    "styles": {
+                                        "fontSize": 36,
+                                        "fontWeight": "bold",
+                                        "color": "#ffd700",
+                                        "textAlign": "center",
+                                        "marginBottom": 8
+                                    }
+                                },
+                                {
+                                    "type": "p",
+                                    "text": "Projects Completed",
+                                    "styles": {
+                                        "fontSize": 14,
+                                        "color": "#ffffff",
+                                        "textAlign": "center"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    
+    "sample_datas":[
+        {
+            "enity": "coupons",
+            "data":[
+                
+            ]
+        }
+    ]
+}

@@ -8,6 +8,7 @@
     hide-footer
   >
     <template #content>
+      {{ pinedData }}
       <Form :model="formRef" @finish="handleOk" ref="formInstance" :layout="''">
         <div style="display: grid; place-content: center">
           <ImageUploadSection
@@ -25,6 +26,10 @@
               :label="$t('customers.P1')"
               isRequired
               :rules="rulesRef[CUSTOMER_PARAMS.displayName]"
+              :pined="pinedData.includes(CUSTOMER_PARAMS.displayName)"
+              :pinedData="pinedData"
+              v-model:pin="pinedData"
+              show-pin
             />
           </Col>
           <Col span="12" v-if="!props.dataItem">
@@ -34,6 +39,9 @@
               :label="$t('customers.P6')"
               isRequired
               :rules="rulesRef[CUSTOMER_PARAMS.password]"
+              :pined="pinedData.includes(CUSTOMER_PARAMS.password)"
+              :pinedData="pinedData"
+              show-pin
             />
           </Col>
           <Col span="12">
@@ -41,6 +49,9 @@
               v-model:model-value="formRef[CUSTOMER_PARAMS.fullName]"
               :name="CUSTOMER_PARAMS.fullName"
               :label="$t('customers.P4')"
+              :pined="pinedData.includes(CUSTOMER_PARAMS.fullName)"
+              :pinedData="pinedData"
+              show-pin
             />
           </Col>
           <Col span="12">
@@ -48,6 +59,9 @@
               v-model:model-value="formRef[CUSTOMER_PARAMS.email]"
               :name="CUSTOMER_PARAMS.email"
               :label="$t('customers.P3')"
+              :pined="pinedData.includes(CUSTOMER_PARAMS.email)"
+              :pinedData="pinedData"
+              show-pin
             />
           </Col>
           <Col span="12">
@@ -57,6 +71,9 @@
               :label="$t('customers.P2')"
               isRequired
               :rules="rulesRef[CUSTOMER_PARAMS.phoneNumber]"
+              :pined="pinedData.includes(CUSTOMER_PARAMS.phoneNumber)"
+              :pinedData="pinedData"
+              show-pin
             />
           </Col>
 
@@ -74,6 +91,10 @@
               :label="$t('customers.genderTitle')"
               :options="GENDER_ARRAYS(t)"
               :showSearch="true"
+              :pined="pinedData.includes(CUSTOMER_PARAMS.gender)"
+              :pinedData="pinedData"
+              v-model:pin="pinedData"
+              show-pin
             />
           </Col>
         </Row>
@@ -82,7 +103,7 @@
             {{ $t('customers.addressTitle') }}
           </Typography.Text>
           <Col span="24" class="adress_content">
-            <AddressForm ref="addressRef"/>
+            <AddressForm ref="addressRef" :show-pin="false"   v-model:pin="pinedData"   :pinedData="pinedData"/>
           </Col>
         </Row>
         <Col span="24">
@@ -137,6 +158,7 @@ const DEFAULT_FORM: ICustomers = {
 }
 
 const formRef = ref<ICustomers>({ ...DEFAULT_FORM })
+const pinedData = ref<string[]>([])
 const dob = ref()
 const addressRef = ref()
 const $store = useCustomer()
@@ -202,7 +224,7 @@ const handleOk = () => {
       console.log('Validation failed:', e)
     })
 }
-
+// Pin data sẽ được cập nhật thông qua v-model:pin
 watch(
   () => props.dataItem,
   (newVal) => {

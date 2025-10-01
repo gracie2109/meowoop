@@ -5,10 +5,21 @@
         size="large"
         v-bind="attrs"
         :placeholder="placeholder ?? $t('common.placeholderInput')"
-        :value="modelValue ?? ''"
+        :value="String(modelValue ?? '')"
         @input="$emit('update:modelValue', $event.target.value)"
         @blur="triggerValidate"
-      />
+        
+      >
+        <template #suffix v-if="props.showPin">
+          <Tooltip :title="$t('common.pin')">
+            <FunctionalButton
+              icon="ic:round-push-pin"
+              :color="props.pined ? 'var(--color-primary)' : '#dcdcdc'"
+              @click="onPinData"
+            />
+          </Tooltip>
+        </template>
+      </Input>
       <label class="form_label" :class="['floating-label', { isRequired, error: hasError }]">
         {{ label }}
       </label>
@@ -17,16 +28,20 @@
 </template>
 
 <script lang="ts" setup>
-import type { AntdComponentProps, InjectedFormContext } from '@/types/lib'
-import { FormItem, Input } from 'ant-design-vue'
+import type { AntdComponentProps, InjectedFormContext, IPined } from '@/types/lib'
+import { FormItem, Input, Tooltip } from 'ant-design-vue'
 import { computed, inject, useAttrs } from 'vue'
+import FunctionalButton from '../Table/FunctionalButton.vue'
 
-const props = withDefaults(defineProps<AntdComponentProps>(), {
-  modelValue: '',
+const props = withDefaults(defineProps<AntdComponentProps & IPined>(), {
+  modelValue: () => '',
+  showPin: false,
+  pined: false,
+  pinedData: () => [],
 })
 
 const attrs = useAttrs()
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'update:pin'])
 const form = inject('form') as InjectedFormContext
 const validateInfos = form?.validateInfos ?? {}
 
@@ -38,6 +53,18 @@ const hasError = computed(() => {
 
 const triggerValidate = () => {
   form?.validate?.(props.name, { trigger: 'blur' }).catch(() => {})
+}
+
+const onPinData = () => {
+  const currentPinedData = props.pinedData
+  const index = currentPinedData.indexOf(String(props.name))
+
+  if (index === -1) {
+    currentPinedData.push(String(props.name))
+  } else {
+    currentPinedData.splice(index, 1)
+  }
+  emit('update:pin', currentPinedData)
 }
 </script>
 
@@ -55,6 +82,7 @@ const triggerValidate = () => {
   background-color: white;
   padding: 0 0.5em;
   font-size: 11px;
+  z-index: 9;
 }
 
 .floating-label.error {
@@ -76,6 +104,7 @@ const triggerValidate = () => {
   color: red;
   margin-left: 4px;
 }
+
 /* .ant-input {
   height: 40px;
 } */

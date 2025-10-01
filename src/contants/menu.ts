@@ -61,4 +61,22 @@ export const MENU_ADMIN = (t: Composer['t']): MenuItem[] => [
     key: ROUTE_NAME.CUSTOMERS,
     icon: 'bx:user',
   },
+  {
+    label: t('menu.menu_11'),
+    title: t('menu.menu_11'),
+    icon: 'uil:setting',
+    key: 'menu_11',
+    children: [
+      {
+        label: transformLabel(ROUTE_NAME.SETTING_INTERFACE, t('menu.menu_12')),
+        title: t('menu.menu_12'),
+        key: ROUTE_NAME.SETTING_INTERFACE,
+      },
+       {
+        label: transformLabel(ROUTE_NAME.SETTING_BANNER, t('menu.menu_13')),
+        title: t('menu.menu_13'),
+        key: ROUTE_NAME.SETTING_BANNER,
+      },
+    ],
+  },
 ]
